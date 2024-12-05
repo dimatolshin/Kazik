@@ -1,0 +1,78 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15
+    container_name: postgres_db
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: always
+    networks:
+      - kazik-networks
+
+  app:
+    build:
+      context: baza
+    container_name: kazik
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    env_file:
+      - baza/.env
+    volumes:
+      - media_data:/app/media
+      - static_data:/app/staticfiles
+    environment:
+      RUNNING_IN_DOCKER: 'true'
+    restart: always
+    networks:
+      - kazik-networks
+
+  client:
+    build:
+      context: client
+    container_name: client
+    ports:
+      - "3000:3000"
+    env_file:
+      - client/.env
+    volumes:
+      - client_static:/app/assets
+    restart: always
+    networks:
+      - kazik-networks
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    volumes:
+      - ./baza/nginx.conf:/etc/nginx/nginx.conf
+      - static_data:/static
+      - media_data:/media
+      - client_static:/client_static
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - app
+    restart: always
+    networks:
+      - kazik-networks
+
+volumes:
+  media_data:
+  postgres_data:
+  static_data:
+  client_static:
+
+
+networks:
+  kazik-networks:
+    driver: bridge
