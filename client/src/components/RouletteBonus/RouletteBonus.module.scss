@@ -1,0 +1,56 @@
+.box {
+    padding: 0 15px;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 30px;
+    align-items: center;
+
+    .boxBonus {
+        display: flex;
+        position: relative;
+
+        .daily {
+            position: absolute;
+            bottom: 8.33px;
+            left: 10px;
+            display: flex;
+            align-items: center;
+
+            .svg {
+                margin-right: 7px;
+            }
+
+            .descrDaily {
+                font-weight: 700;
+                font-size: 15px;
+                line-height: 120%;
+            }   
+        }
+    }
+
+    .boxBonusTwo {
+        display: flex;
+        gap: 7px;
+    }
+
+    .span {
+        position: absolute;
+        top: 6px;
+        left: 6px;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+        background: var(--bg-bonus);
+        border-radius: 8px;
+        padding: 2px 6px;
+        font-weight: 400;
+        font-size: 10px;
+    }
+
+    .descr {
+        position: absolute;
+        bottom: 8.33px;
+        left: 10px;
+        font-weight: 700;
+        font-size: 15px;
+        line-height: 120%;
+    }
+}

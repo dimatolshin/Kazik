@@ -1,0 +1,20 @@
+.box {
+  padding: 0 15px;
+  display: flex;
+  margin-bottom: 30px;
+  justify-content: center;
+
+  .boxBanner {
+    position: relative;
+
+    .btn {
+      position: absolute;
+      bottom: 15px;
+      left: 15px;
+      font-weight: 700;
+      font-size: 16px;
+      line-height: 128%;
+      color: var(--white);
+    }
+  }
+}

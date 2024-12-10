@@ -1,0 +1,59 @@
+import { Link, useLocation } from "react-router-dom";
+import style from "./FooterNav.module.scss";
+import CasionoSvg from "../../assets/svg/CasionoSvg/CasionoSvg";
+import BettingSvg from "../../assets/svg/BettingSvg/BettingSvg";
+import ProfileSvg from "../../assets/svg/ProfileSvg/ProfileSvg";
+import PokerSvg from "../../assets/svg/PokerSvg/PokerSvg";
+
+const nav = [
+  {
+    id: "1",
+    title: "Casino",
+    path: "/",
+    img: <CasionoSvg className={style.svg} />,
+  },
+  {
+    id: "2",
+    title: "Betting",
+    path: "/betting",
+    img: <BettingSvg className={style.svg} />,
+  },
+  {
+    id: "3",
+    title: "Poker",
+    path: "/poker",
+    img: <PokerSvg className={style.svgPoker} />,
+  },
+  {
+    id: "4",
+    title: "Profile",
+    path: "/provile",
+    img: <ProfileSvg className={style.svg} />,
+  },
+];
+
+function FooterNav() {
+  const location = useLocation();
+  return (
+    <div className={style.box}>
+      <ul className={style.list}>
+        {nav.map((item) => (
+          <Link
+            to={item.path}
+            key={item.id}
+            className={`${style.link} ${
+              location.pathname === item.path && style.active
+            }`}
+          >
+            <li className={style.item}>
+              <div className={style.img}>{item.img}</div>
+              <p className={style.descr}>{item.title}</p>
+            </li>
+          </Link>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+export default FooterNav;

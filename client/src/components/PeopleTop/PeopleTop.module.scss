@@ -1,0 +1,111 @@
+.box {
+  padding-left: 15px;
+  margin-bottom: 30px;
+
+  .title {
+    margin-bottom: 15px;
+    margin-left: calc((100% - 360px) / 2);
+  }
+
+  .swiper {
+    margin-left: calc((100% - 360px) / 2);
+  }
+
+  .slide {
+    max-width: 320px;
+    background-color: var(--bg-elements);
+    border-bottom: 3px solid #008e8f;
+    border-radius: 10px;
+
+    .boxInfoCard {
+      //   width: 100%;
+      display: flex;
+      align-items: center;
+      border-radius: 10px;
+      padding: 10px;
+
+      .boxBonus {
+        display: flex;
+        align-items: center;
+        margin-right: auto;
+
+        .boxImg {
+          position: relative;
+          display: flex;
+
+          .imgCard {
+            margin-right: 11px;
+          }
+
+          .numberValue {
+            text-align: center;
+            position: absolute;
+            bottom: 0;
+            right: 12px;
+            border-radius: 6px;
+            padding: 0px 4px;
+            background: white;
+            font-weight: 600;
+            font-size: 10px;
+            color: var(--black);
+          }
+        }
+
+        .boxName {
+          .boxInfo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 7px;
+
+            .nameTitle {
+              font-weight: 600;
+              font-size: 15px;
+              margin-right: 6px;
+            }
+
+            .imgInfo {
+              margin-right: 2px;
+            }
+
+            .span {
+              font-weight: 600;
+              font-size: 12px;
+              color: var(--text-rating);
+            }
+          }
+        }
+
+        .boxBonusInfo {
+          display: flex;
+          .descr {
+            max-width: 42px;
+            border-radius: 8px;
+            padding: 3px 7px;
+            background: rgba(121, 62, 198, 0.2);
+            font-weight: 600;
+            font-size: 10px;
+            color: var(--text-bonus);
+            margin-right: 4px;
+          }
+
+          .freespin {
+            background: rgba(0, 142, 143, 0.2);
+            border-radius: 8px;
+            padding: 3px 7px;
+            font-weight: 600;
+            font-size: 10px;
+            color: #008e8f;
+          }
+        }
+      }
+
+      .btn {
+        padding: 7px 25px;
+        font-weight: 700;
+        font-size: 16px;
+        line-height: 128%;
+        color: var(--white);
+      }
+    }
+  }
+}

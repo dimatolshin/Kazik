@@ -1,0 +1,71 @@
+@import url('./normalize.css');
+@import url('./fonts.scss');
+
+html {
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+  // outline: 1px red solid;
+}
+
+:root {
+  --white: #fff;
+  --black: #000;
+  --bg-app: #09090c;
+  --bg-elements: #181c28;
+  --text-input: #a8a8a8;
+  --text-nav-active: #fafafa;
+  --bg-bonus: #13151d;
+  --text-top: #acacac;
+  --text-rating: #c9c000;
+  --text-bonus: #793ec6;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+input {
+  outline: none;
+  border: none;
+}
+
+body {
+  font-family: 'Poppins', Helvetica, sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  min-width: 360px;
+  background: var(--bg-app);
+  color: var(--white);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+p,
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  padding: 0;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.container {
+  max-width: 576px;
+  margin: 0 auto;
+  width: 100%;
+}

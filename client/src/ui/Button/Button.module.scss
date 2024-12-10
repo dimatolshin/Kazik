@@ -1,0 +1,27 @@
+.btn {
+  margin: 0;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-family);
+
+  &:disabled {
+    // background-color: var(--light-grey);
+    opacity: 0.5;
+    // border-color: var(--grey);
+  }
+
+  &[data-kind='primary'] {
+    border: 1px solid #f6f4f9;
+    border-radius: 10px;
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  // &[data-kind="secondary"] {
+  //   background-color: var(--secondary);
+
+  //   &:hover {
+  //     background-color: var(--secondary-hover);
+  //   }
+  // }
+}
