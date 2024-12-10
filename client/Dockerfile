@@ -8,4 +8,4 @@ RUN run npm install
 
 COPY . .
 
-CMD npm
+CMD npm run build

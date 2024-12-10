@@ -1,58 +1,334 @@
+from datetime import date, timedelta
 from django.http import JsonResponse
-from .Serializers import request_serializers,response_serializers
-from rest_framework import status
+from .Serializers import request_serializers, response_serializers
 from adrf.decorators import api_view
 from django.http import HttpRequest
 from .models import *
 from django.db import IntegrityError
 from drf_yasg.utils import swagger_auto_schema
+from asgiref.sync import sync_to_async
+
+from .services import add_prize_sync,find_next_available_prize
 from .my_example import get_response_examples
 
 
-from collections import defaultdict
+# request_body=request_serializers.UserCreateSerializer,  FOR POST   (query_serializer=MainPageBody, FOR GET)
 
-def transform_errors(errors):
-    transformed = defaultdict(list)
-    transformed['error'] = True
-    for field, error_list in errors.items():
-        if isinstance(error_list, list):
-            transformed[field] = error_list[0].__str__()
-        else:
-            transformed[field] = error_list.__str__()
-    return dict(transformed)
 
+@swagger_auto_schema(
+    methods=['GET'],
+    query_serializer=request_serializers.UserCreateOrGetSerializer,
+    responses={
+        '404': get_response_examples({'error': True, 'info': 'Данные переданы некорректные. '}),
+        '200': get_response_examples(schema=response_serializers.MainPage)
+    },
+    tags=['Пользователь'],
+    operation_summary='Cоздать пользователя',
+    operation_description='Получает или создает пользователя по уникальному '
+                          'идентификатору в Telegram и имени пользователя.',
+)
+@api_view(["GET"])
+async def main_page(request: HttpRequest, tg_id: str, tg_name: str):
+    if tg_id is None or tg_name is None:
+        return JsonResponse({'error': True, 'detail': 'Некорректные данные'})
+    user = await User.objects.filter(tg_id=tg_id, tg_name=tg_name).afirst()
+
+    if user is None:
+        user = await User.objects.acreate(tg_id=tg_id, tg_name=tg_name)
+        await  My_Bag.objects.acreate(user=user)
+        await Daly_Bonus.objects.acreate(user=user)
+
+    peoples_top = [item async for item in Casino.objects.all().order_by('count_of_visit_people')]
+    top_10_casino = [item async for item in Casino.objects.all().order_by('number_of_casino')][:10]
+
+
+    serialized_data = response_serializers.MainPage({
+        'user': user,
+        'peoples_top': peoples_top,
+        'top_10_casino': top_10_casino,
+        'offers_of_week': top_10_casino
+
+    }).data
+    return JsonResponse(serialized_data, status=200)
+
+
+@swagger_auto_schema(
+    methods=['GET'],
+    query_serializer=request_serializers.CustomTokenForAPP,
+    responses={
+        '404': get_response_examples({'error': True, 'info': 'Данные переданы некорректные.'}),
+        '404 ': get_response_examples({'error': True, 'info': 'Данного пользователя не существует.'}),
+        '200': get_response_examples(schema=response_serializers.MyBagSerializers)
+    },
+    tags=['Пользователь'],
+    operation_summary='Получение моего профиля',
+    operation_description='Получение моего профиля по уникальному идентификатору в Telegram .',
+)
+@api_view(["GET"])
+async def get_my_profile(request: HttpRequest, tg_id: str):
+    if tg_id is None:
+        return JsonResponse({'error': True, 'detail': 'Некорректные данные'})
+
+    user = await User.objects.filter(tg_id=tg_id).afirst()
+    my_bag = await My_Bag.objects.filter(user=user).afirst()
+    if my_bag is None:
+        return JsonResponse({'error': True, 'detail': 'Данного пользователя не существует.'})
+
+    prizes = [item async for item in my_bag.prizes.all().order_by('id')]
+
+    serializer_data = response_serializers.MyBagSerializers({
+        'prizes': prizes
+    }).data
+
+    return JsonResponse(serializer_data, status=200)
+
+
+@swagger_auto_schema(
+    methods=['GET'],
+    query_serializer=request_serializers.CustomTokenForAPP,
+    responses={
+        '404': get_response_examples({'error': True, 'info': 'Данные переданы некорректные.'}),
+        '404 ': get_response_examples({'error': True, 'info': 'Данного пользователя не существует.'}),
+        '200': get_response_examples(schema=response_serializers.DalySerializer)
+    },
+    tags=['Ежедневная награда'],
+    operation_summary='Инфа о дневных наградах',
+    operation_description='Получение инфы о дневных наградах по уникальному идентификатору в Telegram .',
+)
+@api_view(["GET"])
+async def get_info_daly_bonus(request: HttpRequest, tg_id: str):
+    if tg_id is None:
+        return JsonResponse({'error': True, 'detail': 'Некорректные данные'})
+
+    user = await User.objects.filter(tg_id=tg_id).afirst()
+    bonus = await Daly_Bonus.objects.filter(user=user).afirst()
+
+    if bonus is None:
+        return JsonResponse({'error': True, 'detail': 'Данного пользователя не существует.'})
+
+    serializer_data = response_serializers.DalySerializer({
+        'user': user,
+        'bonus': bonus
+    }).data
+
+    return JsonResponse(serializer_data, status=200)
 
 
 @swagger_auto_schema(
     methods=['POST'],
-    request_body=request_serializers.UserCreateSerializer, # FOR POST   (query_serializer=MainPageBody, FOR GET)
+    request_body=request_serializers.CustomTokenForAPP,
     responses={
-        '404': get_response_examples({'error': True, 'info': 'User with this username or email already exists.'}),
-        '404 ': get_response_examples({'error': True, 'info': 'name not received'}),
-        '200':get_response_examples(schema=response_serializers.InfoUserSerializer)
+        '404': get_response_examples({'error': True, 'info': 'Данные переданы некорректны.'}),
+        '404 ': get_response_examples({'error': True, 'info': 'Данного пользователя не существует.'}),
+        '404  ': get_response_examples({'error': True, 'info': 'Вы уже получали бонусы сегодня.'}),
+        '200': get_response_examples({'info': 'Бонусы успешно начислены'}),
     },
-    tags=['Создание пользователя'],
-    operation_summary= 'Cоздать пользователя',
-    operation_description= 'Получает или создает пользователя по уникальному '
-                 'идентификатору в Telegram и имени пользователя.',
+    tags=['Ежедневная награда'],
+    operation_summary='Получение ежедневного награда',
+    operation_description='Начисления бонусов на бэк',
 )
 @api_view(["POST"])
-async def user_create(request: HttpRequest):
-    serializer = request_serializers.UserCreateSerializer(data=request.data)
-    if serializer.is_valid():
-        name = serializer.validated_data['name']
-        email = serializer.validated_data['email']
-        age = serializer.validated_data['age']
+async def add_daly_pize_into_user(request: HttpRequest):
+    tg_id = request.data['tg_id']
+    if tg_id is None:
+        return JsonResponse({'error': True, 'detail': 'Некорректные данные'})
 
-        try:
-            user = await User.objects.acreate(name=name, email=email, age=age)
-            serialized_data = response_serializers.InfoUserSerializer(user).data
-            return JsonResponse(serialized_data,
-                            status=status.HTTP_201_CREATED,safe=False)
-        except IntegrityError:
-            return JsonResponse({'error':'True',
-                                 'info': 'User with this username or email already exists.'},
-                            status=status.HTTP_400_BAD_REQUEST)
+    user = await User.objects.filter(tg_id=tg_id).afirst()
+    bonus = await Daly_Bonus.objects.filter(user=user).afirst()
+
+    if bonus is None:
+        return JsonResponse({'error': True, 'detail': 'Данного пользователя не существует.'})
+
+    if user.can_get_daly_bonus == False:
+        return JsonResponse({'error': True, 'detail': 'Вы уже получали бонусы сегодня'})
+
+    today = date.today()
+
+    if today > user.last_visit:
+        if user.last_visit < today - timedelta(days=1):
+            bonus.day = 1
+            bonus.count_prizes = 1
+            user.can_get_daly_bonus = True
+        if user.last_visit == today - timedelta(days=1):
+            bonus.day += 1
+            bonus.count_prizes += 1
+            user.can_get_daly_bonus = True
+            user.last_visit = today
+            if bonus.day == 8:
+                bonus.day = 1
+            if bonus.count_prizes >= 5:
+                bonus.count_prizes = 5
+
+    user.key_wheel_of_fortune += bonus.count_prizes
+    user.can_get_daly_bonus = False
+
+    await user.asave()
+    await bonus.asave()
+
+    return JsonResponse({'title': 'Бонусы успешно начислены'})
+
+
+@swagger_auto_schema(
+    methods=['GET'],
+    query_serializer=request_serializers.CustomTokenForAPP,
+    responses={
+        '404': get_response_examples({'error': True, 'info': 'Данные переданы некорректны.'}),
+        '404 ': get_response_examples({'error': True, 'info': 'Данного пользователя не существует.'}),
+        '200': get_response_examples(schema=response_serializers.MyBagSerializers)
+    },
+    tags=['Колесо фортуны'],
+    operation_summary='Инфа о колесе фортуны',
+    operation_description='Получение инфы о колесе фортуны по уникальному идентификатору в Telegram .',
+)
+@api_view(["GET"])
+async def get_info_wheel_of_fortune(request: HttpRequest, tg_id: str):
+    if tg_id is None:
+        return JsonResponse({'error': True, 'detail': 'Некорректные данные'})
+
+    user = await User.objects.filter(tg_id=tg_id).afirst()
+
+    prizes = [prize async for prize in Prize.objects.filter(wheel_of_fortune=True).order_by('name').distinct('name')]
+
+    if user is None:
+        return JsonResponse({'error': True, 'detail': 'Данного пользователя не существует.'})
+
+    serializer_data = response_serializers.MyBagSerializers({
+        'prizes': prizes,
+    }).data
+
+    return JsonResponse(serializer_data, status=200)
+
+
+@swagger_auto_schema(
+    methods=['POST'],
+    request_body=request_serializers.AddPrizeIntoBag,
+    responses={
+        '404': get_response_examples({'error': True, 'info': 'Данные переданы некорректны.'}),
+        '404 ': get_response_examples({'error': True, 'info': 'Данного пользователя не существует.'}),
+        '404  ': get_response_examples({'error': True, 'info': 'Данного приза не существует.'}),
+        '200': get_response_examples({'info': 'Бонусы успешно начислены в ваш рюкзак'})
+    },
+    tags=['Колесо фортуны'],
+    operation_summary='Принимаем бонусы и заносим в рюкзак',
+    operation_description='Получаем бонусы колеса фортуны по уникальному идентификатору в Telegram .',
+)
+@api_view(["POST"])
+async def add_wheel_of_fortune_bonus(request: HttpRequest):
+    tg_id = request.data.get('tg_id')
+    prize_id = request.data.get('prize_id')
+
+    if tg_id is None or prize_id is None:
+        return JsonResponse({'error': True, 'detail': 'Некорректные данные'})
+
+    user = await User.objects.filter(tg_id=tg_id).afirst()
+    my_bag = await My_Bag.objects.filter(user=user).afirst()
+    prize = await Prize.objects.filter(id=prize_id).afirst()
+    prize_name = prize.name
+    prize_number = prize.number
+    if user is None:
+        return JsonResponse({'error': True, 'detail': 'Данного пользователя не существует.'})
+
+    if prize is None:
+        return JsonResponse({'error': True, 'detail': 'Данного приза не существует.'})
+
+    prize_exists = False
+    async for item in my_bag.prizes.all():
+        if item == prize:
+            prize_exists = True
+            break
+
+    if not prize_exists:
+        await sync_to_async(add_prize_sync)(my_bag, prize)
+
     else:
-        transformed_errors = transform_errors(serializer.errors)
-        return JsonResponse(transformed_errors, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            next_prize = await find_next_available_prize(prize_name, start_number=prize_number + 1, my_bag=my_bag)
+            await sync_to_async(add_prize_sync)(my_bag, next_prize)
+        except AttributeError:
+            return JsonResponse({'info': 'Бонусы успешно начислены в ваш рюкзак'}, status=200)
+
+    await my_bag.asave()
+    return JsonResponse({'info': 'Бонусы успешно начислены в ваш рюкзак'}, status=200)
+
+
+@swagger_auto_schema(
+    methods=['GET'],
+    query_serializer=request_serializers.CustomTokenForAPP,
+    responses={
+        '404': get_response_examples({'error': True, 'info': 'Данные переданы некорректны.'}),
+        '404 ': get_response_examples({'error': True, 'info': 'Данного пользователя не существует.'}),
+        '200': get_response_examples(schema=response_serializers.MyBagSerializers)
+    },
+    tags=['Фри кейс'],
+    operation_summary='Инфа о фри кейсе',
+    operation_description='Получение инфы о фри кейсах по уникальному идентификатору в Telegram .',
+)
+@api_view(["GET"])
+async def get_info_free_case(request: HttpRequest, tg_id: str):
+    if tg_id is None:
+        return JsonResponse({'error': True, 'detail': 'Некорректные данные'})
+
+    user = await User.objects.filter(tg_id=tg_id).afirst()
+
+    prizes = [prize async for prize in Prize.objects.filter(free_case=True).order_by('name').distinct('name')]
+
+    if user is None:
+        return JsonResponse({'error': True, 'detail': 'Данного пользователя не существует.'})
+
+    serializer_data = response_serializers.MyBagSerializers({
+        'prizes': prizes,
+    }).data
+
+    return JsonResponse(serializer_data, status=200)
+
+
+@swagger_auto_schema(
+    methods=['POST'],
+    request_body=request_serializers.AddPrizeIntoBag,
+    responses={
+        '404': get_response_examples({'error': True, 'info': 'Данные переданы некорректны.'}),
+        '404 ': get_response_examples({'error': True, 'info': 'Данного пользователя не существует.'}),
+        '404  ': get_response_examples({'error': True, 'info': 'Данного приза не существует.'}),
+        '200': get_response_examples({'info': 'Бонусы успешно начислены в ваш рюкзак'})
+    },
+    tags=['Фри кейсы'],
+    operation_summary='Принимаем бонусы и заносим в рюкзак',
+    operation_description='Получаем бонусы колеса фортуны по уникальному идентификатору в Telegram .',
+)
+@api_view(["POST"])
+async def add_free_case_bonus(request: HttpRequest):
+    tg_id = request.data.get('tg_id')
+    prize_id = request.data.get('prize_id')
+
+    if tg_id is None or prize_id is None:
+        return JsonResponse({'error': True, 'detail': 'Некорректные данные'})
+
+    user = await User.objects.filter(tg_id=tg_id).afirst()
+    my_bag = await My_Bag.objects.filter(user=user).afirst()
+    prize = await Prize.objects.filter(id=prize_id).afirst()
+    prize_name = prize.name
+    prize_number = prize.number
+    if user is None:
+        return JsonResponse({'error': True, 'detail': 'Данного пользователя не существует.'})
+
+    if prize is None:
+        return JsonResponse({'error': True, 'detail': 'Данного приза не существует.'})
+
+    prize_exists = False
+    async for item in my_bag.prizes.all():
+        if item == prize:
+            prize_exists = True
+            break
+
+    if not prize_exists:
+        await sync_to_async(add_prize_sync)(my_bag, prize)
+
+    else:
+        try:
+            next_prize = await find_next_available_prize(prize_name, start_number=prize_number + 1, my_bag=my_bag)
+            await sync_to_async(add_prize_sync)(my_bag, next_prize)
+        except AttributeError:
+            return JsonResponse({'info': 'Бонусы успешно начислены в ваш рюкзак'}, status=200)
+
+    await my_bag.asave()
+    return JsonResponse({'info': 'Бонусы успешно начислены в ваш рюкзак'}, status=200)
