@@ -51,8 +51,8 @@ services:
       - static_data:/static
       - media_data:/media
       - front_build:/client
-#      - /etc/letsencrypt:/etc/letsencrypt
-#      - /var/www/certbot:/var/www/certbot
+     # - /etc/letsencrypt/live/zerkalogm.online:/cert
+      - /etc/letsencrypt:/letsencrypt
     ports:
       - "80:80"
       - "443:443"
