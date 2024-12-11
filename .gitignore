@@ -3,3 +3,4 @@ __pycache__
 baza/.env
 .venv
 baza/staticfiles
+.env
