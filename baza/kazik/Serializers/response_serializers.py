@@ -41,6 +41,7 @@ class PrizeSerializers(serializers.Serializer):
     promo_code = serializers.CharField()
     count = serializers.IntegerField()
     image = serializers.URLField()
+    image_without_background_url=serializers.URLField()
     url_product = serializers.URLField()
     chance = serializers.FloatField()
 

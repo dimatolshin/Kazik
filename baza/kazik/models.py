@@ -60,8 +60,11 @@ class Prize(models.Model):
     text = models.CharField(max_length=40, verbose_name='Название')
     number = models.IntegerField(null=True, blank=True, verbose_name='Номер приза (если несколько ваучеров)')
     picture = models.ForeignKey('Image', related_name='prize', on_delete=models.CASCADE)
+    picture_without_background=models.ForeignKey('Image', related_name='prizes_without',on_delete=models.CASCADE,
+                                                 verbose_name='Картинка без фона',null=True,blank=True)
     promo_code = models.TextField(null=True, blank=True)
     count = models.IntegerField(null=True, blank=True, verbose_name='количество призов (ключи,деньги)')
+    image_without_background_url=models.URLField(null=True, blank=True, verbose_name='Путь к фото без фона')
     image_url = models.URLField(null=True, blank=True, verbose_name='Путь к фото')
     chance = models.FloatField(default=0, verbose_name='Шанс выпадения приза')
     image = models.URLField(null=True, blank=True, verbose_name='Юрл для перехода на продукт')

@@ -51,10 +51,15 @@ class PrizeAdmin(admin.ModelAdmin):
             image_url = obj.picture.picture.url
             obj.image = image_url
 
+            image_without_background=obj.picture_without_background.picture.url
+            obj.image_without_background_url=image_without_background
         if change:
 
             if obj.picture:
                 obj.image = obj.picture.picture.url
+
+            if obj.picture_without_background:
+                obj.image_without_background_url=obj.picture_without_background.picture.url
 
         obj.save()
 
