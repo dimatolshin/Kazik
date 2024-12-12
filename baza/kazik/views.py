@@ -187,7 +187,7 @@ async def get_info_wheel_of_fortune(request: HttpRequest, tg_id: str):
 
     user = await User.objects.filter(tg_id=tg_id).afirst()
 
-    prizes = [prize async for prize in Prize.objects.filter(wheel_of_fortune=True).order_by('name').distinct('name')]
+    prizes = [prize async for prize in Prize.objects.filter(wheel_of_fortune=True).order_by('text').distinct('text')]
 
     if user is None:
         return JsonResponse({'error': True, 'detail': 'Данного пользователя не существует.'})
@@ -223,7 +223,7 @@ async def add_wheel_of_fortune_bonus(request: HttpRequest):
     user = await User.objects.filter(tg_id=tg_id).afirst()
     my_bag = await My_Bag.objects.filter(user=user).afirst()
     prize = await Prize.objects.filter(id=prize_id).afirst()
-    prize_name = prize.name
+    prize_name = prize.text
     prize_number = prize.number
     if user is None:
         return JsonResponse({'error': True, 'detail': 'Данного пользователя не существует.'})
@@ -270,7 +270,7 @@ async def get_info_free_case(request: HttpRequest, tg_id: str):
 
     user = await User.objects.filter(tg_id=tg_id).afirst()
 
-    prizes = [prize async for prize in Prize.objects.filter(free_case=True).order_by('name').distinct('name')]
+    prizes = [prize async for prize in Prize.objects.filter(free_case=True).order_by('text').distinct('text')]
 
     if user is None:
         return JsonResponse({'error': True, 'detail': 'Данного пользователя не существует.'})
@@ -306,7 +306,7 @@ async def add_free_case_bonus(request: HttpRequest):
     user = await User.objects.filter(tg_id=tg_id).afirst()
     my_bag = await My_Bag.objects.filter(user=user).afirst()
     prize = await Prize.objects.filter(id=prize_id).afirst()
-    prize_name = prize.name
+    prize_name = prize.text
     prize_number = prize.number
     if user is None:
         return JsonResponse({'error': True, 'detail': 'Данного пользователя не существует.'})

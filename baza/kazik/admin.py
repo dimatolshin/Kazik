@@ -42,19 +42,19 @@ class Daly_Bonus_Admin(admin.ModelAdmin):
 
 @admin.register(Prize)
 class PrizeAdmin(admin.ModelAdmin):
-    fields = ['name','number', 'image', 'promo_code', 'count','chance','url_product','wheel_of_fortune','free_case']
+    fields = ['text','number', 'picture', 'promo_code', 'count','chance','url_product','wheel_of_fortune','free_case']
 
     def save_model(self, request, obj, form, change):
         super().save_model(request, obj, form, change)
 
         if not change:
-            image_url = obj.image.picture.url
-            obj.image_url = image_url
+            image_url = obj.picture.picture.url
+            obj.image = image_url
 
         if change:
 
-            if obj.image:
-                obj.image_url = obj.image.picture.url
+            if obj.picture:
+                obj.image = obj.picture.picture.url
 
         obj.save()
 
