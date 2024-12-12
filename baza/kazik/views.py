@@ -8,7 +8,7 @@ from django.db import IntegrityError
 from drf_yasg.utils import swagger_auto_schema
 from asgiref.sync import sync_to_async
 
-from .services import add_prize_sync,find_next_available_prize
+from .services import find_next_available_prize
 from .my_example import get_response_examples
 
 
@@ -238,12 +238,12 @@ async def add_wheel_of_fortune_bonus(request: HttpRequest):
             break
 
     if not prize_exists:
-        await sync_to_async(add_prize_sync)(my_bag, prize)
+        await my_bag.prizes.aadd(prize)
 
     else:
         try:
             next_prize = await find_next_available_prize(prize_name, start_number=prize_number + 1, my_bag=my_bag)
-            await sync_to_async(add_prize_sync)(my_bag, next_prize)
+            await my_bag.prizes.aadd(next_prize)
         except AttributeError:
             return JsonResponse({'info': 'Бонусы успешно начислены в ваш рюкзак'}, status=200)
 
@@ -321,12 +321,12 @@ async def add_free_case_bonus(request: HttpRequest):
             break
 
     if not prize_exists:
-        await sync_to_async(add_prize_sync)(my_bag, prize)
+        await  my_bag.prizes.aadd(prize)
 
     else:
         try:
             next_prize = await find_next_available_prize(prize_name, start_number=prize_number + 1, my_bag=my_bag)
-            await sync_to_async(add_prize_sync)(my_bag, next_prize)
+            await my_bag.prizes.aadd(next_prize)
         except AttributeError:
             return JsonResponse({'info': 'Бонусы успешно начислены в ваш рюкзак'}, status=200)
 
