@@ -55,13 +55,15 @@ function PeopleTop() {
                     <div className={style.boxName}>
                       <div className={style.boxInfo}>
                         <h3 className={style.nameTitle}>{item.name}</h3>
+                      </div>
+                      <div className={style.boxBonusInfo}>
                         <StarRatingSvg className={style.imgInfo} />
                         <span className={style.span}>
                           {item.rating.toFixed(1)}
                         </span>
-                      </div>
-                      <div className={style.boxBonusInfo}>
-                        <p className={style.descr}>{item.dep}%</p>
+                        {item.dep && (
+                          <p className={style.descr}>{item.dep}%</p>
+                        )}
                         {item.free_spin && (
                           <p className={style.freespin}>{item.free_spin}FS</p>
                         )}
