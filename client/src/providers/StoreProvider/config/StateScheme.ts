@@ -1,5 +1,5 @@
-import { TokenScheme } from "../../../types/TokenType";
+import { CasinoScheme } from "../../../types/CasinoType";
 
 export interface StateScheme {
-    profile: TokenScheme
+    allCasino: CasinoScheme
 }

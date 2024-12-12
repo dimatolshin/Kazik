@@ -36,6 +36,8 @@
           align-items: center;
 
           .imgCard {
+            max-width: 48px;
+            max-height: 48px;
             margin-right: 11px;
           }
 
@@ -61,16 +63,29 @@
                 color: var(--text-rating);
               }
             }
-          }
 
-          .descr {
-            max-width: 30px;
-            border-radius: 8px;
-            padding: 3px 7px;
-            background: rgba(121, 62, 198, 0.2);
-            font-weight: 600;
-            font-size: 10px;
-            color: var(--text-bonus);
+            .boxBonusInfo {
+              display: flex;
+              .descr {
+                max-width: 42px;
+                border-radius: 8px;
+                padding: 3px 7px;
+                background: rgba(121, 62, 198, 0.2);
+                font-weight: 600;
+                font-size: 10px;
+                color: var(--text-bonus);
+                margin-right: 4px;
+              }
+
+              .freespin {
+                background: rgba(0, 142, 143, 0.2);
+                border-radius: 8px;
+                padding: 3px 7px;
+                font-weight: 600;
+                font-size: 10px;
+                color: #008e8f;
+              }
+            }
           }
         }
 
