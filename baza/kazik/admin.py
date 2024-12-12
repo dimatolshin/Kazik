@@ -51,9 +51,11 @@ class PrizeAdmin(admin.ModelAdmin):
         if not change:
             image_url = obj.picture.picture.url
             obj.image = image_url
-
-            image_without_background = obj.picture_without_background.picture.url
-            obj.image_without_background_url = image_without_background
+            try:
+                image_without_background = obj.picture_without_background.picture.url
+                obj.image_without_background_url = image_without_background
+            except AttributeError:
+                pass
         if change:
 
             if obj.picture:
