@@ -42,6 +42,8 @@ services:
       - front_build:/app
     networks:
       - kazik-networks
+    env_file:
+      - client/.env
 
   nginx:
     image: nginx:latest
