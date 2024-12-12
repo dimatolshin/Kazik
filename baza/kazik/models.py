@@ -19,7 +19,7 @@ class User(models.Model):
 
 class Casino(models.Model):
     name = models.CharField(max_length=50)
-    descriptions=models.CharField(max_length=200,null=True,blank=True)
+    descriptions = models.CharField(max_length=200, null=True, blank=True)
     rating = models.FloatField()
     logo = models.ForeignKey('Image', related_name='casino_logo', on_delete=models.CASCADE)
     banner = models.ForeignKey('Image', related_name='casino_banner', on_delete=models.CASCADE, null=True, blank=True)
@@ -34,7 +34,8 @@ class Casino(models.Model):
     banner_url = models.URLField(null=True, blank=True, verbose_name='Путь к банеру')
 
     def __str__(self):
-        return f"name:{self.name}"
+        return (f"name:{self.name}, порядок в котором будут идти продукты:{self.number_of_casino}, "
+                f"Количество переходов{self.count_of_visit_people} ")
 
 
 class Personal_Visit_on_Casino(models.Model):
@@ -56,7 +57,7 @@ class Daly_Bonus(models.Model):
 
 
 class Prize(models.Model):
-    text = models.CharField(max_length=40,verbose_name='Название')
+    text = models.CharField(max_length=40, verbose_name='Название')
     number = models.IntegerField(null=True, blank=True, verbose_name='Номер приза (если несколько ваучеров)')
     picture = models.ForeignKey('Image', related_name='prize', on_delete=models.CASCADE)
     promo_code = models.TextField(null=True, blank=True)
