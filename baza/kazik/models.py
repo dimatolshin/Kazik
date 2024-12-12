@@ -19,16 +19,17 @@ class User(models.Model):
 
 class Casino(models.Model):
     name = models.CharField(max_length=50)
+    descriptions=models.CharField(max_length=200,null=True,blank=True)
     rating = models.FloatField()
     logo = models.ForeignKey('Image', related_name='casino_logo', on_delete=models.CASCADE)
-    banner=models.ForeignKey('Image', related_name='casino_banner', on_delete=models.CASCADE,null=True,blank=True)
+    banner = models.ForeignKey('Image', related_name='casino_banner', on_delete=models.CASCADE, null=True, blank=True)
     free_spin = models.IntegerField(null=True, blank=True)
     dep = models.IntegerField(null=True, blank=True, verbose_name='Процент к депозиту')
     money = models.IntegerField(null=True, blank=True, verbose_name='+ Деньги при пополнении баланса')
     url = models.URLField()
     count_of_visit_people = models.IntegerField(default=0, verbose_name='Количество переходов в казино ')
     promo_code = models.TextField(null=True, blank=True)
-    number_of_casino = models.IntegerField(verbose_name="Порядок (нумерация) для фильтров")
+    number_of_casino = models.IntegerField(verbose_name="Порядок (нумерация) для фильтров", null=True, blank=True)
     logo_url = models.URLField(null=True, blank=True, verbose_name='Путь к фото')
     banner_url = models.URLField(null=True, blank=True, verbose_name='Путь к банеру')
 
@@ -46,8 +47,8 @@ class Personal_Visit_on_Casino(models.Model):
 
 
 class Daly_Bonus(models.Model):
-    user=models.ForeignKey(User,related_name='daly_bonus',on_delete=models.CASCADE)
-    day = models.IntegerField(default=0,verbose_name='Количество ежедневных входов')
+    user = models.ForeignKey(User, related_name='daly_bonus', on_delete=models.CASCADE)
+    day = models.IntegerField(default=0, verbose_name='Количество ежедневных входов')
     count_prizes = models.IntegerField(default=0)
 
     def __str__(self):
@@ -55,19 +56,20 @@ class Daly_Bonus(models.Model):
 
 
 class Prize(models.Model):
-    name = models.CharField(max_length=40)
-    number=models.IntegerField(null=True,blank=True,verbose_name='Номер приза (если несколько ваучеров)')
-    image = models.ForeignKey('Image', related_name='prize', on_delete=models.CASCADE)
+    text = models.CharField(max_length=40,verbose_name='Название')
+    number = models.IntegerField(null=True, blank=True, verbose_name='Номер приза (если несколько ваучеров)')
+    picture = models.ForeignKey('Image', related_name='prize', on_delete=models.CASCADE)
     promo_code = models.TextField(null=True, blank=True)
     count = models.IntegerField(null=True, blank=True, verbose_name='количество призов (ключи,деньги)')
-    image_url=models.URLField(null=True,blank=True,verbose_name='Путь к фото')
-    chance=models.FloatField(default=0,verbose_name='Шанс выпадения приза')
-    url_product=models.URLField(null=True,blank=True,verbose_name='Юрл для перехода на продукт')
-    wheel_of_fortune=models.BooleanField(null=True,blank=True,verbose_name='Приз для колеса фортуны')
+    image_url = models.URLField(null=True, blank=True, verbose_name='Путь к фото')
+    chance = models.FloatField(default=0, verbose_name='Шанс выпадения приза')
+    image = models.URLField(null=True, blank=True, verbose_name='Юрл для перехода на продукт')
+    url_product = models.URLField(null=True, blank=True, verbose_name='Юрл для перехода на продукт')
+    wheel_of_fortune = models.BooleanField(null=True, blank=True, verbose_name='Приз для колеса фортуны')
     free_case = models.BooleanField(null=True, blank=True, verbose_name='Приз для Бесплатного кейса')
 
     def __str__(self):
-        return f"name:{self.name},    id:{self.pk}"
+        return f"name:{self.text},id:{self.pk},колесо фортуны:{self.wheel_of_fortune},бесплатный кейс:{self.free_case}"
 
 
 class My_Bag(models.Model):
