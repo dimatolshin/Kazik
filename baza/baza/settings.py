@@ -15,7 +15,13 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG_DOCKER') == 'True' if os.getenv('RUNNING_IN_DOCKER') else os.getenv('DEBUG_LOCAL') == 'True'
 
-ALLOWED_HOSTS = ['0.0.0.0','127.0.0.1','localhost']
+ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1', 'localhost', '84.38.181.247', 'zerkalogm.online', 'api.zerkalogm.online']
+
+CORS_ALLOWED_ORIGINS = ['http://84.38.181.247', 'https://84.38.181.247', 'http://zerkalogm.online',
+                        'https://zerkalogm.online', 'http://api.zerkalogm.online', 'https://api.zerkalogm.online']
+# Переменная определяет список доменов, которым Django доверяет при обработке CSRF-токенов.
+CSRF_TRUSTED_ORIGINS = ['http://84.38.181.247', 'https://84.38.181.247', 'http://zerkalogm.online',
+                        'https://zerkalogm.online', 'http://api.zerkalogm.online', 'https://api.zerkalogm.online']
 
 # Application definition
 
