@@ -24,4 +24,5 @@ jobs:
             ls ~/main
             cd ~/main/Kazik || exit
             git pull origin main || exit
-            docker-compose up -d --build || exit
+            docker compose down || exit
+            docker compose up -d --build || exit
