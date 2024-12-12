@@ -20,6 +20,8 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
-            cd ~/Kazik || exit
+            ls ~
+            ls ~/main
+            cd ~/main/Kazik || exit
             git pull origin main || exit
             docker-compose up -d --build || exit
