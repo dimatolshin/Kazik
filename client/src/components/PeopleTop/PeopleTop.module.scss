@@ -4,21 +4,21 @@
 
   .title {
     margin-bottom: 15px;
-    margin-left: calc((100% - 360px) / 2);
+    padding-left: calc((100% - 360px) / 2);
   }
 
   .swiper {
-    margin-left: calc((100% - 360px) / 2);
+    // padding-left: calc((100% - 360px) / 2);
+    padding-right: 15px;
+    max-width: 375px;
   }
 
   .slide {
-    max-width: 320px;
-    background-color: var(--bg-elements);
-    border-bottom: 3px solid #008e8f;
     border-radius: 10px;
-
+    border-bottom: 3px solid #008e8f;
     .boxInfoCard {
-      //   width: 100%;
+      background-color: var(--bg-elements);
+      max-width: 320px;
       display: flex;
       align-items: center;
       border-radius: 10px;
@@ -34,8 +34,8 @@
           display: flex;
 
           .imgCard {
-            max-width: 48px;
-            max-height: 48px;
+            width: 48px;
+            height: 48px;
             margin-right: 11px;
           }
 

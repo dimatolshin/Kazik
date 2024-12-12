@@ -11,6 +11,6 @@ export const useTelegram = () => {
   const tg_id = tg?.initDataUnsafe?.user?.id;
   // const tg_id = "12323123";
   // const userName = "byngra";
-  // const idRef = '87654321'
+ 
   return { tg, userName, tg_id };
 };

@@ -7,7 +7,7 @@ export interface CasinoType {
 
 interface UserType {
     tg_id: string;
-    th_name: string;
+    tg_name: string;
 }
 
 export interface CasinoCardType {
