@@ -6,8 +6,8 @@ from .models import *
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
     readonly_fields = ['created_at']
-    list_display = ['tg_name','last_visit', 'can_get_daly_bonus', 'tg_id','utm_label', 'key_wheel_of_fortune',
-              'key_free_case']
+    list_display = ['tg_name', 'last_visit', 'can_get_daly_bonus', 'tg_id', 'utm_label', 'key_wheel_of_fortune',
+                    'key_free_case']
 
 
 @admin.register(Casino)
@@ -42,7 +42,8 @@ class Daly_Bonus_Admin(admin.ModelAdmin):
 
 @admin.register(Prize)
 class PrizeAdmin(admin.ModelAdmin):
-    fields = ['text','number', 'picture', 'promo_code', 'count','chance','url_product','wheel_of_fortune','free_case']
+    fields = ['text', 'number', 'picture', 'picture_without_background', 'promo_code', 'count', 'chance', 'url_product',
+              'wheel_of_fortune', 'free_case']
 
     def save_model(self, request, obj, form, change):
         super().save_model(request, obj, form, change)
@@ -50,11 +51,18 @@ class PrizeAdmin(admin.ModelAdmin):
         if not change:
             image_url = obj.picture.picture.url
             obj.image = image_url
-
+            try:
+                image_without_background = obj.picture_without_background.picture.url
+                obj.image_without_background_url = image_without_background
+            except AttributeError:
+                pass
         if change:
 
             if obj.picture:
                 obj.image = obj.picture.picture.url
+
+            if obj.picture_without_background:
+                obj.image_without_background_url = obj.picture_without_background.picture.url
 
         obj.save()
 
