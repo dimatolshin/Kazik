@@ -7,7 +7,7 @@ function Profile() {
     const {tg_id, userName, photo} = useTelegram()
     return (
         <div>
-            Я твой рот ебал
+            УУУУУУУУУРРРРРРРАААААААААА
             <div>
                 <h1>С сервака</h1>
                 <p>{casino?.user.tg_id}</p>
