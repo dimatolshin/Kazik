@@ -1,6 +1,6 @@
 import Banner from "../../components/Banner/Banner";
 import OffersWeek from "../../components/OffersWeek/OffersWeek";
-import RouletteBonus from "../../components/RouletteBonus/RouletteBonus";
+import BonusComponent from "../../components/BonusComponent/BonusComponent";
 import TopCasino from "../../components/TopCasino/TopCasino";
 import style from "./Casino.module.scss";
 import PeopleTop from "../../components/PeopleTop/PeopleTop";
@@ -13,7 +13,7 @@ function Casino() {
     <div className={style.casino}>
       <Banner />
       <PeopleTop />
-      <RouletteBonus />
+      <BonusComponent />
       <OffersWeek />
       <TopCasino title={"TOP-10 Online casino"} arr={casino ? casino.top_10_casino : []} />
     </div>

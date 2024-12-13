@@ -21,6 +21,11 @@
         position: relative;
         max-width: 320px;
         width: 100%;
+
+        .img {
+          max-width: 320px;
+          max-height: 250px;
+        }
         .boxInfoCard {
           max-width: 260px;
           width: 100%;

@@ -9,6 +9,8 @@ import { useTelegram } from "../../providers/telegram/telegram";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { casinoActions } from "../../providers/StoreProvider/slice/casinoSlice";
+import { freeCase } from "../../api/RouletBonus";
+import { freeCaseActions } from "../../providers/StoreProvider/slice/freeCaseSlice";
 
 function Layout() {
   const {tg_id, userName} = useTelegram()
@@ -25,6 +27,20 @@ function Layout() {
       dispatch(casinoActions.addData(casinoQuery.data))
     }
   }, [casinoQuery.data])
+
+  const freeCaseQuery = useQuery(
+    {
+      queryKey: ["freeCase"],
+      queryFn: () => freeCase(tg_id),
+      enabled: !!tg_id
+    },
+    queryClient
+  );
+  useEffect(() => {
+    if (freeCaseQuery.data) {
+      dispatch(freeCaseActions.addData(freeCaseQuery.data))
+    }
+  }, [freeCaseQuery.data]);
 
   return (
     <div className={style.app}>

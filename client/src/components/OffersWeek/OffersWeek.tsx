@@ -19,8 +19,8 @@ function OffersWeek() {
         <Swiper spaceBetween={10} slidesPerView={1.1} className={style.boxCard}>
           {casino.offers_of_week.map((item, index) => (
             <SwiperSlide className={style.slide} key={index}>
-              {/* <img className={style.img} src={`https://api.zerkalogm.online${item.banner_url}`} alt="" /> */}
               <div className={style.boxSlide}>
+                 {/* <img className={style.img} src={`https://api.zerkalogm.online${item.banner_url}`} alt="" /> */}
                 <img className={style.img} src={imgBg} alt="" />
                 <div className={style.boxInfoCard}>
                   <div className={style.boxBonus}>

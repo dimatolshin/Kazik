@@ -17,11 +17,7 @@
     background: rgba(255, 255, 255, 0.2);
   }
 
-  // &[data-kind="secondary"] {
-  //   background-color: var(--secondary);
-
-  //   &:hover {
-  //     background-color: var(--secondary-hover);
-  //   }
-  // }
+  &[data-kind="secondary"] {
+    background: transparent;
+  }
 }
