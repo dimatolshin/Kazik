@@ -7,6 +7,7 @@ function Profile() {
     const {tg_id, userName, photo} = useTelegram()
     return (
         <div>
+            Проверка для нового билда
             <div>
                 <h1>С сервака</h1>
                 <p>{casino?.user.tg_id}</p>
