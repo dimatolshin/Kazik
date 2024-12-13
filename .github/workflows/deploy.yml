@@ -25,6 +25,7 @@ jobs:
             cd ~/main/Kazik || exit
             git pull origin main || exit
             docker compose down -v client || exit
-            docker compose build --no-cache || exit
+            docker-compose down --rmi all || exit
+            docker compose build  || exit
             docker compose up -d || exit
 
