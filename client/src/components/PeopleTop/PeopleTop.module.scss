@@ -14,13 +14,14 @@
 
   .slide {
     border-radius: 10px;
+    background-color: var(--bg-elements);
     border-bottom: 3px solid #008e8f;
     .boxInfoCard {
-      background-color: var(--bg-elements);
       max-width: 320px;
       display: flex;
       align-items: center;
       padding: 10px;
+      border-radius: 10px;
 
       .boxBonus {
         display: flex;

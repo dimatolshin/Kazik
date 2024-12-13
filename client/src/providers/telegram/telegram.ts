@@ -9,8 +9,9 @@ export const useTelegram = () => {
 
   const userName = tg?.initDataUnsafe?.user?.username;
   const tg_id = tg?.initDataUnsafe?.user?.id;
+  const photo = tg?.initDataUnsafe?.user?.photo_url;
   // const tg_id = "12323123";
   // const userName = "byngra";
  
-  return { tg, userName, tg_id };
+  return { tg, userName, tg_id, photo };
 };
