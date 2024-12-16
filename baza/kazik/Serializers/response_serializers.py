@@ -28,8 +28,13 @@ class Offers_Of_Week(CasinoMainPageSerializer):
         fields = CasinoMainPageSerializer.Meta.fields + ['banner_url']
 
 
+class BannersSerializer(serializers.Serializer):
+    id=serializers.IntegerField()
+    image=serializers.URLField()
+
 class MainPage(serializers.Serializer):
     user = UserMainPageSerializer()
+    banners=BannersSerializer(many=True)
     peoples_top = CasinoMainPageSerializer(many=True)
     top_10_casino = Top10CasinoSerializer(many=True)
     offers_of_week = Offers_Of_Week(many=True)
@@ -41,7 +46,7 @@ class PrizeSerializers(serializers.Serializer):
     promo_code = serializers.CharField()
     count = serializers.IntegerField()
     image = serializers.URLField()
-    image_without_background_url=serializers.URLField()
+    image_without_background_url = serializers.URLField()
     url_product = serializers.URLField()
     chance = serializers.FloatField()
 
@@ -49,6 +54,23 @@ class PrizeSerializers(serializers.Serializer):
 class MyBagSerializers(serializers.Serializer):
     prizes = PrizeSerializers(many=True)
 
+
+class CountOfWheelKeys(serializers.Serializer):
+    key_wheel_of_fortune = serializers.IntegerField()
+
+
+class CountOfFreeKeys(serializers.Serializer):
+    key_free_case = serializers.IntegerField()
+
+
+class GetWheelOfFortune(serializers.Serializer):
+    user = CountOfWheelKeys()
+    prizes = PrizeSerializers(many=True)
+
+
+class GetFreeCaseKeys(serializers.Serializer):
+    user=CountOfFreeKeys()
+    prizes=PrizeSerializers(many=True)
 
 class UserDalyBonusSerializer(serializers.Serializer):
     can_get_daly_bonus = serializers.BooleanField(default=True)

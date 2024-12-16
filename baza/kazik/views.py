@@ -38,15 +38,17 @@ async def main_page(request: HttpRequest, tg_id: str, tg_name: str):
         await  My_Bag.objects.acreate(user=user)
         await Daly_Bonus.objects.acreate(user=user)
 
-    peoples_top = [item async for item in Casino.objects.all().order_by('count_of_visit_people')]
+    peoples_top = [item async for item in Casino.objects.all().order_by('peoples_top')]
     top_10_casino = [item async for item in Casino.objects.all().order_by('number_of_casino')][:10]
-
+    offers_of_week = [item async for item in Casino.objects.all().order_by('numer_offers_of_week')][:10]
+    banners= [item async for item in Banners.objects.all().order_by('name')]
 
     serialized_data = response_serializers.MainPage({
         'user': user,
+        'banners' : banners,
         'peoples_top': peoples_top,
         'top_10_casino': top_10_casino,
-        'offers_of_week': top_10_casino
+        'offers_of_week': offers_of_week
 
     }).data
     return JsonResponse(serialized_data, status=200)
@@ -174,7 +176,7 @@ async def add_daly_pize_into_user(request: HttpRequest):
     responses={
         '404': get_response_examples({'error': True, 'info': 'Данные переданы некорректны.'}),
         '404 ': get_response_examples({'error': True, 'info': 'Данного пользователя не существует.'}),
-        '200': get_response_examples(schema=response_serializers.MyBagSerializers)
+        '200': get_response_examples(schema=response_serializers.GetWheelOfFortune)
     },
     tags=['Колесо фортуны'],
     operation_summary='Инфа о колесе фортуны',
@@ -192,7 +194,8 @@ async def get_info_wheel_of_fortune(request: HttpRequest, tg_id: str):
     if user is None:
         return JsonResponse({'error': True, 'detail': 'Данного пользователя не существует.'})
 
-    serializer_data = response_serializers.MyBagSerializers({
+    serializer_data = response_serializers.GetWheelOfFortune({
+        'user': user,
         'prizes': prizes,
     }).data
 
@@ -257,7 +260,7 @@ async def add_wheel_of_fortune_bonus(request: HttpRequest):
     responses={
         '404': get_response_examples({'error': True, 'info': 'Данные переданы некорректны.'}),
         '404 ': get_response_examples({'error': True, 'info': 'Данного пользователя не существует.'}),
-        '200': get_response_examples(schema=response_serializers.MyBagSerializers)
+        '200': get_response_examples(schema=response_serializers.GetFreeCaseKeys)
     },
     tags=['Фри кейс'],
     operation_summary='Инфа о фри кейсе',
@@ -275,7 +278,8 @@ async def get_info_free_case(request: HttpRequest, tg_id: str):
     if user is None:
         return JsonResponse({'error': True, 'detail': 'Данного пользователя не существует.'})
 
-    serializer_data = response_serializers.MyBagSerializers({
+    serializer_data = response_serializers.GetFreeCaseKeys({
+        'user': user,
         'prizes': prizes,
     }).data
 
@@ -291,7 +295,7 @@ async def get_info_free_case(request: HttpRequest, tg_id: str):
         '404  ': get_response_examples({'error': True, 'info': 'Данного приза не существует.'}),
         '200': get_response_examples({'info': 'Бонусы успешно начислены в ваш рюкзак'})
     },
-    tags=['Фри кейсы'],
+    tags=['Фри кейс'],
     operation_summary='Принимаем бонусы и заносим в рюкзак',
     operation_description='Получаем бонусы колеса фортуны по уникальному идентификатору в Telegram .',
 )
@@ -313,6 +317,9 @@ async def add_free_case_bonus(request: HttpRequest):
 
     if prize is None:
         return JsonResponse({'error': True, 'detail': 'Данного приза не существует.'})
+
+    if prize.text == 'Oops':
+        return JsonResponse({'info': 'Повезёт в другой раз'}, status=200)
 
     prize_exists = False
     async for item in my_bag.prizes.all():

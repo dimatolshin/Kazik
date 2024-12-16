@@ -12,8 +12,8 @@ class UserAdmin(admin.ModelAdmin):
 
 @admin.register(Casino)
 class CasinoAdmin(admin.ModelAdmin):
-    fields = ['name', 'rating', 'logo', 'banner', 'free_spin', 'dep', 'money', 'url', 'count_of_visit_people',
-              'promo_code', 'number_of_casino']
+    fields = ['name', 'rating', 'logo', 'banner', 'free_spin', 'dep', 'money', 'url',
+              'promo_code', 'number_of_casino','peoples_top','numer_offers_of_week']
 
     def save_model(self, request, obj, form, change):
         super().save_model(request, obj, form, change)
@@ -70,6 +70,24 @@ class PrizeAdmin(admin.ModelAdmin):
 @admin.register(My_Bag)
 class My_Bag_Admin(admin.ModelAdmin):
     pass
+
+@admin.register(Banners)
+class Banners_Admin(admin.ModelAdmin):
+    fields = ['name','picture', 'numbers']
+
+    def save_model(self, request, obj, form, change):
+        super().save_model(request, obj, form, change)
+
+        if not change:
+            image_url = obj.picture.picture.url
+            obj.image = image_url
+
+        if change:
+
+            if obj.picture:
+                obj.image = obj.picture.picture.url
+
+        obj.save()
 
 
 @admin.register(Image)
