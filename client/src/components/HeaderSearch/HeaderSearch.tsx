@@ -19,7 +19,7 @@ function HeaderSearch() {
       <div className={style.boxSetting}>
         <div className={style.boxAvatar}>
             {photo ? (
-               <img src={photo} alt="" /> 
+               <img className={style.imgAvatar} src={photo} alt="" /> 
             ) : (
               <ProfileSvg className={style.svg} />
             )}
