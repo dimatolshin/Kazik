@@ -318,7 +318,7 @@ async def add_free_case_bonus(request: HttpRequest):
     if prize is None:
         return JsonResponse({'error': True, 'detail': 'Данного приза не существует.'})
 
-    if prize.text == 'Opps':
+    if prize.text == 'Oops':
         return JsonResponse({'info': 'Повезёт в другой раз'}, status=200)
 
     prize_exists = False
