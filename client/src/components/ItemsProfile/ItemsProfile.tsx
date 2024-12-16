@@ -57,7 +57,9 @@ function ItemsProfile() {
               className={style.item}
               key={item.id}
             >
-              <img src={`https://api.zerkalogm.online/${item.image}`} alt="" />
+              {item.image && (
+                <img src={`https://api.zerkalogm.online/${item.image}`} alt="" />
+              )}
               {item.filled && <div className={style.emptySlots} />}
               {!item.filled && <p className={style.descr}>{item.text}</p>}
             </li>
