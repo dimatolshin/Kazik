@@ -120,8 +120,8 @@ function RuleteLine({ arrPrize, onCloseModal }: RuleteLineProps) {
           prizesWithText: true, //отображение текста
         }}
         options={{
-          stopInCenter: true, //останавливает в центре картинки
-          withoutAnimation: true, //останавливает в анимацию
+          stopInCenter: false, //останавливает в центре картинки
+          withoutAnimation: false, //останавливает в анимацию
         }}
         designPlugin={CustomDesignPlugin}
       />

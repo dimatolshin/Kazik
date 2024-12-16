@@ -1,13 +1,15 @@
 .box {
-    padding: 0 15px;
+    
     display: flex;
     flex-direction: column;
     margin-bottom: 30px;
     align-items: center;
+    
 
     .boxBonus {
         display: flex;
         position: relative;
+        max-width: 345px;
 
         .daily {
             position: absolute;
@@ -31,6 +33,10 @@
     .boxBonusTwo {
         display: flex;
         gap: 7px;
+
+        .boxBonusMin {
+            max-width: 169px;
+        }
     }
 
     .span {

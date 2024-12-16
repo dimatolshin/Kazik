@@ -21,7 +21,7 @@ function TopCasino({ title, arr }: TopCasinoProps) {
       {arr.length === 0 ? (
         <div>Loading...</div>
       ) : (
-        <Swiper spaceBetween={7} slidesPerView={2.3} className={style.boxCard}>
+        <Swiper spaceBetween={7} slidesPerView={2.4} className={style.boxCard}>
           {arr.map((item, index) => (
             <SwiperSlide className={style.slide} key={index}>
               <div className={style.boxSlide}>

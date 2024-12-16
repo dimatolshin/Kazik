@@ -1,7 +1,6 @@
 .app {
-    height: 100vh;
+    height: 100svh;
     padding-top: 15px;
-    position: relative;
 
     .header {
         position: fixed;
@@ -16,7 +15,8 @@
     }
 
     .main {
-        padding: 70px 0;
+        padding: 70px 0px;
+        overflow: hidden;
     }
 
     .footer {

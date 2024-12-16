@@ -11,6 +11,7 @@ import { useDispatch } from "react-redux";
 import { casinoActions } from "../../providers/StoreProvider/slice/casinoSlice";
 import { freeCase } from "../../api/RouletBonus";
 import { freeCaseActions } from "../../providers/StoreProvider/slice/freeCaseSlice";
+import { Toaster } from 'react-hot-toast';
 
 function Layout() {
   const {tg_id, userName} = useTelegram()
@@ -44,6 +45,10 @@ function Layout() {
 
   return (
     <div className={style.app}>
+      <Toaster
+        position="top-center"
+        reverseOrder={false}
+      />
       <header className={`${style.header} container`}>
         <HeaderSearch />
       </header>

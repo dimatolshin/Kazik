@@ -1,22 +1,22 @@
 .box {
-  padding-left: 15px;
+  // padding-left: 15px;
   margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
 
   .title {
     font-weight: 600;
     font-size: 22px;
     margin-bottom: 15px;
-    margin-left: calc((100% - 360px) / 2);
+    margin-left: calc((100% - 345px) / 2);
   }
 
   .boxCard {
-    width: 100%;
     display: flex;
     max-width: 375px;
-    padding-right: 15px;
-
+    // padding-right: 15px;
+    margin-left: calc((100% - 345px) / 2);
     .slide {
-
       .boxSlide {
         position: relative;
         max-width: 320px;

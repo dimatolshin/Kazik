@@ -17,6 +17,10 @@ function PeopleTop() {
     }
     return result;
   };
+
+  const handleLinkClick = (link: string) => {
+    window.open(link, '_blank');
+  };
   const twoDimensionalArr = casino?.peoples_top
     ? chunkArray(casino.peoples_top, 3)
     : [];
@@ -61,18 +65,16 @@ function PeopleTop() {
                         <span className={style.span}>
                           {item.rating.toFixed(1)}
                         </span>
-                        {item.dep && (
-                          <p className={style.descr}>{item.dep}%</p>
-                        )}
+                        {item.dep && <p className={style.descr}>{item.dep}%</p>}
                         {item.free_spin && (
                           <p className={style.freespin}>{item.free_spin}FS</p>
                         )}
                       </div>
                     </div>
                   </div>
-                  <a className={style.link} href={item.url} target="_blank">
-                    <Button className={style.btn}>Play</Button>
-                  </a>
+                  {/* <a className={style.link} href={item.url} target="_blank"> */}
+                    <Button onClick={() => handleLinkClick(item.url)} className={style.btn}>Play</Button>
+                  {/* </a> */}
                 </div>
               ))}
             </SwiperSlide>

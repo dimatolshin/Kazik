@@ -34,14 +34,14 @@ function BonusComponent() {
           </div>
         </div>
         <div className={style.boxBonusTwo}>
-          <div className={style.boxBonus}>
+          <div className={`${style.boxBonusMin} ${style.boxBonus}`}>
             <span className={style.span}>Available</span>
             <img src={wheelImg} alt="" />
             <p className={style.descr}>
               Wheel <br /> of Fortune
             </p>
           </div>
-          <div onClick={hanldeFreeCaseOpen} className={style.boxBonus}>
+          <div onClick={hanldeFreeCaseOpen} className={`${style.boxBonusMin} ${style.boxBonus}`}>
             <span className={style.span}>Gift!</span>
             <img src={caseImg} alt="" />
             <p className={style.descr}>

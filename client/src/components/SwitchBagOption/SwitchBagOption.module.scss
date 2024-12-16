@@ -1,0 +1,16 @@
+.switch_option {
+    font-weight: 600;
+    font-size: 12px;
+    background-color: var(--bg-elements);
+    padding: 9px;
+    color: var(--dark-grey);
+    cursor: pointer;
+    width: 50%;
+    margin: 0;
+    border: none;
+    padding: 13px 0;
+
+    &[data-active='true'] {
+      background-color: var(--bg-switcher);
+    }
+}

@@ -23,6 +23,7 @@ html {
   --text-top: #acacac;
   --text-rating: #c9c000;
   --text-bonus: #793ec6;
+  --bg-switcher: #008e8f;
 }
 
 a {
@@ -42,6 +43,7 @@ body {
   min-width: 360px;
   background: var(--bg-app);
   color: var(--white);
+  margin: 0;
 }
 
 img {

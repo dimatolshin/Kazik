@@ -1,11 +1,13 @@
 import ProfileSvg from "../../assets/svg/ProfileSvg/ProfileSvg";
 import SearchSvg from "../../assets/svg/SearchSvg/SearchSvg";
 import SettingSvg from "../../assets/svg/SettingSvg/SettingSvg";
+import { useTelegram } from "../../providers/telegram/telegram";
 import { Button } from "../../ui/Button";
 import style from "./HeaderSearch.module.scss";
-// import imgTest from '../../assets/png/Rectangle 41623.png'
+
 
 function HeaderSearch() {
+  const {photo} = useTelegram()
   return (
     <div className={style.box}>
       <div className={style.boxSearch}>
@@ -16,8 +18,11 @@ function HeaderSearch() {
       </div>
       <div className={style.boxSetting}>
         <div className={style.boxAvatar}>
-            <ProfileSvg className={style.svg} />
-            {/* <img src={imgTest} alt="" /> */}
+            {photo ? (
+               <img src={photo} alt="" /> 
+            ) : (
+              <ProfileSvg className={style.svg} />
+            )}
         </div>
         <Button kind="secondary" className={style.btnSetting}>
           <SettingSvg className={style.svgSetting} />
