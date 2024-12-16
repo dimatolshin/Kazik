@@ -6,11 +6,9 @@ import { Button } from "../../ui/Button";
 import { useSelector } from "react-redux";
 import { getCasino } from "../../providers/StoreProvider/selectors/getCasino";
 import { CasinoCardType } from "../../types/CasinoType";
-import { useTelegram } from "../../providers/telegram/telegram";
 
 function PeopleTop() {
   const casino = useSelector(getCasino);
-  const {tg} = useTelegram()
 
   const chunkArray = (array: CasinoCardType[], chunkSize: number) => {
     const result = [];
@@ -20,9 +18,6 @@ function PeopleTop() {
     return result;
   };
 
-  const handleLinkClick = (link: string) => {
-    tg.openTelegramLink(link);
-  };
   const twoDimensionalArr = casino?.peoples_top
     ? chunkArray(casino.peoples_top, 3)
     : [];
@@ -74,9 +69,9 @@ function PeopleTop() {
                       </div>
                     </div>
                   </div>
-                  {/* <a className={style.link} href={item.url} target="_blank"> */}
-                    <Button onClick={() => handleLinkClick(item.url)} className={style.btn}>Play</Button>
-                  {/* </a> */}
+                  <a className={style.link} href={item.url} target="_blank">
+                    <Button className={style.btn}>Play</Button>
+                  </a>
                 </div>
               ))}
             </SwiperSlide>
