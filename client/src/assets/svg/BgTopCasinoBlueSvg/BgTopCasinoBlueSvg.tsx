@@ -1,8 +1,9 @@
 import { SvgProps } from "../../../types/SvgProps";
 
-function BgTopCasinoBlueSvg({}: SvgProps) {
+function BgTopCasinoBlueSvg({ className }: SvgProps) {
   return (
     <svg
+      className={className}
       width="145"
       height="250"
       viewBox="0 0 145 250"

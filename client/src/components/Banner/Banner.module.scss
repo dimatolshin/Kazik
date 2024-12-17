@@ -1,20 +1,58 @@
 .box {
-  // padding: 0 15px;
-  display: flex;
+  padding: 0 15px;
   margin-bottom: 30px;
-  justify-content: center;
+  width: 100%;
+  max-width: 576px;
+  position: relative;
 
   .boxBanner {
-    position: relative;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: absolute;
+    top: 45%;
+    transform: translateY(-50%);
+    left: 15px;
 
-    .btn {
-      position: absolute;
-      bottom: 15px;
-      left: 15px;
-      font-weight: 700;
-      font-size: 16px;
-      line-height: 128%;
-      color: var(--white);
+    .title {
+      font-weight: 800;
+      font-size: 24px;
+      line-height: 120%;
+      margin-bottom: 15px;
     }
+
+    .descr {
+      font-weight: 400;
+      font-size: 10px;
+      line-height: 110%;
+      margin-bottom: 29px;
+    }
+
+    .boxBtn {
+
+      .btn {
+        font-weight: 700;
+        font-size: 12px;
+        line-height: 128%;
+        color: var(--white);
+        margin-right: 15px;
+        background: rgba(0, 142, 143, 0.2);
+        outline: 1.09px solid #008e8f;
+        padding: 10px 15px;
+      }
+
+      .btnInfo {
+        font-weight: 700;
+        font-size: 12px;
+        line-height: 128%;
+        color: var(--white);
+        outline: 1.10px solid #f6f4f9;
+        padding: 10px 15px;
+      }
+    }
+
+
+    
   }
 }

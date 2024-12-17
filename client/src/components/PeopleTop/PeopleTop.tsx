@@ -21,7 +21,6 @@ function PeopleTop() {
   const twoDimensionalArr = casino?.peoples_top
     ? chunkArray(casino.peoples_top, 3)
     : [];
-
   return (
     <div className={style.box}>
       <h2 className={style.title}>People's Top</h2>

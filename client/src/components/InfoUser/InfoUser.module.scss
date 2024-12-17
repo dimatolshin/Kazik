@@ -1,11 +1,10 @@
 .box {
-    width: 100%;
-    max-width: 345px;
+  width: 100%;
+  padding: 6px;
   display: flex;
   align-items: center;
   background-color: var(--bg-elements);
   margin: 0 15px;
-  padding: 6px;
   border-radius: 20px;
   margin-bottom: 30px;
 

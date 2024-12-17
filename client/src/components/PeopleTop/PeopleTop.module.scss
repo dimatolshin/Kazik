@@ -1,18 +1,17 @@
 .box {
-  // padding-left: 20px;
+  padding-left: 15px;
   margin-bottom: 30px;
   display: flex;
   flex-direction: column;
+  max-width: 576px;
 
   .title {
     margin-bottom: 15px;
-    padding-left: calc((100% - 345px) / 2);
   }
 
   .swiper {
     padding-right: 15px;
-    max-width: 375px;
-    margin-left: calc((100% - 345px) / 2);
+    width: 100%;
   }
 
   .slide {
@@ -20,7 +19,7 @@
     background-color: var(--bg-elements);
     border-bottom: 3px solid #008e8f;
     .boxInfoCard {
-      max-width: 320px;
+      max-width: 460px;
       display: flex;
       align-items: center;
       padding: 10px;
@@ -34,11 +33,14 @@
         .boxImg {
           position: relative;
           display: flex;
+          border-radius: 10px;
 
           .imgCard {
             width: 48px;
             height: 48px;
             margin-right: 11px;
+            border: 1px solid var(--white);
+            border-radius: 10px;
           }
 
           .numberValue {

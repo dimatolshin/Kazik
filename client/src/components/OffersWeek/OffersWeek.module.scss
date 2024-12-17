@@ -1,34 +1,32 @@
 .box {
-  // padding-left: 15px;
+  padding-left: 15px;
   margin-bottom: 30px;
   display: flex;
   flex-direction: column;
+  max-width: 576px;
 
   .title {
     font-weight: 600;
     font-size: 22px;
     margin-bottom: 15px;
-    margin-left: calc((100% - 345px) / 2);
   }
 
   .boxCard {
     display: flex;
-    max-width: 375px;
-    // padding-right: 15px;
-    margin-left: calc((100% - 345px) / 2);
+    width: 100%;
+    padding-right: 15px;
     .slide {
       .boxSlide {
         position: relative;
-        max-width: 320px;
         width: 100%;
 
         .img {
-          max-width: 320px;
-          max-height: 250px;
+          width: 100%;
+          // max-width: 320px;
+          // max-height: 250px;
         }
         .boxInfoCard {
-          max-width: 260px;
-          width: 100%;
+          width: 80%;
           position: absolute;
           bottom: 18.67px;
           left: 50%;

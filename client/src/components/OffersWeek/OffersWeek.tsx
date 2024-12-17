@@ -16,7 +16,7 @@ function OffersWeek() {
       {!casino?.offers_of_week ? (
         <div>Loader...</div>
       ) : (
-        <Swiper spaceBetween={1} slidesPerView={1.1} className={style.boxCard}>
+        <Swiper spaceBetween={10} slidesPerView={1.1} className={style.boxCard}>
           {casino.offers_of_week.map((item, index) => (
             <SwiperSlide className={style.slide} key={index}>
               <div className={style.boxSlide}>

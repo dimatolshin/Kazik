@@ -1,53 +1,61 @@
 .box {
-    width: 100%;
+  width: 100%;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
 
-    .boxTitle {
+  .boxTitle {
+    position: relative;
+    margin-bottom: 30px;
+
+    .imgTitle {
+      width: 100%;
+    }
+
+    .title {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      left: 15px;
+    }
+  }
+
+  .boxRoulet {
+    margin-bottom: 50px;
+  }
+
+  .boxList {
+    padding-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+
+    .titleList {
+      font-weight: 600;
+      font-size: 22px;
+      margin-bottom: 15px;
+    }
+
+    .list {
+      display: flex;
+      gap: 7.5px;
+      flex-wrap: wrap;
+
+      .item {
+        flex: 1 1 calc(33.333% - 7.5px);
         position: relative;
-        margin-bottom: 30px;
 
-        .title {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            left: 15px;
+        .descr {
+          width: 100%;
+          display: flex;
+          justify-content: center;
+          position: absolute;
+          bottom: 29px;
+          left: 50%;
+          transform: translateX(-50%);
+          font-weight: 600;
+          font-size: 12px;
         }
+      }
     }
-
-    .boxRoulet {
-        margin-bottom: 50px;
-    }
-
-    .boxList {
-        padding-bottom: 15px;
-
-        .titleList {
-            font-weight: 600;
-            font-size: 22px;
-            margin-bottom: 15px;
-        }
-
-        .list {
-            display: flex;
-            gap: 7.5px;
-            flex-wrap: wrap;
-            .item {
-                flex: 1 1 calc(33.333% - 7.5px);
-                max-width: 110px;
-                max-height: 140px;
-                position: relative;
-
-                .descr {
-                    width: 100%;
-                    display: flex;
-                    justify-content: center;
-                    position: absolute;
-                    bottom: 29px;
-                    left: 50%;
-                    transform: translateX(-50%);
-                    font-weight: 600;
-                    font-size: 12px;
-                }
-            }
-        }
-    }
+  }
 }
