@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { InventoryType } from "../../types/InventoryType";
 import Modal from "../../ui/Modal/Modal";
 import InfoItem from "./InfoItem";
+import imgEmpty from '../../assets/png/emptySlots.png'
 
 const ITEMS_COUNT = 12;
 const MIN_EMPTY_SLOTS = 3;
@@ -60,7 +61,7 @@ function ItemsProfile() {
               {item.image && (
                 <img src={`https://api.zerkalogm.online/${item.image}`} alt="" />
               )}
-              {item.filled && <div className={style.emptySlots} />}
+              {item.filled && <img src={imgEmpty} className={style.emptySlots} />}
               {!item.filled && <p className={style.descr}>{item.text}</p>}
             </li>
           ))}
