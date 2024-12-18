@@ -73,7 +73,7 @@ class Prize(models.Model):
     url_product = models.URLField(null=True, blank=True, verbose_name='Юрл для перехода на продукт')
     wheel_of_fortune = models.BooleanField(null=True, blank=True, verbose_name='Приз для колеса фортуны')
     free_case = models.BooleanField(null=True, blank=True, verbose_name='Приз для Бесплатного кейса')
-    number_of_choice = models.IntegerField(default=0, verbose_name='Порядок нумерации призов')
+    number_of_choice = models.IntegerField(default=100, verbose_name='Порядок нумерации призов')
 
     def __str__(self):
         return f'name:{self.text}'
