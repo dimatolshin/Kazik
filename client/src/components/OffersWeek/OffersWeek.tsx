@@ -7,9 +7,14 @@ import "swiper/scss";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useSelector } from "react-redux";
 import { getCasino } from "../../providers/StoreProvider/selectors/getCasino";
+import { useTelegram } from "../../providers/telegram/telegram";
 
 function OffersWeek() {
   const casino = useSelector(getCasino);
+  const {tg} = useTelegram()
+  const swapLink = (link: string) => {
+    tg.openLink(link, {try_instant_view: true})
+  }
   return (
     <div className={style.box}>
       <h2 className={style.title}>Предложения недели</h2>
@@ -45,11 +50,11 @@ function OffersWeek() {
                       </div>
                     </div>
                   </div>
-                  <a className={style.link} href={item.url} target="_blank">
-                    <Button className={style.btn} kind="secondary">
+                  {/* <a className={style.link} href={item.url} target="_blank"> */}
+                    <Button onClick={() => swapLink(item.url)} className={style.btn} kind="secondary">
                       <ArrowSvg />
                     </Button>
-                  </a>
+                  {/* </a> */}
                 </div>
               </div>
             </SwiperSlide>

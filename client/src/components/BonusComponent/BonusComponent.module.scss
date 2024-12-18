@@ -1,67 +1,71 @@
 .box {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 30px;
+  align-items: center;
+  max-width: 576px;
+  padding: 0 15px;
+
+  .boxBonus {
     display: flex;
-    flex-direction: column;
-    margin-bottom: 30px;
-    align-items: center;
-    max-width: 576px;
-    padding: 0 15px;
-    
+    position: relative;
+    width: 100%;
 
-    .boxBonus {
-        display: flex;
-        position: relative;
-        width: 100%;
+    .daily {
+      position: absolute;
+      bottom: 8.33px;
+      left: 10px;
+      display: flex;
+      align-items: center;
 
-        .daily {
-            position: absolute;
-            bottom: 8.33px;
-            left: 10px;
-            display: flex;
-            align-items: center;
+      .svg {
+        margin-right: 7px;
+      }
 
-            .svg {
-                margin-right: 7px;
-            }
-
-            .descrDaily {
-                font-weight: 700;
-                font-size: 15px;
-                line-height: 120%;
-            }   
-        }
-    }
-
-    .boxBonusTwo {
-        display: flex;
-        gap: 7px;
-
-        .boxBonusMin {
-            max-width: 50%;
-        }
-    }
-
-    .span {
-        position: absolute;
-        top: 6px;
-        left: 6px;
-        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
-        background: var(--bg-bonus);
-        border-radius: 8px;
-        padding: 2px 6px;
-        font-weight: 400;
-        font-size: 10px;
-    }
-
-    .descr {
-        position: absolute;
-        bottom: 8.33px;
-        left: 10px;
+      .descrDaily {
         font-weight: 700;
         font-size: 15px;
         line-height: 120%;
+      }
     }
+  }
+
+  .boxBonusTwo {
+    display: flex;
+    gap: 7px;
+
+    .boxBonusMin {
+      max-width: 50%;
+    }
+  }
+
+  .span {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    background: var(--bg-bonus);
+    border-radius: 8px;
+    padding: 2px 6px;
+    font-weight: 400;
+    font-size: 10px;
+  }
+
+  .descr {
+    position: absolute;
+    bottom: 8.33px;
+    left: 10px;
+    font-weight: 700;
+    font-size: 15px;
+    line-height: 120%;
+  }
 }
 
 .contentBg {
-    background: linear-gradient(180deg, rgba(121, 62, 198, 0.2) 0%, rgba(73, 39, 119, 0.2) 75.93%, rgba(9, 9, 12, 0.2) 100%) !important;
+  background: linear-gradient(
+    180deg,
+    rgba(121, 62, 198, 0.2) 0%,
+    rgba(73, 39, 119, 0.5) 75.93%,
+    rgba(9, 9, 12, 0.2) 100%
+  ) !important;
 }

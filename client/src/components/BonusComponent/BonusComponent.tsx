@@ -39,7 +39,7 @@ function BonusComponent() {
           <div className={style.daily}>
             <BonusDailySvg className={style.svg} />
             <p className={style.descrDaily}>
-              Ежедневнный <br /> бонус
+              Ежедневный <br /> бонус
             </p>
           </div>
         </div>

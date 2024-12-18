@@ -13,6 +13,7 @@ function App() {
   useTelegram().tg.expand();
   useTelegram().tg.disableVerticalSwipes();
   useTelegram().tg.setHeaderColor("#000", "#fff");
+  useTelegram().tg.setBackgroundColor('#ff0000');
   return (
     <>
       <Suspense fallback={<div>Loading...</div>}>

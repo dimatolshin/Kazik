@@ -28,7 +28,7 @@ function PeopleTop() {
     : [];
   return (
     <div className={style.box}>
-      <h2 className={style.title}>Полуряное</h2>
+      <h2 className={style.title}>Популярное</h2>
       {twoDimensionalArr.length === 0 ? (
         <div>Loading...</div>
       ) : (

@@ -8,6 +8,7 @@ import BgTopCasinoYellowSvg from "../../assets/svg/BgTopCasinoYellowSvg/BgTopCas
 import BgTopCasinoPurpleSvg from "../../assets/svg/BgTopCasinoPurpleSvg/BgTopCasinoPurpleSvg";
 import BgTopCasinoBlueSvg from "../../assets/svg/BgTopCasinoBlueSvg/BgTopCasinoBlueSvg";
 import { CasinoCardType } from "../../types/CasinoType";
+import { useTelegram } from "../../providers/telegram/telegram";
 
 interface TopCasinoProps {
   title: string;
@@ -15,6 +16,10 @@ interface TopCasinoProps {
 }
 
 function TopCasino({ title, arr }: TopCasinoProps) {
+  const { tg } = useTelegram();
+  const swapLink = (link: string) => {
+    tg.openLink(link, { try_instant_view: true });
+  };
   return (
     <div className={style.box}>
       <h2 className={style.titleBox}>{title}</h2>
@@ -47,13 +52,20 @@ function TopCasino({ title, arr }: TopCasinoProps) {
                 />
                 <div className={style.boxName}>
                   <h3 className={style.title}>{item.name}</h3>
-                  {(item.dep && item.free_spin) && (
-                    <p className={style.descr}>{item.dep}% {item.free_spin}FS</p>
+                  {item.dep && item.free_spin && (
+                    <p className={style.descr}>
+                      {item.dep}% {item.free_spin}FS
+                    </p>
                   )}
                 </div>
-                <a href={item.url} target="_blank">
-                  <Button className={style.btn}>Играть</Button>
-                </a>
+                {/* <a href={item.url} target="_blank"> */}
+                <Button
+                  onClick={() => swapLink(item.url)}
+                  className={style.btn}
+                >
+                  Играть
+                </Button>
+                {/* </a> */}
               </div>
             </SwiperSlide>
           ))}
