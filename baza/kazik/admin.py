@@ -20,7 +20,7 @@ class CasinoAdmin(admin.ModelAdmin):
     fields = ['name', 'rating', 'logo', 'banner', 'free_spin', 'dep', 'money', 'url',
               'promo_code', 'number_of_casino', 'peoples_top', 'numer_offers_of_week','category']
 
-    list_display = ['name', 'id', 'number_of_casino', 'peoples_top', 'numer_offers_of_week', 'category']
+    list_display = ['name', 'id', 'number_of_casino', 'peoples_top', 'numer_offers_of_week']
 
     def save_model(self, request, obj, form, change):
         super().save_model(request, obj, form, change)
