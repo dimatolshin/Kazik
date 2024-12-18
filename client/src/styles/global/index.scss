@@ -44,8 +44,9 @@ body {
   background: var(--bg-app);
   color: var(--white);
   margin: 0;
-  overscroll-behavior: none;
-  touch-action: none;
+  height: 100vh;
+  // overscroll-behavior: none;
+  // touch-action: none;
 }
 
 img {
