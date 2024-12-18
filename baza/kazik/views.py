@@ -41,11 +41,11 @@ async def main_page(request: HttpRequest, tg_id: str, tg_name: str):
     peoples_top = [item async for item in Casino.objects.all().order_by('peoples_top')]
     top_10_casino = [item async for item in Casino.objects.all().order_by('number_of_casino')][:10]
     offers_of_week = [item async for item in Casino.objects.all().order_by('numer_offers_of_week')][:10]
-    banners= [item async for item in Banners.objects.all().order_by('name')]
+    banners = [item async for item in Banners.objects.all().order_by('name')]
 
     serialized_data = response_serializers.MainPage({
         'user': user,
-        'banners' : banners,
+        'banners': banners,
         'peoples_top': peoples_top,
         'top_10_casino': top_10_casino,
         'offers_of_week': offers_of_week
@@ -250,8 +250,10 @@ async def add_wheel_of_fortune_bonus(request: HttpRequest):
                 next_prize = await find_next_available_prize(prize_name, start_number=prize_number + 1, my_bag=my_bag)
                 await my_bag.prizes.aadd(next_prize)
             except AttributeError:
-                return JsonResponse({'info': 'Бонусы успешно начислены в ваш рюкзак'}, status=200)
+                pass
 
+        user.key_wheel_of_fortune -= 1
+        await user.asave()
         await my_bag.asave()
         return JsonResponse({'info': 'Бонусы успешно начислены в ваш рюкзак'}, status=200)
     else:
@@ -341,10 +343,12 @@ async def add_free_case_bonus(request: HttpRequest):
                 next_prize = await find_next_available_prize(prize_name, start_number=prize_number + 1, my_bag=my_bag)
                 await my_bag.prizes.aadd(next_prize)
             except AttributeError:
-                return JsonResponse({'info': 'Бонусы успешно начислены в ваш рюкзак'}, status=200)
+                pass
 
+        user.key_free_case -= 1
+        await user.asave()
         await my_bag.asave()
         return JsonResponse({'info': 'Бонусы успешно начислены в ваш рюкзак'}, status=200)
 
     else:
-        return JsonResponse({'error': True,'info': 'У вас недостаточно ключей'}, status=404)
+        return JsonResponse({'error': True, 'info': 'У вас недостаточно ключей'}, status=404)
