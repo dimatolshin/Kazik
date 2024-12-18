@@ -209,6 +209,7 @@ async def get_info_wheel_of_fortune(request: HttpRequest, tg_id: str):
         '404': get_response_examples({'error': True, 'info': 'Данные переданы некорректны.'}),
         '404 ': get_response_examples({'error': True, 'info': 'Данного пользователя не существует.'}),
         '404  ': get_response_examples({'error': True, 'info': 'Данного приза не существует.'}),
+        '404   ': get_response_examples({'error': True, 'info': 'У вас недостаточно ключей.'}),
         '200': get_response_examples({'info': 'Бонусы успешно начислены в ваш рюкзак'})
     },
     tags=['Колесо фортуны'],
@@ -224,34 +225,37 @@ async def add_wheel_of_fortune_bonus(request: HttpRequest):
         return JsonResponse({'error': True, 'detail': 'Некорректные данные'})
 
     user = await User.objects.filter(tg_id=tg_id).afirst()
-    my_bag = await My_Bag.objects.filter(user=user).afirst()
-    prize = await Prize.objects.filter(id=prize_id).afirst()
-    prize_name = prize.text
-    prize_number = prize.number
-    if user is None:
-        return JsonResponse({'error': True, 'detail': 'Данного пользователя не существует.'})
+    if user.key_wheel_of_fortune is not None:
+        my_bag = await My_Bag.objects.filter(user=user).afirst()
+        prize = await Prize.objects.filter(id=prize_id).afirst()
+        prize_name = prize.text
+        prize_number = prize.number
+        if user is None:
+            return JsonResponse({'error': True, 'detail': 'Данного пользователя не существует.'})
 
-    if prize is None:
-        return JsonResponse({'error': True, 'detail': 'Данного приза не существует.'})
+        if prize is None:
+            return JsonResponse({'error': True, 'detail': 'Данного приза не существует.'})
 
-    prize_exists = False
-    async for item in my_bag.prizes.all():
-        if item == prize:
-            prize_exists = True
-            break
+        prize_exists = False
+        async for item in my_bag.prizes.all():
+            if item == prize:
+                prize_exists = True
+                break
 
-    if not prize_exists:
-        await my_bag.prizes.aadd(prize)
+        if not prize_exists:
+            await my_bag.prizes.aadd(prize)
 
+        else:
+            try:
+                next_prize = await find_next_available_prize(prize_name, start_number=prize_number + 1, my_bag=my_bag)
+                await my_bag.prizes.aadd(next_prize)
+            except AttributeError:
+                return JsonResponse({'info': 'Бонусы успешно начислены в ваш рюкзак'}, status=200)
+
+        await my_bag.asave()
+        return JsonResponse({'info': 'Бонусы успешно начислены в ваш рюкзак'}, status=200)
     else:
-        try:
-            next_prize = await find_next_available_prize(prize_name, start_number=prize_number + 1, my_bag=my_bag)
-            await my_bag.prizes.aadd(next_prize)
-        except AttributeError:
-            return JsonResponse({'info': 'Бонусы успешно начислены в ваш рюкзак'}, status=200)
-
-    await my_bag.asave()
-    return JsonResponse({'info': 'Бонусы успешно начислены в ваш рюкзак'}, status=200)
+        return JsonResponse({'error': True, 'info': 'У вас недостаточно ключей.'}, status=404)
 
 
 @swagger_auto_schema(
@@ -293,6 +297,7 @@ async def get_info_free_case(request: HttpRequest, tg_id: str):
         '404': get_response_examples({'error': True, 'info': 'Данные переданы некорректны.'}),
         '404 ': get_response_examples({'error': True, 'info': 'Данного пользователя не существует.'}),
         '404  ': get_response_examples({'error': True, 'info': 'Данного приза не существует.'}),
+        '404   ': get_response_examples({'error': True, 'info': 'У вас недостаточно ключей.'}),
         '200': get_response_examples({'info': 'Бонусы успешно начислены в ваш рюкзак'})
     },
     tags=['Фри кейс'],
@@ -305,37 +310,41 @@ async def add_free_case_bonus(request: HttpRequest):
     prize_id = request.data.get('prize_id')
 
     if tg_id is None or prize_id is None:
-        return JsonResponse({'error': True, 'detail': 'Некорректные данные'})
+        return JsonResponse({'error': True, 'штащ': 'Некорректные данные'})
 
     user = await User.objects.filter(tg_id=tg_id).afirst()
-    my_bag = await My_Bag.objects.filter(user=user).afirst()
-    prize = await Prize.objects.filter(id=prize_id).afirst()
-    prize_name = prize.text
-    prize_number = prize.number
-    if user is None:
-        return JsonResponse({'error': True, 'detail': 'Данного пользователя не существует.'})
+    if user.key_free_case is not None:
+        my_bag = await My_Bag.objects.filter(user=user).afirst()
+        prize = await Prize.objects.filter(id=prize_id).afirst()
+        prize_name = prize.text
+        prize_number = prize.number
+        if user is None:
+            return JsonResponse({'error': True, 'detail': 'Данного пользователя не существует.'})
 
-    if prize is None:
-        return JsonResponse({'error': True, 'detail': 'Данного приза не существует.'})
+        if prize is None:
+            return JsonResponse({'error': True, 'detail': 'Данного приза не существует.'})
 
-    if prize.text == 'Oops':
-        return JsonResponse({'info': 'Повезёт в другой раз'}, status=200)
+        if prize.text == 'Oops':
+            return JsonResponse({'info': 'Повезёт в другой раз'}, status=200)
 
-    prize_exists = False
-    async for item in my_bag.prizes.all():
-        if item == prize:
-            prize_exists = True
-            break
+        prize_exists = False
+        async for item in my_bag.prizes.all():
+            if item == prize:
+                prize_exists = True
+                break
 
-    if not prize_exists:
-        await  my_bag.prizes.aadd(prize)
+        if not prize_exists:
+            await  my_bag.prizes.aadd(prize)
+
+        else:
+            try:
+                next_prize = await find_next_available_prize(prize_name, start_number=prize_number + 1, my_bag=my_bag)
+                await my_bag.prizes.aadd(next_prize)
+            except AttributeError:
+                return JsonResponse({'info': 'Бонусы успешно начислены в ваш рюкзак'}, status=200)
+
+        await my_bag.asave()
+        return JsonResponse({'info': 'Бонусы успешно начислены в ваш рюкзак'}, status=200)
 
     else:
-        try:
-            next_prize = await find_next_available_prize(prize_name, start_number=prize_number + 1, my_bag=my_bag)
-            await my_bag.prizes.aadd(next_prize)
-        except AttributeError:
-            return JsonResponse({'info': 'Бонусы успешно начислены в ваш рюкзак'}, status=200)
-
-    await my_bag.asave()
-    return JsonResponse({'info': 'Бонусы успешно начислены в ваш рюкзак'}, status=200)
+        return JsonResponse({'error': True,'info': 'У вас недостаточно ключей'}, status=404)
