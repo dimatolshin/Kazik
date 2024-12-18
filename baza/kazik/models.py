@@ -52,7 +52,7 @@ class Daly_Bonus(models.Model):
 class Prize(models.Model):
     text = models.CharField(max_length=40, verbose_name='Название')
     number = models.IntegerField(null=True, blank=True, verbose_name='Номер приза (если несколько ваучеров)')
-    picture = models.ForeignKey('Image', related_name='prize', on_delete=models.CASCADE)
+    picture = models.ForeignKey('Image', related_name='prize', on_delete=models.CASCADE, null=True, blank=True)
     picture_without_background = models.ForeignKey('Image', related_name='prizes_without', on_delete=models.CASCADE,
                                                    verbose_name='Картинка без фона', null=True, blank=True)
     promo_code = models.TextField(null=True, blank=True)

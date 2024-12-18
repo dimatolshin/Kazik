@@ -49,8 +49,12 @@ class PrizeAdmin(admin.ModelAdmin):
         super().save_model(request, obj, form, change)
 
         if not change:
-            image_url = obj.picture.picture.url
-            obj.image = image_url
+            try:
+                image_url = obj.picture.picture.url
+                obj.image = image_url
+            except AttributeError:
+                pass
+
             try:
                 image_without_background = obj.picture_without_background.picture.url
                 obj.image_without_background_url = image_without_background
@@ -61,8 +65,14 @@ class PrizeAdmin(admin.ModelAdmin):
             if obj.picture:
                 obj.image = obj.picture.picture.url
 
+            if obj.picture is None:
+                obj.image = None
+
             if obj.picture_without_background:
                 obj.image_without_background_url = obj.picture_without_background.picture.url
+
+            if obj.picture_without_background is None:
+                obj.image_without_background_url = None
 
         obj.save()
 
