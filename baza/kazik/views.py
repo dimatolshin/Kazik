@@ -190,7 +190,7 @@ async def get_info_wheel_of_fortune(request: HttpRequest, tg_id: str):
 
     user = await User.objects.filter(tg_id=tg_id).afirst()
 
-    prizes = [prize async for prize in Prize.objects.filter(wheel_of_fortune=True).order_by('number_of_choice').distinct('text')]
+    prizes = [prize async for prize in Prize.objects.filter(wheel_of_fortune=True).order_by('text','number_of_choice').distinct('text')]
 
     if user is None:
         return JsonResponse({'error': True, 'detail': 'Данного пользователя не существует.'})
@@ -280,7 +280,7 @@ async def get_info_free_case(request: HttpRequest, tg_id: str):
 
     user = await User.objects.filter(tg_id=tg_id).afirst()
 
-    prizes = [prize async for prize in Prize.objects.filter(free_case=True).order_by('number_of_choice').distinct('text')]
+    prizes = [prize async for prize in Prize.objects.filter(free_case=True).order_by('text','number_of_choice').distinct('text')]
 
     if user is None:
         return JsonResponse({'error': True, 'detail': 'Данного пользователя не существует.'})
