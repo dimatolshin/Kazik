@@ -18,7 +18,7 @@ class CategoryAdmin(admin.ModelAdmin):
 @admin.register(Casino)
 class CasinoAdmin(admin.ModelAdmin):
     fields = ['name', 'rating', 'logo', 'banner', 'free_spin', 'dep', 'money', 'url',
-              'promo_code', 'number_of_casino', 'peoples_top', 'numer_offers_of_week','category']
+              'promo_code', 'number_of_casino', 'peoples_top', 'numer_offers_of_week','descriptions','category']
 
     list_display = ['name', 'id', 'number_of_casino', 'peoples_top', 'numer_offers_of_week']
 

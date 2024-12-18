@@ -25,7 +25,7 @@ class Category(models.Model):
 
 class Casino(models.Model):
     name = models.CharField(max_length=50)
-    descriptions = models.CharField(max_length=200, null=True, blank=True)
+    descriptions = models.CharField(max_length=200, null=True, blank=True,verbose_name='Описание')
     rating = models.FloatField()
     logo = models.ForeignKey('Image', related_name='casino_logo', on_delete=models.CASCADE)
     banner = models.ForeignKey('Image', related_name='casino_banner', on_delete=models.CASCADE, null=True,
