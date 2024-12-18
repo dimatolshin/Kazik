@@ -6,14 +6,16 @@ from .models import *
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
     readonly_fields = ['created_at']
-    list_display = ['tg_name', 'last_visit', 'can_get_daly_bonus', 'tg_id', 'utm_label', 'key_wheel_of_fortune',
+    list_display = ['tg_name','id','last_visit', 'can_get_daly_bonus', 'tg_id', 'utm_label', 'key_wheel_of_fortune',
                     'key_free_case']
 
 
 @admin.register(Casino)
 class CasinoAdmin(admin.ModelAdmin):
     fields = ['name', 'rating', 'logo', 'banner', 'free_spin', 'dep', 'money', 'url',
-              'promo_code', 'number_of_casino','peoples_top','numer_offers_of_week']
+              'promo_code', 'number_of_casino', 'peoples_top', 'numer_offers_of_week']
+
+    list_display=['name','id','number_of_casino','peoples_top','numer_offers_of_week']
 
     def save_model(self, request, obj, form, change):
         super().save_model(request, obj, form, change)
@@ -42,8 +44,10 @@ class Daly_Bonus_Admin(admin.ModelAdmin):
 
 @admin.register(Prize)
 class PrizeAdmin(admin.ModelAdmin):
-    fields = ['text', 'number', 'picture', 'picture_without_background', 'promo_code', 'count', 'chance', 'url_product',
-              'wheel_of_fortune', 'free_case']
+    fields = ['text', 'number', 'picture', 'picture_without_background', 'promo_code', 'count', 'chance',
+              'url_product','wheel_of_fortune', 'free_case', 'number_of_choice']
+
+    list_display =['text','id','number','wheel_of_fortune','free_case','number_of_choice']
 
     def save_model(self, request, obj, form, change):
         super().save_model(request, obj, form, change)
@@ -81,9 +85,10 @@ class PrizeAdmin(admin.ModelAdmin):
 class My_Bag_Admin(admin.ModelAdmin):
     pass
 
+
 @admin.register(Banners)
 class Banners_Admin(admin.ModelAdmin):
-    fields = ['name','picture', 'numbers']
+    fields = ['name', 'picture', 'numbers']
 
     def save_model(self, request, obj, form, change):
         super().save_model(request, obj, form, change)
@@ -102,4 +107,4 @@ class Banners_Admin(admin.ModelAdmin):
 
 @admin.register(Image)
 class ImageAdmin(admin.ModelAdmin):
-    pass
+    list_display =['name','id']

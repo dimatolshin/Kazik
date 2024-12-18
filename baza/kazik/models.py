@@ -13,9 +13,6 @@ class User(models.Model):
     key_wheel_of_fortune = models.IntegerField(default=0, verbose_name='Количество ключей "Колесо фортуны"')
     key_free_case = models.IntegerField(default=0, verbose_name='Количество ключей "Бесплатный кейс"')
 
-    def __str__(self):
-        return f"tg_name:{self.tg_name},  tg_id:{self.tg_id},   utm_label:{self.utm_label}"
-
 
 class Casino(models.Model):
     name = models.CharField(max_length=50)
@@ -34,10 +31,6 @@ class Casino(models.Model):
     numer_offers_of_week = models.IntegerField(verbose_name="Нумерация 'Предложение недели' ", null=True, blank=True)
     logo_url = models.URLField(null=True, blank=True, verbose_name='Путь к фото')
     banner_url = models.URLField(null=True, blank=True, verbose_name='Путь к банеру')
-
-    def __str__(self):
-        return (f"name:{self.name},Нумерация 'Топ 10 казино':{self.number_of_casino}, "
-                f"Нумерация 'Топ людей':{self.peoples_top}, Нумерация 'Предложение недели':{self.numer_offers_of_week} ")
 
 
 class Daly_Bonus(models.Model):
@@ -64,9 +57,7 @@ class Prize(models.Model):
     url_product = models.URLField(null=True, blank=True, verbose_name='Юрл для перехода на продукт')
     wheel_of_fortune = models.BooleanField(null=True, blank=True, verbose_name='Приз для колеса фортуны')
     free_case = models.BooleanField(null=True, blank=True, verbose_name='Приз для Бесплатного кейса')
-
-    def __str__(self):
-        return f"name:{self.text},id:{self.pk},колесо фортуны:{self.wheel_of_fortune},бесплатный кейс:{self.free_case}"
+    number_of_choice = models.IntegerField(default=0, verbose_name='Порядок нумерации призов')
 
 
 class My_Bag(models.Model):
@@ -78,10 +69,10 @@ class My_Bag(models.Model):
 
 
 class Banners(models.Model):
-    name=models.CharField(verbose_name='Имя',max_length=100)
-    picture=models.ForeignKey('Image',on_delete=models.CASCADE,related_name='banner')
-    numbers=models.IntegerField(verbose_name='Нумерация')
-    image=models.URLField(null=True,blank=True)
+    name = models.CharField(verbose_name='Имя', max_length=100)
+    picture = models.ForeignKey('Image', on_delete=models.CASCADE, related_name='banner')
+    numbers = models.IntegerField(verbose_name='Нумерация')
+    image = models.URLField(null=True, blank=True)
 
     def __str__(self):
         return f" имя:{self.name}"
@@ -91,5 +82,4 @@ class Image(models.Model):
     name = models.TextField()
     picture = models.ImageField(upload_to='')
 
-    def __str__(self):
-        return f"name:{self.name}"
+
