@@ -12,7 +12,7 @@ function OffersWeek() {
   const casino = useSelector(getCasino);
   return (
     <div className={style.box}>
-      <h2 className={style.title}>Offers of the week</h2>
+      <h2 className={style.title}>Предложения недели</h2>
       {!casino?.offers_of_week ? (
         <div>Loader...</div>
       ) : (

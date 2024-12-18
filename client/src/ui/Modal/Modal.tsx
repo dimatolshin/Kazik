@@ -14,6 +14,7 @@ interface ModalProps {
   hiddenClose?: boolean;
   isSpecial?: boolean;
   closeBtn?: boolean;
+  classNameContent?: string;
 }
 
 function Modal(props: ModalProps) {
@@ -25,6 +26,7 @@ function Modal(props: ModalProps) {
     isSpecial = false,
     hiddenClose = false,
     closeBtn = false,
+    classNameContent = ''
   } = props;
 
   const [isClosing, setIsClosing] = useState(false);
@@ -90,7 +92,7 @@ function Modal(props: ModalProps) {
     <Portal>
       <div className={classNames(style.modal, mods, ["app_modal"])}>
         <div className={style.overlay} onClick={closeHandler}>
-          <div className={style.content} onClick={onContentClick}>
+          <div className={classNames(style.content,{}, [classNameContent])} onClick={onContentClick}>
             {hiddenClose && (
               <Button
                 kind="secondary"

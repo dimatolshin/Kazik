@@ -14,7 +14,7 @@ function HeaderSearch() {
         <div className={style.boxSvg}>
           <SearchSvg className={style.svgSearch} />
         </div>
-        <input placeholder="Casino, games, bonuses" className={style.input} type="text" />
+        <input placeholder="Казино, игры, бонусы" className={style.input} type="text" />
       </div>
       <div className={style.boxSetting}>
         <div className={style.boxAvatar}>

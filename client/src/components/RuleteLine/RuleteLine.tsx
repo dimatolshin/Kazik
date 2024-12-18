@@ -14,6 +14,10 @@ import { useMutation } from "@tanstack/react-query";
 import { queryClient } from "../../api/queryClient";
 import { addFreeCase } from "../../api/RouletBonus";
 import { useTelegram } from "../../providers/telegram/telegram";
+import { useDispatch, useSelector } from "react-redux";
+import { getSpinsCase } from "../../providers/StoreProvider/selectors/getCase";
+import { freeCaseActions } from "../../providers/StoreProvider/slice/freeCaseSlice";
+import toast from "react-hot-toast";
 
 interface RuleteLineProps {
   arrPrize: FreeCaseType[];
@@ -26,8 +30,16 @@ function RuleteLine({ arrPrize, onCloseModal }: RuleteLineProps) {
   const [winningPrize, setWinningPrize] = useState<FreeCaseType>();
   const [prizeIndex, setPrizeIndex] = useState(0);
   const [disBtn, setDisBtn] = useState(false);
-  const [spinsValue, setSpinsValue] = useState(5);
+  const spins = useSelector(getSpinsCase)
+  const [spinsValue, setSpinsValue] = useState<number>(0);
   const [modalPrize, setModalPrize] = useState(false);
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    if(spins) {
+      setSpinsValue(spins.key_free_case)
+    }
+  }, [spins?.key_free_case])
 
   const reproducedPrizeList = useMemo(
     () => [
@@ -62,7 +74,7 @@ function RuleteLine({ arrPrize, onCloseModal }: RuleteLineProps) {
       setPrizeIndex(prizeIndex);
       setDisBtn(true);
       setStart(false);
-      setSpinsValue((prev) => prev - 1);
+      dispatch(freeCaseActions.minusSpins())
       setTimeout(() => {
         setWinningPrize(undefined);
         setStart(true);
@@ -86,6 +98,10 @@ function RuleteLine({ arrPrize, onCloseModal }: RuleteLineProps) {
         addFreeCase(data.tg_id, data.id),
       onSuccess: () => {
         setModalPrize(true);
+      },
+      onError: () => {
+        toast.error('Ошибка, ваши вращения восстановлены')
+        dispatch(freeCaseActions.plusSpins())
       }
     },
     queryClient

@@ -1,0 +1,141 @@
+.boxBtn {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 50px;
+
+  .btn {
+    color: var(--white);
+    padding: 13px 27px;
+    margin-bottom: 7px;
+  }
+
+  .descrSpins {
+    font-weight: 400;
+    font-size: 10px;
+    color: var(--text-top);
+  }
+}
+
+.box {
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  width: 100%;
+}
+
+.deal_wheel {
+  --size: clamp(370px, 80vmin, 571px);
+  --lg-hs: 0 3%;
+  --lg-stop: 50%;
+  --lg: linear-gradient(
+    hsl(var(--lg-hs) 0%) 0 var(--lg-stop),
+    hsl(var(--lg-hs) 20%) var(--lg-stop) 100%
+  );
+  position: relative;
+  display: grid;
+  align-items: center;
+  grid-template-areas:
+    "spinner"
+    "trigger";
+  font-size: calc(var(--size) / 21);
+  transform: rotate(90deg);
+
+  .centreImg {
+    width: 85px;
+    height: 85px;
+    position: absolute;
+    z-index: 100;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-90deg);
+  }
+}
+
+.deal_wheel > * {
+  grid-area: spinner;
+}
+
+/* сектор колеса */
+.spinner {
+  position: relative;
+  display: grid;
+  align-items: center;
+  grid-template-areas: "spinner";
+  width: var(--size);
+  height: var(--size);
+  transform: rotate(calc(var(--rotate, 25) * 1deg));
+  border-radius: 50%;
+}
+
+.spinner * {
+  grid-area: spinner;
+}
+
+/* текст на секторах */
+.prize {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 0 calc(var(--size) / 6) 0 calc(var(--size) / 30);
+  /* устанавливаем размеры */
+  width: 50%;
+  height: 50%;
+  /* устанавливаем координаты, относительно которых будем вращать текст */
+  transform-origin: center right;
+  /* поворачиваем текст */
+  transform: rotate(var(--rotate));
+  /* запрещаем пользователю выделять мышкой текст на секторах */
+  user-select: none;
+}
+
+.pointer {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: -5px;
+  z-index: 20;
+
+  .topArrow {
+    transform: rotate(-90deg);
+  }
+}
+
+/* анимация вращения */
+.is_spinning .spinner {
+  transition: transform 8s cubic-bezier(0.1, -0.01, 0, 1);
+}
+
+.svg {
+  transform: rotate(293deg);
+  width: 90%;
+  height: 90%;
+}
+
+.boxPrize {
+  position: absolute;
+  width: 90px;
+  height: 56px;
+  transform: rotate(273deg) translate(-1%, 1%);
+  left: 6%;
+  top: 28%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  .img {
+    width: 60px;
+    height: 46px;
+    margin-bottom: 7px;
+  }
+
+  .descr {
+    text-align: center;
+    max-width: 40px;
+    color: white;
+    font-weight: 600;
+    font-size: 8px;
+  }
+}

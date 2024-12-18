@@ -6,10 +6,11 @@ import { Button } from "../../ui/Button";
 import { useSelector } from "react-redux";
 import { getCasino } from "../../providers/StoreProvider/selectors/getCasino";
 import { CasinoCardType } from "../../types/CasinoType";
+import { useTelegram } from "../../providers/telegram/telegram";
 
 function PeopleTop() {
-  const casino = useSelector(getCasino);
-
+  const casino = useSelector(getCasino);  
+  const {tg} = useTelegram()
   const chunkArray = (array: CasinoCardType[], chunkSize: number) => {
     const result = [];
     for (let i = 0; i < array.length; i += chunkSize) {
@@ -18,12 +19,16 @@ function PeopleTop() {
     return result;
   };
 
+  const swapLink = (link: string) => {
+    tg.openLink(link, {try_instant_view: true})
+  }
+
   const twoDimensionalArr = casino?.peoples_top
     ? chunkArray(casino.peoples_top, 3)
     : [];
   return (
     <div className={style.box}>
-      <h2 className={style.title}>People's Top</h2>
+      <h2 className={style.title}>Полуряное</h2>
       {twoDimensionalArr.length === 0 ? (
         <div>Loading...</div>
       ) : (
@@ -68,9 +73,9 @@ function PeopleTop() {
                       </div>
                     </div>
                   </div>
-                  <a className={style.link} href={item.url} target="_blank">
-                    <Button className={style.btn}>Play</Button>
-                  </a>
+                  {/* <a className={style.link} href={item.url} target="_blank"> */}
+                    <Button onClick={()=> swapLink(item.url)} className={style.btn}>Играть</Button>
+                  {/* </a> */}
                 </div>
               ))}
             </SwiperSlide>

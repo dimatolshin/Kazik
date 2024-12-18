@@ -47,10 +47,12 @@ function TopCasino({ title, arr }: TopCasinoProps) {
                 />
                 <div className={style.boxName}>
                   <h3 className={style.title}>{item.name}</h3>
-                  <p className={style.descr}>Текст от заказчика</p>
+                  {(item.dep && item.free_spin) && (
+                    <p className={style.descr}>{item.dep}% {item.free_spin}FS</p>
+                  )}
                 </div>
                 <a href={item.url} target="_blank">
-                  <Button className={style.btn}>Play</Button>
+                  <Button className={style.btn}>Играть</Button>
                 </a>
               </div>
             </SwiperSlide>

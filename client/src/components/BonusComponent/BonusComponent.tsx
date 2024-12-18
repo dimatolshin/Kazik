@@ -8,10 +8,13 @@ import { useState } from "react";
 import FreeCase from "../FreeCase/FreeCase";
 import { useSelector } from "react-redux";
 import { getCase } from "../../providers/StoreProvider/selectors/getCase";
+import FortuneBox from "../FortuneBox/FortuneBox";
 
 function BonusComponent() {
   const arrCase = useSelector(getCase);
+
   const [freeCases, setFreeCase] = useState(false);
+  const [wheelFortune, setWheelFortune] = useState(false);
 
   const hanldeFreeCaseOpen = () => {
     setFreeCase(true);
@@ -20,32 +23,45 @@ function BonusComponent() {
     setFreeCase(false);
   };
 
+  const hanldeWheelFortuneOpen = () => {
+    setWheelFortune(true);
+  };
+  const hanldeWheelFortuneClose = () => {
+    setWheelFortune(false);
+  };
+
   return (
     <>
       <div className={style.box}>
         <div style={{ marginBottom: "7px" }} className={style.boxBonus}>
-          <span className={style.span}>Reward!</span>
+          <span className={style.span}>Награды!</span>
           <img className={style.img} src={dailyImg} alt="" />
           <div className={style.daily}>
             <BonusDailySvg className={style.svg} />
             <p className={style.descrDaily}>
-              Daily <br /> bonus
+              Ежедневнный <br /> бонус
             </p>
           </div>
         </div>
         <div className={style.boxBonusTwo}>
-          <div className={`${style.boxBonusMin} ${style.boxBonus}`}>
-            <span className={style.span}>Available</span>
+          <div
+            onClick={hanldeWheelFortuneOpen}
+            className={`${style.boxBonusMin} ${style.boxBonus}`}
+          >
+            <span className={style.span}>Достуное!</span>
             <img src={wheelImg} alt="" />
             <p className={style.descr}>
-              Wheel <br /> of Fortune
+              Колесо <br /> фортуны
             </p>
           </div>
-          <div onClick={hanldeFreeCaseOpen} className={`${style.boxBonusMin} ${style.boxBonus}`}>
-            <span className={style.span}>Gift!</span>
+          <div
+            onClick={hanldeFreeCaseOpen}
+            className={`${style.boxBonusMin} ${style.boxBonus}`}
+          >
+            <span className={style.span}>Подарки!</span>
             <img src={caseImg} alt="" />
             <p className={style.descr}>
-              Free <br /> case
+              Бесплатные <br /> подарки
             </p>
           </div>
         </div>
@@ -54,6 +70,15 @@ function BonusComponent() {
         {arrCase && (
           <FreeCase onCloseModal={hanldeFreeCaseClose} arrCase={arrCase} />
         )}
+      </Modal>
+      <Modal
+        isOpen={wheelFortune}
+        onClose={hanldeWheelFortuneClose}
+        lazy
+        hiddenClose
+        classNameContent={style.contentBg}
+      >
+        <FortuneBox />
       </Modal>
     </>
   );

@@ -9,9 +9,10 @@ import { useTelegram } from "../../providers/telegram/telegram";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { casinoActions } from "../../providers/StoreProvider/slice/casinoSlice";
-import { freeCase } from "../../api/RouletBonus";
+import { freeCase, wheelFortyne } from "../../api/RouletBonus";
 import { freeCaseActions } from "../../providers/StoreProvider/slice/freeCaseSlice";
 import { Toaster } from 'react-hot-toast';
+import { wheelFortyneActions } from "../../providers/StoreProvider/slice/wheelFortyneSlice";
 
 function Layout() {
   const {tg_id, userName} = useTelegram()
@@ -39,9 +40,25 @@ function Layout() {
   );
   useEffect(() => {
     if (freeCaseQuery.data) {
-      dispatch(freeCaseActions.addData(freeCaseQuery.data))
+      dispatch(freeCaseActions.addData(freeCaseQuery.data.prizes))
+      dispatch(freeCaseActions.addSpins(freeCaseQuery.data.user))
     }
   }, [freeCaseQuery.data]);
+
+  const whellFortyneQuery = useQuery(
+    {
+      queryKey: ["wheelFortyne"],
+      queryFn: () => wheelFortyne(tg_id),
+      enabled: !!tg_id
+    },
+    queryClient
+  );
+  useEffect(() => {
+    if (whellFortyneQuery.data) {
+      dispatch(wheelFortyneActions.addData(whellFortyneQuery.data.prizes))
+      dispatch(wheelFortyneActions.addSpins(whellFortyneQuery.data.user))
+    }
+  }, [whellFortyneQuery.data]);
 
   return (
     <div className={style.app}>

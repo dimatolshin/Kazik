@@ -61,6 +61,8 @@
           left: 50%;
           top: 22%;
           transform: translateX(-50%);
+          outline: 1px solid var(--white);
+          border-radius: 10px;
         }
   
         .boxName {

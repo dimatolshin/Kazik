@@ -15,7 +15,7 @@ function Casino() {
       <PeopleTop />
       <BonusComponent />
       <OffersWeek />
-      <TopCasino title={"TOP-10 Online casino"} arr={casino ? casino.top_10_casino : []} />
+      <TopCasino title={"ТОП-10 Онлайн казино"} arr={casino ? casino.top_10_casino : []} />
     </div>
   );
 }

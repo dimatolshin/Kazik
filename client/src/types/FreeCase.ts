@@ -9,6 +9,11 @@ export interface FreeCaseType {
     chance: number;
 }
 
+export interface FreeCaseSpinsType {
+    key_free_case: number
+}
+
 export interface FreeCaseScheme {
     case?: FreeCaseType[]
+    user?: FreeCaseSpinsType
 }

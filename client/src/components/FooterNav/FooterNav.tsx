@@ -8,25 +8,25 @@ import PokerSvg from "../../assets/svg/PokerSvg/PokerSvg";
 const nav = [
   {
     id: "1",
-    title: "Casino",
+    title: "Казино",
     path: "/",
     img: <CasionoSvg className={style.svg} />,
   },
   {
     id: "2",
-    title: "Betting",
+    title: "Ставки",
     path: "/betting",
     img: <BettingSvg className={style.svg} />,
   },
   {
     id: "3",
-    title: "Poker",
+    title: "Покер",
     path: "/poker",
     img: <PokerSvg className={style.svgPoker} />,
   },
   {
     id: "4",
-    title: "Profile",
+    title: "Профиль",
     path: "/provile",
     img: <ProfileSvg className={style.svg} />,
   },

@@ -34,9 +34,12 @@ function InfoItem({ item }: { item: InventoryType }) {
         src={`https://api.zerkalogm.online/${item.image}`}
         alt=""
       />
-      <div onClick={copyToRefLink} className={style.boxCopy}>
+      {item.promo_code !== '' && (
+        <div onClick={copyToRefLink} className={style.boxCopy}>
         <h3 className={style.title}>Click to copy the code</h3>
       </div>
+      )}
+      
       <a target="_blank" className={style.link} href={item.url_product}>
        <Button className={style.btn}>Activate</Button>
       </a>

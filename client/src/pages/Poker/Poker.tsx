@@ -11,16 +11,16 @@ function Poker() {
     <div className={style.poker}>
       <Banner />
       <TopCasino
-        title={"TOP-10 Poker-Room"}
+        title={"ТОП-10 Покерных-комнат"}
         arr={casino ? casino.top_10_casino : []}
       />
       <BonusComponent />
       <TopCasino
-        title={"Exclusive bonuses"}
+        title={"Эксклюзивный бонус"}
         arr={casino ? casino.top_10_casino : []}
       />
       <TopCasino
-        title={"Poker on Telegram"}
+        title={"Крипто казино"}
         arr={casino ? casino.top_10_casino : []}
       />
     </div>
