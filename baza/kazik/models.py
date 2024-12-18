@@ -16,8 +16,9 @@ class User(models.Model):
     def __str__(self):
         return f'tg_name:{self.tg_name}'
 
+
 class Category(models.Model):
-    name=models.CharField(max_length=100)
+    name = models.CharField(max_length=100)
 
     def __str__(self):
         return f'name:{self.name}'
@@ -27,7 +28,8 @@ class Casino(models.Model):
     descriptions = models.CharField(max_length=200, null=True, blank=True)
     rating = models.FloatField()
     logo = models.ForeignKey('Image', related_name='casino_logo', on_delete=models.CASCADE)
-    banner = models.ForeignKey('Image', related_name='casino_banner', on_delete=models.CASCADE, null=True, blank=True)
+    banner = models.ForeignKey('Image', related_name='casino_banner', on_delete=models.CASCADE, null=True,
+                               blank=True)
     free_spin = models.IntegerField(null=True, blank=True)
     dep = models.IntegerField(null=True, blank=True, verbose_name='Процент к депозиту')
     money = models.IntegerField(null=True, blank=True, verbose_name='+ Деньги при пополнении баланса')
@@ -36,13 +38,15 @@ class Casino(models.Model):
     promo_code = models.TextField(null=True, blank=True)
     number_of_casino = models.IntegerField(verbose_name="Нумерация 'Топ 10 казино'", null=True, blank=True)
     peoples_top = models.IntegerField(verbose_name="Нумерация 'Топ людей' ", null=True, blank=True)
-    numer_offers_of_week = models.IntegerField(verbose_name="Нумерация 'Предложение недели' ", null=True, blank=True)
+    numer_offers_of_week = models.IntegerField(verbose_name="Нумерация 'Предложение недели' ", null=True,
+                                               blank=True)
     logo_url = models.URLField(null=True, blank=True, verbose_name='Путь к фото')
     banner_url = models.URLField(null=True, blank=True, verbose_name='Путь к банеру')
-    category=models.ManyToManyField(Category,related_name='casinos',null=True,blank=True)
+    category = models.ManyToManyField(Category, related_name='casinos', null=True, blank=True)
 
     def __str__(self):
         return f'name:{self.name}'
+
 
 class Daly_Bonus(models.Model):
     user = models.ForeignKey(User, related_name='daly_bonus', on_delete=models.CASCADE)
@@ -63,7 +67,7 @@ class Prize(models.Model):
     count = models.IntegerField(null=True, blank=True, verbose_name='количество призов (ключи,деньги)')
     image_without_background_url = models.URLField(null=True, blank=True, verbose_name='Путь к фото без фона')
     image_url = models.URLField(null=True, blank=True, verbose_name='Путь к фото')
-    description=models.CharField(max_length=100,null=True,blank=True)
+    description = models.CharField(max_length=100, null=True, blank=True)
     chance = models.FloatField(default=0, verbose_name='Шанс выпадения приза')
     image = models.URLField(null=True, blank=True, verbose_name='Юрл для перехода на продукт')
     url_product = models.URLField(null=True, blank=True, verbose_name='Юрл для перехода на продукт')
@@ -73,6 +77,7 @@ class Prize(models.Model):
 
     def __str__(self):
         return f'name:{self.text}'
+
 
 class My_Bag(models.Model):
     user = models.OneToOneField(User, related_name='my_bag', on_delete=models.CASCADE)
@@ -98,5 +103,3 @@ class Image(models.Model):
 
     def __str__(self):
         return f'name:{self.name}'
-
-
