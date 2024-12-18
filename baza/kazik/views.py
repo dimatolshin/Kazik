@@ -40,7 +40,8 @@ async def main_page(request: HttpRequest, tg_id: str, tg_name: str):
 
     peoples_top = [item async for item in Casino.objects.all().order_by('peoples_top')]
     top_10_casino = [item async for item in Casino.objects.all().order_by('number_of_casino')][:10]
-    offers_of_week = [item async for item in Casino.objects.all().order_by('numer_offers_of_week')][:10]
+    offers_of_week = [item async for item in Casino.objects.exclude(banner_url__isnull=True).
+    order_by('numer_offers_of_week').all()]
     banners = [item async for item in Banners.objects.all().order_by('name')]
 
     serialized_data = response_serializers.MainPage({
@@ -225,7 +226,7 @@ async def add_wheel_of_fortune_bonus(request: HttpRequest):
         return JsonResponse({'error': True, 'detail': 'Некорректные данные'})
 
     user = await User.objects.filter(tg_id=tg_id).afirst()
-    if user.key_wheel_of_fortune is not None:
+    if user.key_wheel_of_fortune > 0:
         my_bag = await My_Bag.objects.filter(user=user).afirst()
         prize = await Prize.objects.filter(id=prize_id).afirst()
         prize_name = prize.text
@@ -315,7 +316,7 @@ async def add_free_case_bonus(request: HttpRequest):
         return JsonResponse({'error': True, 'штащ': 'Некорректные данные'})
 
     user = await User.objects.filter(tg_id=tg_id).afirst()
-    if user.key_free_case is not None:
+    if user.key_free_case > 0:
         my_bag = await My_Bag.objects.filter(user=user).afirst()
         prize = await Prize.objects.filter(id=prize_id).afirst()
         prize_name = prize.text
@@ -352,3 +353,49 @@ async def add_free_case_bonus(request: HttpRequest):
 
     else:
         return JsonResponse({'error': True, 'info': 'У вас недостаточно ключей'}, status=404)
+
+
+@swagger_auto_schema(
+    methods=['GET'],
+    query_serializer=request_serializers.CustomTokenForAPP,
+    responses={
+        '404': get_response_examples({'error': True, 'info': 'Данные переданы некорректные.'}),
+        '404 ': get_response_examples({'error': True, 'info': 'Данного пользователя не существует.'}),
+        '200': get_response_examples(schema=response_serializers.CategoryCasinos)
+    },
+    tags=['Категории казино'],
+    operation_summary='Отфильтрованный список по категориям ',
+    operation_description='Получение инфы по уникальному идентификатору в Telegram .',
+)
+@api_view(['GET'])
+async def filter_category_list(request: HttpRequest, tg_id: str):
+    if tg_id is None:
+        return JsonResponse({'error': True, 'detail': 'Некорректные данные'})
+
+    user = await User.objects.filter(tg_id=tg_id).afirst()
+
+    if user is None:
+        return JsonResponse({'error': True, 'detail': 'Данного пользователя не существует.'})
+
+    data = []
+
+    casino = [item async for item in Casino.objects.filter(category__name='casino').all().order_by('number_of_casino')]
+    data.append(response_serializers.CategoryCasinos({'title':'casino','items':casino}).data)
+
+    betting = [item async for item in Casino.objects.filter(category__name='betting').all().order_by('number_of_casino')]
+    data.append(response_serializers.CategoryCasinos({'title': 'betting', 'items': betting}).data)
+
+    poker = [item async for item in Casino.objects.filter(category__name='poker').all().order_by('number_of_casino')]
+    data.append(response_serializers.CategoryCasinos({'title': 'poker', 'items': poker}).data)
+
+    telegram = [item async for item in Casino.objects.filter(category__name='telegram').all().order_by('number_of_casino')]
+    data.append(response_serializers.CategoryCasinos({'title': 'telegram', 'items': telegram}).data)
+
+    new = [item async for item in Casino.objects.filter(category__name='new').all().order_by('number_of_casino')]
+    data.append(response_serializers.CategoryCasinos({'title': 'new', 'items': new}).data)
+
+    licenses = [item async for item in Casino.objects.filter(category__name='license').all().order_by('number_of_casino')]
+    data.append(response_serializers.CategoryCasinos({'title': 'license', 'items': licenses}).data)
+
+
+    return JsonResponse(data,safe=False, status=200)

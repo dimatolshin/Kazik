@@ -49,6 +49,7 @@ class PrizeSerializers(serializers.Serializer):
     image_without_background_url = serializers.URLField()
     url_product = serializers.URLField()
     chance = serializers.FloatField()
+    description = serializers.CharField()
 
 
 class MyBagSerializers(serializers.Serializer):
@@ -84,3 +85,8 @@ class DalyBonusSerializer(serializers.Serializer):
 class DalySerializer(serializers.Serializer):
     user = UserDalyBonusSerializer()
     bonus = DalyBonusSerializer()
+
+
+class CategoryCasinos(serializers.Serializer):
+    title=serializers.CharField()
+    items=CasinoMainPageSerializer(many=True)

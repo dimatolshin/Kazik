@@ -13,6 +13,14 @@ class User(models.Model):
     key_wheel_of_fortune = models.IntegerField(default=0, verbose_name='Количество ключей "Колесо фортуны"')
     key_free_case = models.IntegerField(default=0, verbose_name='Количество ключей "Бесплатный кейс"')
 
+    def __str__(self):
+        return f'tg_name:{self.tg_name}'
+
+class Category(models.Model):
+    name=models.CharField(max_length=100)
+
+    def __str__(self):
+        return f'name:{self.name}'
 
 class Casino(models.Model):
     name = models.CharField(max_length=50)
@@ -31,7 +39,10 @@ class Casino(models.Model):
     numer_offers_of_week = models.IntegerField(verbose_name="Нумерация 'Предложение недели' ", null=True, blank=True)
     logo_url = models.URLField(null=True, blank=True, verbose_name='Путь к фото')
     banner_url = models.URLField(null=True, blank=True, verbose_name='Путь к банеру')
+    category=models.ManyToManyField(Category,related_name='casinos',null=True,blank=True)
 
+    def __str__(self):
+        return f'name:{self.name}'
 
 class Daly_Bonus(models.Model):
     user = models.ForeignKey(User, related_name='daly_bonus', on_delete=models.CASCADE)
@@ -52,6 +63,7 @@ class Prize(models.Model):
     count = models.IntegerField(null=True, blank=True, verbose_name='количество призов (ключи,деньги)')
     image_without_background_url = models.URLField(null=True, blank=True, verbose_name='Путь к фото без фона')
     image_url = models.URLField(null=True, blank=True, verbose_name='Путь к фото')
+    description=models.CharField(max_length=100,null=True,blank=True)
     chance = models.FloatField(default=0, verbose_name='Шанс выпадения приза')
     image = models.URLField(null=True, blank=True, verbose_name='Юрл для перехода на продукт')
     url_product = models.URLField(null=True, blank=True, verbose_name='Юрл для перехода на продукт')
@@ -59,6 +71,8 @@ class Prize(models.Model):
     free_case = models.BooleanField(null=True, blank=True, verbose_name='Приз для Бесплатного кейса')
     number_of_choice = models.IntegerField(default=0, verbose_name='Порядок нумерации призов')
 
+    def __str__(self):
+        return f'name:{self.text}'
 
 class My_Bag(models.Model):
     user = models.OneToOneField(User, related_name='my_bag', on_delete=models.CASCADE)
@@ -81,5 +95,8 @@ class Banners(models.Model):
 class Image(models.Model):
     name = models.TextField()
     picture = models.ImageField(upload_to='')
+
+    def __str__(self):
+        return f'name:{self.name}'
 
 

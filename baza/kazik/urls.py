@@ -18,5 +18,6 @@ urlpatterns = [
     path('get_info_free_case/<str:tg_id>/',get_info_free_case),
     path('add_free_case_bonus/',add_free_case_bonus),
 
+    path('filter_category_list/<str:tg_id>/',filter_category_list)
 
 ]
