@@ -1,0 +1,40 @@
+.modal {
+  margin: 0 auto;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  opacity: 0;
+  pointer-events: none;
+  background: var(--black);
+  z-index: -1;
+  overflow-y: scroll;
+
+  .overlay {
+    // display: flex;
+    // align-items: center;
+    // justify-content: center;
+    // width: 100%;
+
+    .content {
+      max-width: 100%;
+      position: relative;
+      background: var(--black);
+      transition: 0.3s transform;
+      transform: scale(1);
+      height: 100svh;
+      padding: 15px;
+    }
+  }
+}
+
+.open {
+  pointer-events: auto;
+  opacity: 1;
+  z-index: 999;
+}
+
+.bodyOpen {
+  overflow: hidden;
+}

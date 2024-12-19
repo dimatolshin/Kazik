@@ -1,32 +1,21 @@
 import { ReactNode, useCallback, useEffect, useRef, useState } from "react";
-import style from "./Modal.module.scss";
-import Portal from "../Portal/Portal";
+import style from "./InputModal.module.scss";
 import { classNames } from "../../utils/classNames";
-import { Button } from "../Button";
-import CloseModalSvg from "../../assets/svg/CloseModalSvg/CloseModalSvg";
-import CloseModalSvgBtn from "../../assets/svg/CloseModalSvgBtn/CloseModalSvgBtn";
+import Portal from "../../ui/Portal/Portal";
 
 interface ModalProps {
   children?: ReactNode;
   isOpen?: boolean;
   onClose?: () => void;
   lazy?: boolean;
-  hiddenClose?: boolean;
-  isSpecial?: boolean;
-  closeBtn?: boolean;
-  classNameContent?: string;
 }
 
-function Modal(props: ModalProps) {
+function InputModal(props: ModalProps) {
   const {
     children,
     isOpen,
     onClose,
     lazy,
-    isSpecial = false,
-    hiddenClose = false,
-    closeBtn = false,
-    classNameContent = "",
   } = props;
 
   const [isClosing, setIsClosing] = useState(false);
@@ -95,7 +84,6 @@ function Modal(props: ModalProps) {
   const mods: Record<string, boolean | undefined> = {
     [style.open]: isOpen,
     [style.close]: isClosing,
-    [style.special]: isSpecial,
   };
 
   return (
@@ -103,31 +91,10 @@ function Modal(props: ModalProps) {
       <div className={classNames(style.modal, mods, ["app_modal"])}>
         <div className={style.overlay} onClick={closeHandler}>
           <div
-            className={classNames(style.content, {}, [classNameContent])}
+            className={style.content}
             onClick={onContentClick}
           >
-            {hiddenClose && (
-              <Button
-                kind="secondary"
-                onClick={closeHandler}
-                className={style.closeCross}
-              >
-                <CloseModalSvg />
-              </Button>
-            )}
             {children}
-            {isSpecial && closeBtn && (
-              <div className={style.boxBtnClose}>
-                <Button
-                  onClick={closeHandler}
-                  kind="secondary"
-                  className={style.btnCloseSpecial}
-                >
-                  <CloseModalSvgBtn className={style.svg} />
-                  <p className={style.descr}>Закрыть</p>
-                </Button>
-              </div>
-            )}
           </div>
         </div>
       </div>
@@ -135,4 +102,4 @@ function Modal(props: ModalProps) {
   );
 }
 
-export default Modal;
+export default InputModal;

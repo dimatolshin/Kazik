@@ -14,3 +14,13 @@ export function allCasino(tg_id: string, tg_name: string) {
     })
     .catch(err => console.log(err));
 };
+
+export function filterCasino(tg_id: string) {
+  return axios
+    .get(`${api_url}/api/filter_category_list/${tg_id}/`)
+    .then((response) => {
+      const data = response.data;
+      return data;
+    })
+    .catch(err => console.log(err));
+};

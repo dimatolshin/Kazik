@@ -22,6 +22,7 @@ export interface CasinoCardType {
     logo_url: string;
     banner_url?: string;
     descriptions?: string;
+    id: number;
 }
 
 export interface CasinoScheme {

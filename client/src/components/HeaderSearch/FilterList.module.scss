@@ -1,0 +1,48 @@
+.list {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 15px;
+
+    .item {
+        margin-bottom: 15px;
+
+        .title {
+            font-weight: 600;
+            font-size: 22px;
+            margin-bottom: 15px;
+        }
+
+        .listCard {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 27px;
+            align-items: center;
+            justify-content: center;
+
+            .itemCard {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                max-width: 97px;
+                max-height: 100px;
+                padding: 0 15px;
+                
+
+                .img {
+                    border: 1px solid #fff;
+                    border-radius: 10px;
+                    max-width: 66px;
+                    max-height: 67px;
+                    margin-bottom: 11px;
+                }
+
+                .descr {
+                    font-weight: 600;
+                    font-size: 15px;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                }
+            }
+        }
+    }
+}

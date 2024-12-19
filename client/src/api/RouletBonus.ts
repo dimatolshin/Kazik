@@ -40,7 +40,7 @@ export function wheelFortyne(tg_id: string) {
 
 export function addWheelBonus(tg_id: string, prize_id: number) {
   return axios
-    .post(`${api_url}/api/add_free_case_bonus/`, {
+    .post(`${api_url}/api/add_wheel_of_fortune_bonus/`, {
       tg_id,
       prize_id,
     })
