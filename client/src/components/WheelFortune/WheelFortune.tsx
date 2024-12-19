@@ -19,10 +19,9 @@ import WheelWinPrize from "../WheelWinPrize/WheelWinPrize";
 
 interface WheelFortuneProps {
   arrWheel: WheelFortyneType[];
-  onClose: () => void
 }
 
-function WheelFortune({ arrWheel, onClose }: WheelFortuneProps) {
+function WheelFortune({ arrWheel }: WheelFortuneProps) {
   const {tg_id, tg} = useTelegram()
   const spinsWheel = useSelector(getSpinsWheel);
   const wheelRef = useRef<HTMLDivElement>(null);
@@ -194,7 +193,7 @@ function WheelFortune({ arrWheel, onClose }: WheelFortuneProps) {
         lazy
       >
         {prizeWin && (
-          <WheelWinPrize onCloseModal={onClose} onClose={handleCloseModal} prize={prizeWin} />
+          <WheelWinPrize onClose={handleCloseModal} prize={prizeWin} />
         )}
       </Modal>
     </>

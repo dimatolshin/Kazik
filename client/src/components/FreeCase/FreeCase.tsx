@@ -5,10 +5,9 @@ import style from "./FreeCase.module.scss";
 
 interface FreeCaseProps {
   arrCase: FreeCaseType[];
-  onCloseModal: () => void
 }
 
-function FreeCase({ arrCase, onCloseModal }: FreeCaseProps) {
+function FreeCase({ arrCase }: FreeCaseProps) {
   return (
     <div className={style.box}>
       <div className={style.boxTitle}>
@@ -16,7 +15,7 @@ function FreeCase({ arrCase, onCloseModal }: FreeCaseProps) {
         <h2 className={style.title}>Бесплатные <br/> подарки</h2>
       </div>
       <div className={style.boxRoulet}>
-        <RuleteLine onCloseModal={onCloseModal} arrPrize={arrCase} />
+        <RuleteLine arrPrize={arrCase} />
       </div>
       <div className={style.boxList}>
         <h3 className={style.titleList}>Список призов:</h3>

@@ -5,6 +5,7 @@ import { classNames } from "../../utils/classNames";
 import { Button } from "../Button";
 import CloseModalSvg from "../../assets/svg/CloseModalSvg/CloseModalSvg";
 import CloseModalSvgBtn from "../../assets/svg/CloseModalSvgBtn/CloseModalSvgBtn";
+import { v4 as uuidv4 } from "uuid";
 
 interface ModalProps {
   children?: ReactNode;
@@ -17,7 +18,9 @@ interface ModalProps {
   classNameContent?: string;
 }
 
-function Modal(props: ModalProps) {
+const modalStack: Array<{ id: string; closeHandler: () => void }> = [];
+
+function ModalSpecial(props: ModalProps) {
   const {
     children,
     isOpen,
@@ -30,10 +33,8 @@ function Modal(props: ModalProps) {
   } = props;
 
   const [isClosing, setIsClosing] = useState(false);
-  const [isMouned, setIsMouned] = useState(false);
-
-  //для первого монтирования если передал lazy
-
+  const [isMounted, setIsMounted] = useState(false);
+  const modalId = useRef(uuidv4()).current;
   const timeRef = useRef<ReturnType<typeof setTimeout>>();
 
   const closeHandler = useCallback(() => {
@@ -42,9 +43,14 @@ function Modal(props: ModalProps) {
       timeRef.current = setTimeout(() => {
         setIsClosing(false);
         onClose();
-        if (window.history.state && window.history.state.modalOpen) {
-          window.history.back();
-        }
+        modalStack.pop();
+        if (
+            modalStack.length === 0 &&
+            window.history.state &&
+            window.history.state.modalId === modalId
+            ) {
+            window.history.back();
+            }
       }, 300);
     }
   }, [onClose]);
@@ -59,9 +65,13 @@ function Modal(props: ModalProps) {
   );
 
   const onPopState = useCallback(() => {
-    closeHandler();
-  }, [closeHandler]);
-
+    if (modalStack.length > 0) {
+      const modal = modalStack.pop();
+      if (modal && modal.closeHandler) {
+        modal.closeHandler();
+      }
+    }
+  }, []);
 
   const onContentClick = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -69,12 +79,16 @@ function Modal(props: ModalProps) {
 
   useEffect(() => {
     if (isOpen) {
-      setIsMouned(true);
-      history.pushState({ modalOpen: true }, "");
+      setIsMounted(true);
+      modalStack.push({ id: modalId, closeHandler });
+      history.pushState({ modalId }, "");
+
       window.addEventListener("keydown", onKeyDown);
       window.addEventListener("popstate", onPopState);
       document.body.classList.add(style.bodyOpen);
     }
+
+    console.log(history);
 
     return () => {
       clearTimeout(timeRef.current);
@@ -82,13 +96,12 @@ function Modal(props: ModalProps) {
       window.removeEventListener("popstate", onPopState);
       document.body.classList.remove(style.bodyOpen);
     };
-  }, [isOpen, onKeyDown]);
+  }, [isOpen, onKeyDown, onPopState, modalId]);
 
-  //для первого монтирования
-
-  if (lazy && !isMouned) {
+  if (lazy && !isMounted) {
     return null;
   }
+
   const mods: Record<string, boolean | undefined> = {
     [style.open]: isOpen,
     [style.close]: isClosing,
@@ -132,4 +145,4 @@ function Modal(props: ModalProps) {
   );
 }
 
-export default Modal;
+export default ModalSpecial;

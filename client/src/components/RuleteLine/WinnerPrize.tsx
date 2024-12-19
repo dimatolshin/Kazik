@@ -6,16 +6,14 @@ import { useTelegram } from "../../providers/telegram/telegram";
 
 interface WinnerPrizeProps {
   onClose: () => void;
-  onCloseModal: () => void;
   prize: FreeCaseType;
   clearPrize: () => void
 }
 
-function WinnerPrize({ onClose, onCloseModal, prize, clearPrize }: WinnerPrizeProps) {
+function WinnerPrize({ onClose, prize, clearPrize }: WinnerPrizeProps) {
   const {tg} = useTelegram()
   const handleClose = () => {
     onClose();
-    onCloseModal();
     clearPrize();
     tg.HapticFeedback.impactOccurred("medium")
   };

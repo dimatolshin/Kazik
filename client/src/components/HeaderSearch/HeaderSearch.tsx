@@ -110,7 +110,7 @@ function HeaderSearch() {
           </Button>
         </div>
       </div>
-      <InputModal isOpen={isActive} lazy>
+      <InputModal isOpen={isActive} lazy onClose={handleClose}>
         <div className={style.searchBlock}>
           <div className={style.boxSearch}>
             <div className={style.boxSvg}>

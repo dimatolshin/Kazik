@@ -7,14 +7,12 @@ import { useTelegram } from "../../providers/telegram/telegram";
 interface WheelWinPrizeProps {
   prize: WheelFortyneType;
   onClose: () => void;
-  onCloseModal: () => void
 }
 
-function WheelWinPrize({ prize, onClose, onCloseModal }: WheelWinPrizeProps) {
+function WheelWinPrize({ prize, onClose }: WheelWinPrizeProps) {
   const {tg} = useTelegram()
   const handleClose = () => {
     onClose()
-    onCloseModal()
     tg.HapticFeedback.impactOccurred("medium")
   }
   

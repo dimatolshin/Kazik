@@ -21,10 +21,9 @@ import toast from "react-hot-toast";
 
 interface RuleteLineProps {
   arrPrize: FreeCaseType[];
-  onCloseModal: () => void;
 }
 
-function RuleteLine({ arrPrize, onCloseModal }: RuleteLineProps) {
+function RuleteLine({ arrPrize }: RuleteLineProps) {
   const {tg_id, tg} = useTelegram()
   const [start, setStart] = useState(false);
   const [winningPrize, setWinningPrize] = useState<FreeCaseType>();
@@ -162,7 +161,6 @@ function RuleteLine({ arrPrize, onCloseModal }: RuleteLineProps) {
         {winningPrize && (
           <WinnerPrize
             prize={winningPrize}
-            onCloseModal={onCloseModal}
             onClose={handleCloseModal}
             clearPrize={clearPrize}
           />

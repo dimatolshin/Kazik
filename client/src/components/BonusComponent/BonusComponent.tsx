@@ -5,38 +5,28 @@ import BonusDailySvg from "../../assets/svg/BonusDailySvg/BonusDailySvg";
 import style from "./BonusComponent.module.scss";
 import Modal from "../../ui/Modal/Modal";
 import { useState } from "react";
-import FreeCase from "../FreeCase/FreeCase";
-import { useSelector } from "react-redux";
-import { getCase } from "../../providers/StoreProvider/selectors/getCase";
-import FortuneBox from "../FortuneBox/FortuneBox";
 import DailyBonus from "../DailyBonus/DailyBonus";
 import { useTelegram } from "../../providers/telegram/telegram";
+import { useNavigate } from "react-router-dom";
 
 function BonusComponent() {
-  const arrCase = useSelector(getCase);
-  const {tg} = useTelegram()
-  const [freeCases, setFreeCase] = useState(false);
-  const [wheelFortune, setWheelFortune] = useState(false);
+  const { tg } = useTelegram();
+
   const [dailyBonus, setDailyBonus] = useState(false);
+  const navigate = useNavigate();
 
   const hanldeFreeCaseOpen = () => {
-    tg.HapticFeedback.impactOccurred("medium")
-    setFreeCase(true);
-  };
-  const hanldeFreeCaseClose = () => {
-    setFreeCase(false);
+    tg.HapticFeedback.impactOccurred("medium");
+    navigate("/case");
   };
 
   const hanldeWheelFortuneOpen = () => {
-    tg.HapticFeedback.impactOccurred("medium")
-    setWheelFortune(true);
-  };
-  const hanldeWheelFortuneClose = () => {
-    setWheelFortune(false);
+    tg.HapticFeedback.impactOccurred("medium");
+    navigate("/wheel");
   };
 
   const hanldeDailyBonusOpen = () => {
-    tg.HapticFeedback.impactOccurred("medium")
+    tg.HapticFeedback.impactOccurred("medium");
     setDailyBonus(true);
   };
   const hanldeDailyBonusClose = () => {
@@ -83,25 +73,6 @@ function BonusComponent() {
           </div>
         </div>
       </div>
-      <Modal 
-        isOpen={freeCases} 
-        onClose={hanldeFreeCaseClose} 
-        lazy 
-        hiddenClose
-      >
-        {arrCase && (
-          <FreeCase onCloseModal={hanldeFreeCaseClose} arrCase={arrCase} />
-        )}
-      </Modal>
-      <Modal
-        isOpen={wheelFortune}
-        onClose={hanldeWheelFortuneClose}
-        lazy
-        hiddenClose
-        classNameContent={style.contentBg}
-      >
-        <FortuneBox onClose={hanldeWheelFortuneClose} />
-      </Modal>
       <Modal
         isOpen={dailyBonus}
         onClose={hanldeDailyBonusClose}

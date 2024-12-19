@@ -4,7 +4,7 @@ import WheelFortune from "../WheelFortune/WheelFortune";
 import { useSelector } from "react-redux";
 import { getWheel } from "../../providers/StoreProvider/selectors/getWheel";
 
-function FortuneBox({onClose}: {onClose: () => void}) {
+function FortuneBox() {
     const arrWheel = useSelector(getWheel)
   return (
     <div className={style.box}>
@@ -13,7 +13,7 @@ function FortuneBox({onClose}: {onClose: () => void}) {
         <h2 className={style.title}>Колесо <br/> фортуны</h2>
       </div>
       {arrWheel && (
-        <WheelFortune onClose={onClose} arrWheel={arrWheel} />
+        <WheelFortune arrWheel={arrWheel} />
       )}
     </div>
   );

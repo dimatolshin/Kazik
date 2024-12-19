@@ -21,14 +21,6 @@ function InputModal(props: ModalProps) {
   const [isClosing, setIsClosing] = useState(false);
   const [isMouned, setIsMouned] = useState(false);
 
-  //для первого монтирования если передал lazy
-  useEffect(() => {
-    if (isOpen) {
-      setIsMouned(true);
-      history.pushState({ modalOpen: true }, "");
-    }
-  }, [isOpen]);
-
   const timeRef = useRef<ReturnType<typeof setTimeout>>();
 
   const closeHandler = useCallback(() => {
@@ -63,6 +55,8 @@ function InputModal(props: ModalProps) {
 
   useEffect(() => {
     if (isOpen) {
+      setIsMouned(true);
+      history.pushState({ modalOpen: true }, "");
       window.addEventListener("keydown", onKeyDown);
       window.addEventListener("popstate", onPopState);
       document.body.classList.add(style.bodyOpen);
