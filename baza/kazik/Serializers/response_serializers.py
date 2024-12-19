@@ -88,6 +88,6 @@ class DalySerializer(serializers.Serializer):
 
 
 class CategoryCasinos(serializers.Serializer):
-    name=serializers.CharField()
+    title=serializers.CharField()
     id=serializers.IntegerField()
     items=CasinoMainPageSerializer(many=True)
