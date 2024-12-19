@@ -55,7 +55,7 @@ async def handle_start(message: types.Message):
     #         InlineKeyboardButton(text=f"{item.name} - {item.descriptions}", web_app=WebAppInfo(url=item.url))
     #     ])
 
-    gif_url = 'https://api.zerkalogm.online/media/casino.gif'
+    gif_url = os.getenv('gif_url')
     await bot.send_animation(
         chat_id=message.chat.id,
         animation=gif_url,
