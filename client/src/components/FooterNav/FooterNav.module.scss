@@ -1,19 +1,18 @@
 .box {
-  background-color: var(--bg-elements);
-  padding: 0 15px;
   width: 100%;
-  padding-bottom: 15px;
-
+  backdrop-filter: blur(5.552794933319092px);
+  background: rgba(24, 28, 40, 0.9);
+  border-radius: 10px;
+  
   .list {
     display: flex;
     justify-content: center;
     width: 100%;
+    padding: 4px;
 
     .link {
-      max-width: 86px;
       padding: 11.54px 0 14.42px 0;
       width: 100%;
-      border-top: 2.88px solid #008e8f;
       border-color: var(--bg-elements);
 
       .item {
@@ -42,8 +41,8 @@
     }
 
     .link.active {
-      border-top: 2.88px solid #008e8f;
-      background-color: rgba(0, 142, 143, 0.2);
+      background: rgba(201, 192, 0, 0.2);
+      border-radius: 10px;
       .item {
         .img {
           .svg path {

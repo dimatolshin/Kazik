@@ -13,13 +13,13 @@ function FreeCase({ arrCase, onCloseModal }: FreeCaseProps) {
     <div className={style.box}>
       <div className={style.boxTitle}>
         <img className={style.imgTitle} src={imgBg} alt="" />
-        <h2 className={style.title}>Free case</h2>
+        <h2 className={style.title}>Бесплатные подарки</h2>
       </div>
       <div className={style.boxRoulet}>
         <RuleteLine onCloseModal={onCloseModal} arrPrize={arrCase} />
       </div>
       <div className={style.boxList}>
-        <h3 className={style.titleList}>Contens of the case:</h3>
+        <h3 className={style.titleList}>Список призов:</h3>
         {arrCase ? (
           <ul className={style.list}>
             {arrCase.map((item) => (

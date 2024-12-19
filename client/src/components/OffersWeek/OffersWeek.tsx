@@ -1,6 +1,6 @@
 import { Button } from "../../ui/Button";
 import style from "./OffersWeek.module.scss";
-import imgBg from "../../assets/png/bgtest.png";
+// import imgBg from "../../assets/png/bgtest.png";
 import ArrowSvg from "../../assets/svg/ArrowSvg/ArrowSvg";
 import StarRatingSvg from "../../assets/svg/StarRatingSvg/StarRatingSvg";
 import "swiper/scss";
@@ -25,8 +25,8 @@ function OffersWeek() {
           {casino.offers_of_week.map((item, index) => (
             <SwiperSlide className={style.slide} key={index}>
               <div className={style.boxSlide}>
-                 {/* <img className={style.img} src={`https://api.zerkalogm.online${item.banner_url}`} alt="" /> */}
-                <img className={style.img} src={imgBg} alt="" />
+                <img className={style.img} src={`https://api.zerkalogm.online${item.banner_url}`} alt="" />
+                {/* <img className={style.img} src={imgBg} alt="" /> */}
                 <div className={style.boxInfoCard}>
                   <div className={style.boxBonus}>
                     <img
@@ -50,11 +50,9 @@ function OffersWeek() {
                       </div>
                     </div>
                   </div>
-                  {/* <a className={style.link} href={item.url} target="_blank"> */}
                     <Button onClick={() => swapLink(item.url)} className={style.btn} kind="secondary">
                       <ArrowSvg />
                     </Button>
-                  {/* </a> */}
                 </div>
               </div>
             </SwiperSlide>

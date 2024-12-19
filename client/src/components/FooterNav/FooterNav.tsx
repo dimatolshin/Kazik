@@ -2,7 +2,6 @@ import { Link, useLocation } from "react-router-dom";
 import style from "./FooterNav.module.scss";
 import CasionoSvg from "../../assets/svg/CasionoSvg/CasionoSvg";
 import BettingSvg from "../../assets/svg/BettingSvg/BettingSvg";
-import ProfileSvg from "../../assets/svg/ProfileSvg/ProfileSvg";
 import PokerSvg from "../../assets/svg/PokerSvg/PokerSvg";
 
 const nav = [
@@ -23,12 +22,6 @@ const nav = [
     title: "Покер",
     path: "/poker",
     img: <PokerSvg className={style.svgPoker} />,
-  },
-  {
-    id: "4",
-    title: "Профиль",
-    path: "/provile",
-    img: <ProfileSvg className={style.svg} />,
   },
 ];
 

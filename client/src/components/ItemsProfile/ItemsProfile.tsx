@@ -50,7 +50,7 @@ function ItemsProfile() {
   return (
     <>
       <div className={style.box}>
-        <h2 className={style.title}>Items</h2>
+        <h2 className={style.title}>Предметы</h2>
         <ul className={style.list}>
           {inventoryItems.map((item) => (
             <li

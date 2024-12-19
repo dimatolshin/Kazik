@@ -52,9 +52,9 @@ function TopCasino({ title, arr }: TopCasinoProps) {
                 />
                 <div className={style.boxName}>
                   <h3 className={style.title}>{item.name}</h3>
-                  {item.dep && item.free_spin && (
+                  {item.descriptions && (
                     <p className={style.descr}>
-                      {item.dep}% {item.free_spin}FS
+                      {item.descriptions}
                     </p>
                   )}
                 </div>

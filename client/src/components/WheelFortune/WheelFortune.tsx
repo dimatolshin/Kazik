@@ -19,9 +19,10 @@ import WheelWinPrize from "../WheelWinPrize/WheelWinPrize";
 
 interface WheelFortuneProps {
   arrWheel: WheelFortyneType[];
+  onClose: () => void
 }
 
-function WheelFortune({ arrWheel }: WheelFortuneProps) {
+function WheelFortune({ arrWheel, onClose }: WheelFortuneProps) {
   const {tg_id} = useTelegram()
   const spinsWheel = useSelector(getSpinsWheel);
   const wheelRef = useRef<HTMLDivElement>(null);
@@ -146,9 +147,9 @@ function WheelFortune({ arrWheel }: WheelFortuneProps) {
           onClick={handleClick}
           isDisabled={isSpinning || spinsValue === 0}
         >
-          Spin wheel
+          Крутить колесо
         </Button>
-        <p className={style.descrSpins}>Spins: {spinsValue}</p>
+        <p className={style.descrSpins}>Вращений: {spinsValue}</p>
       </div>
       <div className={style.box}>
         <div className={style.deal_wheel} ref={wheelRef}>
@@ -168,7 +169,7 @@ function WheelFortune({ arrWheel }: WheelFortuneProps) {
                   <div className={style.boxPrize}>
                     <img
                       className={style.img}
-                      src={`https://api.zerkalogm.online/${prize.image}`}
+                      src={`https://api.zerkalogm.online/${prize.image_without_background_url}`}
                       alt=""
                     />
                     <p className={style.descr}>{prize.text}</p>
@@ -191,7 +192,7 @@ function WheelFortune({ arrWheel }: WheelFortuneProps) {
         lazy
       >
         {prizeWin && (
-          <WheelWinPrize onClose={handleCloseModal} prize={prizeWin} />
+          <WheelWinPrize onCloseModal={onClose} onClose={handleCloseModal} prize={prizeWin} />
         )}
       </Modal>
     </>

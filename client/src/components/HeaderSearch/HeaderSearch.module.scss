@@ -1,66 +1,66 @@
 .box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 15px;
+  width: 100%;
+
+  .boxSearch {
     display: flex;
-    justify-content: space-between;
+    background-color: var(--bg-elements);
+    padding: 13px 14px;
     align-items: center;
-    padding: 0 15px;
+    border-radius: 10px;
+    margin-right: 16px;
     width: 100%;
 
-    .boxSearch {
-        display: flex;
-        background-color: var(--bg-elements);
-        padding: 13px 14px;
-        align-items: center;
+    .boxSvg {
+      display: flex;
+      margin-right: 10px;
+    }
+
+    .input {
+      background-color: var(--bg-elements);
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--text-input);
+      width: 100%;
+    }
+  }
+
+  .boxSetting {
+    display: flex;
+    align-items: center;
+    background-color: var(--bg-elements);
+    border-radius: 10px;
+    padding: 3px;
+    height: 46px;
+    width: 88px;
+
+    .boxAvatar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      margin-right: 12px;
+      padding: 0;
+
+      .imgAvatar {
         border-radius: 10px;
-        margin-right: 16px;
+      }
+
+      .svg {
         width: 100%;
-
-        .boxSvg {
-            display: flex;
-            margin-right: 10px;
-        }
-
-        .input {
-            background-color: var(--bg-elements);
-            font-weight: 600;
-            font-size: 14px;
-            color: var(--text-input);
-            width: 100%;
-            
-        }
+        height: 100%;
+      }
     }
 
-    .boxSetting {
-        display: flex;
-        align-items: center;
-        background-color: var(--bg-elements);
-        border-radius: 10px;
-        padding: 3px;
-        height: 46px;
-        max-width: 88px;
-
-        .boxAvatar {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            margin-right: 12px;
-
-            .imgAvatar {
-                border-radius: 10px;
-            }
-
-            .svg {
-                width: 100%;
-                height: 100%;
-            }
-        }
-
-        .btnSetting {
-            background-color: var(--bg-elements);
-            display: flex;
-            padding: 0;
-            padding-right: 10px;
-        }
+    .btnSetting {
+      background-color: var(--bg-elements);
+      display: flex;
+      padding: 0;
+      padding-right: 10px;
     }
+  }
 }

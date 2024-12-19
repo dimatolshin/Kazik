@@ -21,6 +21,7 @@ export interface CasinoCardType {
     promo_code: string;
     logo_url: string;
     banner_url?: string;
+    descriptions?: string;
 }
 
 export interface CasinoScheme {

@@ -25,7 +25,7 @@ export function addFreeCase(tg_id: string, prize_id: number) {
       const data = response.data;
       return data;
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {throw new Error(err.info)});
 };
 
 export function wheelFortyne(tg_id: string) {
@@ -48,5 +48,5 @@ export function addWheelBonus(tg_id: string, prize_id: number) {
       const data = response.data;
       return data;
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {throw new Error(err.info)});
 };

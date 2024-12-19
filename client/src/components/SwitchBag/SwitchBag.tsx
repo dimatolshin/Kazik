@@ -4,6 +4,7 @@ import SwitchBagOption from "../SwitchBagOption/SwitchBagOption";
 import SwitchBox from "../SwitchBagOption/SwitchBox";
 import ItemsProfile from "../ItemsProfile/ItemsProfile";
 import TasksProfile from "../TasksProfile/TasksProfile";
+import LockSvg from "../../assets/svg/LockSvg/LockSvg";
 
 type BagType = "infentory" | "tasks";
 
@@ -15,16 +16,18 @@ function SwitchBag() {
       <div className={style.switchBag}>
         <SwitchBox>
           <SwitchBagOption
-            title="Inventory"
+            title="Инвентарь"
             isActive={bagType === "infentory"}
             onClick={() => setBagType("infentory")}
             className={style.infentory}
           />
           <SwitchBagOption
-            title="Tasks"
+            title="Задания"
             isActive={bagType === "tasks"}
             onClick={() => setBagType("tasks")}
             className={style.task}
+            isDisabled={true}
+            img={<LockSvg className={style.lockSvg} />}
           />
         </SwitchBox>
       </div>

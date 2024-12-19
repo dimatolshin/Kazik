@@ -6,9 +6,16 @@ import style from "./WheelWinPrize.module.scss";
 interface WheelWinPrizeProps {
   prize: WheelFortyneType;
   onClose: () => void;
+  onCloseModal: () => void
 }
 
-function WheelWinPrize({ prize, onClose }: WheelWinPrizeProps) {
+function WheelWinPrize({ prize, onClose, onCloseModal }: WheelWinPrizeProps) {
+  
+  const handleClose = () => {
+    onClose()
+    onCloseModal()
+  }
+  
   return (
     <div className={style.boxModalWinner}>
       <h2 className={style.titleWinner}>Поздравляем!</h2>
@@ -16,19 +23,14 @@ function WheelWinPrize({ prize, onClose }: WheelWinPrizeProps) {
         Ваш выйгрыш находится в личном кабинете
       </p>
       {prize && (
-        // <img
-        //   className={style.imgWinner}
-        //   src={`https://api.zerkalogm.online${prize.image_without_background_url}`}
-        //   alt=""
-        // />
         <img
           className={style.imgWinner}
-          src={`https://api.zerkalogm.online${prize.image}`}
+          src={`https://api.zerkalogm.online${prize.image_without_background_url}`}
           alt=""
         />
       )}
       <Link to={"/provile"}>
-        <Button onClick={onClose} className={style.btnWinner}>
+        <Button onClick={handleClose} className={style.btnWinner}>
           Перейти в профиль
         </Button>
       </Link>

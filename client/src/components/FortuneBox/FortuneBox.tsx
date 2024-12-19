@@ -4,16 +4,16 @@ import WheelFortune from "../WheelFortune/WheelFortune";
 import { useSelector } from "react-redux";
 import { getWheel } from "../../providers/StoreProvider/selectors/getWheel";
 
-function FortuneBox() {
+function FortuneBox({onClose}: {onClose: () => void}) {
     const arrWheel = useSelector(getWheel)
   return (
     <div className={style.box}>
       <div className={style.boxTitle}>
         <img className={style.imgTitle} src={imgBg} alt="" />
-        <h2 className={style.title}>Free case</h2>
+        <h2 className={style.title}>Колесо фортуны</h2>
       </div>
       {arrWheel && (
-        <WheelFortune arrWheel={arrWheel} />
+        <WheelFortune onClose={onClose} arrWheel={arrWheel} />
       )}
     </div>
   );

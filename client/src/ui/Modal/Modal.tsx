@@ -107,7 +107,7 @@ function Modal(props: ModalProps) {
               <div className={style.boxBtnClose}>
                 <Button onClick={closeHandler} kind="secondary" className={style.btnCloseSpecial}>
                   <CloseModalSvgBtn className={style.svg} />
-                  <p className={style.descr}>Close</p>
+                  <p className={style.descr}>Закрыть</p>
                 </Button>
               </div>
             )}

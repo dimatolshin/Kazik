@@ -24,14 +24,9 @@ function WinnerPrize({ onClose, onCloseModal, prize, clearPrize }: WinnerPrizePr
         Ваш выйгрыш находится в личном кабинете
       </p>
       {prize && (
-        // <img
-        //   className={style.imgWinner}
-        //   src={`https://api.zerkalogm.online${prize.image_without_background_url}`}
-        //   alt=""
-        // />
         <img
           className={style.imgWinner}
-          src={`https://api.zerkalogm.online${prize.image}`}
+          src={`https://api.zerkalogm.online${prize.image_without_background_url}`}
           alt=""
         />
       )}

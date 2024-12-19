@@ -48,7 +48,7 @@ function BonusComponent() {
             onClick={hanldeWheelFortuneOpen}
             className={`${style.boxBonusMin} ${style.boxBonus}`}
           >
-            <span className={style.span}>Достуное!</span>
+            <span className={style.span}>Достуно!</span>
             <img src={wheelImg} alt="" />
             <p className={style.descr}>
               Колесо <br /> фортуны
@@ -78,7 +78,7 @@ function BonusComponent() {
         hiddenClose
         classNameContent={style.contentBg}
       >
-        <FortuneBox />
+        <FortuneBox onClose={hanldeWheelFortuneClose} />
       </Modal>
     </>
   );

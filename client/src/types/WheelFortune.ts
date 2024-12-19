@@ -7,6 +7,7 @@ export interface WheelFortyneType {
     image_without_background_url: string;
     url_product: string;
     chance: number;
+    description: string;
 }
 
 export interface WheelFortyneSpinsType {

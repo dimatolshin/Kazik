@@ -147,9 +147,9 @@ function RuleteLine({ arrPrize, onCloseModal }: RuleteLineProps) {
           className={style.btn}
           onClick={handleStart}
         >
-          Open for free
+          Открыть бесплатно
         </Button>
-        <p className={style.descr}>Spins left: {spinsValue}</p>
+        <p className={style.descr}>Вращения: {spinsValue}</p>
       </div>
       <Modal
         closeBtn

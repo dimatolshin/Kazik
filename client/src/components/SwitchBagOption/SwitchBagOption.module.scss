@@ -9,8 +9,13 @@
     margin: 0;
     border: none;
     padding: 13px 0;
+    display: flex;
+    justify-content: center;
 
     &[data-active='true'] {
       background-color: var(--bg-switcher);
+    }
+    &:disabled {
+      opacity: 0.5;
     }
 }
