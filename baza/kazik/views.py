@@ -4,9 +4,7 @@ from .Serializers import request_serializers, response_serializers
 from adrf.decorators import api_view
 from django.http import HttpRequest
 from .models import *
-from django.db import IntegrityError
 from drf_yasg.utils import swagger_auto_schema
-from asgiref.sync import sync_to_async
 from django.db.models import Subquery, OuterRef
 
 from .services import find_next_available_prize
@@ -53,6 +51,25 @@ async def main_page(request: HttpRequest, tg_id: str, tg_name: str):
         'offers_of_week': offers_of_week
 
     }).data
+
+    today = date.today()
+    bonus = await Daly_Bonus.objects.filter(user=user).afirst()
+
+    if today > user.last_visit:
+        user.can_get_daly_bonus = True
+        if user.last_visit < today - timedelta(days=1):
+            bonus.day = 1
+            bonus.count_prizes = 1
+
+        user.last_visit = today
+
+        if bonus.day == 8:
+            bonus.day = 1
+        if bonus.count_prizes >= 5:
+            bonus.count_prizes = 5
+
+    await bonus.asave()
+    await user.asave()
     return JsonResponse(serialized_data, status=200)
 
 
@@ -143,25 +160,12 @@ async def add_daly_pize_into_user(request: HttpRequest):
     if bonus is None:
         return JsonResponse({'error': True, 'detail': 'Данного пользователя не существует.'})
 
-    if user.can_get_daly_bonus == False:
+    if user.can_get_daly_bonus == True:
+        bonus.day += 1
+        bonus.count_prizes += 1
+
+    else:
         return JsonResponse({'error': True, 'detail': 'Вы уже получали бонусы сегодня'})
-
-    today = date.today()
-
-    if today > user.last_visit:
-        if user.last_visit < today - timedelta(days=1):
-            bonus.day = 1
-            bonus.count_prizes = 1
-            user.can_get_daly_bonus = True
-        if user.last_visit == today - timedelta(days=1):
-            bonus.day += 1
-            bonus.count_prizes += 1
-            user.can_get_daly_bonus = True
-            user.last_visit = today
-            if bonus.day == 8:
-                bonus.day = 1
-            if bonus.count_prizes >= 5:
-                bonus.count_prizes = 5
 
     user.key_wheel_of_fortune += bonus.count_prizes
     user.can_get_daly_bonus = False
@@ -191,21 +195,16 @@ async def get_info_wheel_of_fortune(request: HttpRequest, tg_id: str):
 
     user = await User.objects.filter(tg_id=tg_id).afirst()
 
-
     subquery = Prize.objects.filter(
         text=OuterRef('text'),
         wheel_of_fortune=True
     ).order_by('number_of_choice').values('pk')[:1]
 
-
     unique_prizes = Prize.objects.filter(
         pk__in=Subquery(subquery)
     ).order_by('number_of_choice')
 
-    # Асинхронный запрос
     prizes = [prize async for prize in unique_prizes]
-
-
 
     if user is None:
         return JsonResponse({'error': True, 'detail': 'Данного пользователя не существует.'})
@@ -306,7 +305,6 @@ async def get_info_free_case(request: HttpRequest, tg_id: str):
 
     prizes = [prize async for prize in unique_prizes]
 
-
     if user is None:
         return JsonResponse({'error': True, 'detail': 'Данного пользователя не существует.'})
 
@@ -405,22 +403,24 @@ async def filter_category_list(request: HttpRequest, tg_id: str):
     data = []
 
     casino = [item async for item in Casino.objects.filter(category__name='casino').all().order_by('number_of_casino')]
-    data.append(response_serializers.CategoryCasinos({'title':'casino','items':casino}).data)
+    data.append(response_serializers.CategoryCasinos({'title': 'casino', 'items': casino}).data)
 
-    betting = [item async for item in Casino.objects.filter(category__name='betting').all().order_by('number_of_casino')]
+    betting = [item async for item in
+               Casino.objects.filter(category__name='betting').all().order_by('number_of_casino')]
     data.append(response_serializers.CategoryCasinos({'title': 'betting', 'items': betting}).data)
 
     poker = [item async for item in Casino.objects.filter(category__name='poker').all().order_by('number_of_casino')]
     data.append(response_serializers.CategoryCasinos({'title': 'poker', 'items': poker}).data)
 
-    telegram = [item async for item in Casino.objects.filter(category__name='telegram').all().order_by('number_of_casino')]
+    telegram = [item async for item in
+                Casino.objects.filter(category__name='telegram').all().order_by('number_of_casino')]
     data.append(response_serializers.CategoryCasinos({'title': 'telegram', 'items': telegram}).data)
 
     new = [item async for item in Casino.objects.filter(category__name='new').all().order_by('number_of_casino')]
     data.append(response_serializers.CategoryCasinos({'title': 'new', 'items': new}).data)
 
-    licenses = [item async for item in Casino.objects.filter(category__name='license').all().order_by('number_of_casino')]
+    licenses = [item async for item in
+                Casino.objects.filter(category__name='license').all().order_by('number_of_casino')]
     data.append(response_serializers.CategoryCasinos({'title': 'license', 'items': licenses}).data)
 
-
-    return JsonResponse(data,safe=False, status=200)
+    return JsonResponse(data, safe=False, status=200)
