@@ -11,7 +11,7 @@ class User(models.Model):
     tg_id = models.CharField(max_length=100)
     utm_label = models.CharField(null=True, blank=True)
     key_wheel_of_fortune = models.IntegerField(default=0, verbose_name='Количество ключей "Колесо фортуны"')
-    key_free_case = models.IntegerField(default=0, verbose_name='Количество ключей "Бесплатный кейс"')
+    key_free_case = models.IntegerField(default=1, verbose_name='Количество ключей "Бесплатный кейс"')
 
     def __str__(self):
         return f'tg_name:{self.tg_name}'
@@ -50,8 +50,8 @@ class Casino(models.Model):
 
 class Daly_Bonus(models.Model):
     user = models.ForeignKey(User, related_name='daly_bonus', on_delete=models.CASCADE)
-    day = models.IntegerField(default=0, verbose_name='Количество ежедневных входов')
-    count_prizes = models.IntegerField(default=0)
+    day = models.IntegerField(default=1, verbose_name='Количество ежедневных входов')
+    count_prizes = models.IntegerField(default=1)
 
     def __str__(self):
         return f"tg_name:{self.user.tg_name},   day:{self.day}"
