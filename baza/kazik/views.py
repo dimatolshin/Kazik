@@ -167,7 +167,7 @@ async def add_daly_pize_into_user(request: HttpRequest):
     else:
         return JsonResponse({'error': True, 'detail': 'Вы уже получали бонусы сегодня'})
 
-    user.key_wheel_of_fortune += bonus.count_prizes
+    user.key_free_case += bonus.count_prizes
     user.can_get_daly_bonus = False
 
     await user.asave()
@@ -403,24 +403,24 @@ async def filter_category_list(request: HttpRequest, tg_id: str):
     data = []
 
     casino = [item async for item in Casino.objects.filter(category__name='casino').all().order_by('number_of_casino')]
-    data.append(response_serializers.CategoryCasinos({'title': 'casino', 'items': casino}).data)
+    data.append(response_serializers.CategoryCasinos({'title': 'Казино', 'items': casino}).data)
 
     betting = [item async for item in
                Casino.objects.filter(category__name='betting').all().order_by('number_of_casino')]
-    data.append(response_serializers.CategoryCasinos({'title': 'betting', 'items': betting}).data)
+    data.append(response_serializers.CategoryCasinos({'title': 'Ставки', 'items': betting}).data)
 
     poker = [item async for item in Casino.objects.filter(category__name='poker').all().order_by('number_of_casino')]
-    data.append(response_serializers.CategoryCasinos({'title': 'poker', 'items': poker}).data)
+    data.append(response_serializers.CategoryCasinos({'title': 'Покер', 'items': poker}).data)
 
     telegram = [item async for item in
                 Casino.objects.filter(category__name='telegram').all().order_by('number_of_casino')]
-    data.append(response_serializers.CategoryCasinos({'title': 'telegram', 'items': telegram}).data)
+    data.append(response_serializers.CategoryCasinos({'title': 'Телеграм', 'items': telegram}).data)
 
     new = [item async for item in Casino.objects.filter(category__name='new').all().order_by('number_of_casino')]
-    data.append(response_serializers.CategoryCasinos({'title': 'new', 'items': new}).data)
+    data.append(response_serializers.CategoryCasinos({'title': 'Новые', 'items': new}).data)
 
     licenses = [item async for item in
                 Casino.objects.filter(category__name='license').all().order_by('number_of_casino')]
-    data.append(response_serializers.CategoryCasinos({'title': 'license', 'items': licenses}).data)
+    data.append(response_serializers.CategoryCasinos({'title': 'Лицензионные', 'items': licenses}).data)
 
     return JsonResponse(data, safe=False, status=200)
