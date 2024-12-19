@@ -3,6 +3,7 @@ import style from "./FooterNav.module.scss";
 import CasionoSvg from "../../assets/svg/CasionoSvg/CasionoSvg";
 import BettingSvg from "../../assets/svg/BettingSvg/BettingSvg";
 import PokerSvg from "../../assets/svg/PokerSvg/PokerSvg";
+import { useTelegram } from "../../providers/telegram/telegram";
 
 const nav = [
   {
@@ -27,6 +28,7 @@ const nav = [
 
 function FooterNav() {
   const location = useLocation();
+  const {tg} = useTelegram()
   return (
     <div className={style.box}>
       <ul className={style.list}>
@@ -38,7 +40,7 @@ function FooterNav() {
               location.pathname === item.path && style.active
             }`}
           >
-            <li className={style.item}>
+            <li onClick={() => tg.HapticFeedback.impactOccurred("medium")} className={style.item}>
               <div className={style.img}>{item.img}</div>
               <p className={style.descr}>{item.title}</p>
             </li>

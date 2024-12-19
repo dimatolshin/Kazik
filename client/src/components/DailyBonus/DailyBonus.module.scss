@@ -1,0 +1,150 @@
+.box {
+  width: 100%;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+
+  .boxTitle {
+    position: relative;
+    margin-bottom: 40px;
+
+    .imgTitle {
+      width: 100%;
+    }
+
+    .title {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      left: 15px;
+      font-weight: 700;
+      font-size: 31px;
+      line-height: 120%;
+    }
+  }
+
+  .list {
+    margin-bottom: 40px;
+    display: flex;
+    gap: 5.6px;
+
+    .item {
+      position: relative;
+
+      .boxInfo {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        .titleInfo {
+          font-weight: 700;
+          font-size: 26px;
+          line-height: 120%;
+          color: rgba(246, 244, 249, 0.6);
+        }
+
+        .descrInfo {
+          font-weight: 600;
+          font-size: 8px;
+          margin-bottom: 4px;
+        }
+
+        .boxImg {
+          position: relative;
+
+          .imgPrize {
+            max-width: 34px;
+            max-height: 34px;
+          }
+
+          .countInfo {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            font-weight: 600;
+            font-size: 8px;
+            text-align: center;
+          }
+
+          .svg {
+            max-width: 34px;
+            max-height: 34px;
+          } 
+        }
+      }
+    }
+  }
+
+  .boxMesseg {
+    width: 100%;
+    background-color: var(--bg-elements);
+    display: flex;
+    padding: 11px 10px;
+    border-radius: 10px;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 40px;
+
+    .descrMesseg {
+        font-weight: 600;
+        font-size: 14px;
+    }
+  }
+
+  .infoDay {
+    width: 100%;
+    background-color: var(--bg-elements);
+    border-radius: 10px;
+    padding: 15px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-bottom: 3px solid #c9c000;
+
+    .boxTitle {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+
+
+      .titleNumber {
+        font-weight: 700;
+        font-size: 50px;
+        line-height: 120%;
+        margin-right: 10px;
+      }
+
+      .titleDay {
+        font-weight: 600;
+        font-size: 31px;
+      }
+    }
+    
+
+    .boxImgDay {
+      position: relative;
+      margin-bottom: 40px;
+
+
+
+      .spanDay {
+        position: absolute;
+        bottom: 0;
+        right: -10px;
+      }
+    }
+
+    .btn {
+      font-weight: 700;
+      font-size: 16px;
+      line-height: 128%;
+      color: var(--white);
+      padding: 10px 39px;
+    }
+  }
+}

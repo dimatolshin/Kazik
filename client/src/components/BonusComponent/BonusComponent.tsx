@@ -9,12 +9,13 @@ import FreeCase from "../FreeCase/FreeCase";
 import { useSelector } from "react-redux";
 import { getCase } from "../../providers/StoreProvider/selectors/getCase";
 import FortuneBox from "../FortuneBox/FortuneBox";
+import DailyBonus from "../DailyBonus/DailyBonus";
 
 function BonusComponent() {
   const arrCase = useSelector(getCase);
-
   const [freeCases, setFreeCase] = useState(false);
   const [wheelFortune, setWheelFortune] = useState(false);
+  const [dailyBonus, setDailyBonus] = useState(false);
 
   const hanldeFreeCaseOpen = () => {
     setFreeCase(true);
@@ -30,10 +31,21 @@ function BonusComponent() {
     setWheelFortune(false);
   };
 
+  const hanldeDailyBonusOpen = () => {
+    setDailyBonus(true);
+  };
+  const hanldeDailyBonusClose = () => {
+    setDailyBonus(false);
+  };
+
   return (
     <>
       <div className={style.box}>
-        <div style={{ marginBottom: "7px" }} className={style.boxBonus}>
+        <div
+          onClick={hanldeDailyBonusOpen}
+          style={{ marginBottom: "7px" }}
+          className={style.boxBonus}
+        >
           <span className={style.span}>Награды!</span>
           <img className={style.img} src={dailyImg} alt="" />
           <div className={style.daily}>
@@ -66,7 +78,12 @@ function BonusComponent() {
           </div>
         </div>
       </div>
-      <Modal isOpen={freeCases} onClose={hanldeFreeCaseClose} lazy hiddenClose>
+      <Modal 
+        isOpen={freeCases} 
+        onClose={hanldeFreeCaseClose} 
+        lazy 
+        hiddenClose
+      >
         {arrCase && (
           <FreeCase onCloseModal={hanldeFreeCaseClose} arrCase={arrCase} />
         )}
@@ -79,6 +96,14 @@ function BonusComponent() {
         classNameContent={style.contentBg}
       >
         <FortuneBox onClose={hanldeWheelFortuneClose} />
+      </Modal>
+      <Modal
+        isOpen={dailyBonus}
+        onClose={hanldeDailyBonusClose}
+        lazy
+        hiddenClose
+      >
+        <DailyBonus />
       </Modal>
     </>
   );

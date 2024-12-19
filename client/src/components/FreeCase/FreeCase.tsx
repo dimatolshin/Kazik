@@ -13,7 +13,7 @@ function FreeCase({ arrCase, onCloseModal }: FreeCaseProps) {
     <div className={style.box}>
       <div className={style.boxTitle}>
         <img className={style.imgTitle} src={imgBg} alt="" />
-        <h2 className={style.title}>Бесплатные подарки</h2>
+        <h2 className={style.title}>Бесплатные <br/> подарки</h2>
       </div>
       <div className={style.boxRoulet}>
         <RuleteLine onCloseModal={onCloseModal} arrPrize={arrCase} />

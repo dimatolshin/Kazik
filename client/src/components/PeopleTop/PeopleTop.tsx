@@ -9,8 +9,8 @@ import { CasinoCardType } from "../../types/CasinoType";
 import { useTelegram } from "../../providers/telegram/telegram";
 
 function PeopleTop() {
-  const casino = useSelector(getCasino);  
-  const {tg} = useTelegram()
+  const casino = useSelector(getCasino);
+  const { tg } = useTelegram();
   const chunkArray = (array: CasinoCardType[], chunkSize: number) => {
     const result = [];
     for (let i = 0; i < array.length; i += chunkSize) {
@@ -20,8 +20,8 @@ function PeopleTop() {
   };
 
   const swapLink = (link: string) => {
-    tg.openLink(link, {try_instant_view: true})
-  }
+    tg.openLink(link, { try_instant_view: true });
+  };
 
   const twoDimensionalArr = casino?.peoples_top
     ? chunkArray(casino.peoples_top, 3)
@@ -32,7 +32,12 @@ function PeopleTop() {
       {twoDimensionalArr.length === 0 ? (
         <div>Loading...</div>
       ) : (
-        <Swiper spaceBetween={7} slidesPerView={1.1} className={style.swiper}>
+        <Swiper
+          onSlideChange={() => tg.HapticFeedback.impactOccurred("medium")}
+          spaceBetween={7}
+          slidesPerView={1.1}
+          className={style.swiper}
+        >
           {twoDimensionalArr.map((gtoup, groupIndex) => (
             <SwiperSlide className={style.slide} key={groupIndex}>
               {gtoup.map((item, index) => (
@@ -74,7 +79,12 @@ function PeopleTop() {
                     </div>
                   </div>
                   {/* <a className={style.link} href={item.url} target="_blank"> */}
-                    <Button onClick={()=> swapLink(item.url)} className={style.btn}>Играть</Button>
+                  <Button
+                    onClick={() => swapLink(item.url)}
+                    className={style.btn}
+                  >
+                    Играть
+                  </Button>
                   {/* </a> */}
                 </div>
               ))}

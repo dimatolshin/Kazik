@@ -10,7 +10,7 @@ function FortuneBox({onClose}: {onClose: () => void}) {
     <div className={style.box}>
       <div className={style.boxTitle}>
         <img className={style.imgTitle} src={imgBg} alt="" />
-        <h2 className={style.title}>Колесо фортуны</h2>
+        <h2 className={style.title}>Колесо <br/> фортуны</h2>
       </div>
       {arrWheel && (
         <WheelFortune onClose={onClose} arrWheel={arrWheel} />

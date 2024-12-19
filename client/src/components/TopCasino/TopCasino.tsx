@@ -26,7 +26,12 @@ function TopCasino({ title, arr }: TopCasinoProps) {
       {arr.length === 0 ? (
         <div>Loading...</div>
       ) : (
-        <Swiper spaceBetween={7} slidesPerView={2.4} className={style.boxCard}>
+        <Swiper
+          onSlideChange={() => tg.HapticFeedback.impactOccurred("medium")}
+          spaceBetween={7}
+          slidesPerView={2.4}
+          className={style.boxCard}
+        >
           {arr.map((item, index) => (
             <SwiperSlide className={style.slide} key={index}>
               <div className={style.boxSlide}>
@@ -53,19 +58,15 @@ function TopCasino({ title, arr }: TopCasinoProps) {
                 <div className={style.boxName}>
                   <h3 className={style.title}>{item.name}</h3>
                   {item.descriptions && (
-                    <p className={style.descr}>
-                      {item.descriptions}
-                    </p>
+                    <p className={style.descr}>{item.descriptions}</p>
                   )}
                 </div>
-                {/* <a href={item.url} target="_blank"> */}
                 <Button
                   onClick={() => swapLink(item.url)}
                   className={style.btn}
                 >
                   Играть
                 </Button>
-                {/* </a> */}
               </div>
             </SwiperSlide>
           ))}

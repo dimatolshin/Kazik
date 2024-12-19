@@ -9,10 +9,11 @@ import { useTelegram } from "../../providers/telegram/telegram";
 import { useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { casinoActions } from "../../providers/StoreProvider/slice/casinoSlice";
-import { freeCase, wheelFortyne } from "../../api/RouletBonus";
+import { dailyBonus, freeCase, wheelFortyne } from "../../api/RouletBonus";
 import { freeCaseActions } from "../../providers/StoreProvider/slice/freeCaseSlice";
 import { Toaster } from "react-hot-toast";
 import { wheelFortyneActions } from "../../providers/StoreProvider/slice/wheelFortyneSlice";
+import { dailyBonusActions } from "../../providers/StoreProvider/slice/dailyBonusSlice";
 
 function Layout() {
   const { tg_id, userName } = useTelegram();
@@ -64,6 +65,21 @@ function Layout() {
       dispatch(wheelFortyneActions.addSpins(whellFortyneQuery.data.user));
     }
   }, [whellFortyneQuery.data]);
+
+  const dailyBonusQuery = useQuery(
+    {
+      queryKey: ["dailyBonus"],
+      queryFn: () => dailyBonus(tg_id),
+      enabled: !!tg_id,
+    },
+    queryClient
+  );
+  useEffect(() => {
+    if (dailyBonusQuery.data) {
+      dispatch(dailyBonusActions.addData(dailyBonusQuery.data.bonus));
+      dispatch(dailyBonusActions.activeBtn(dailyBonusQuery.data.user));
+    }
+  }, [dailyBonusQuery.data]);
 
   useEffect(() => {
     

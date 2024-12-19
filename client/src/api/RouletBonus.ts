@@ -50,3 +50,25 @@ export function addWheelBonus(tg_id: string, prize_id: number) {
     })
     .catch((err) => {throw new Error(err.info)});
 };
+
+export function dailyBonus(tg_id: string) {
+  return axios
+    .get(`${api_url}/api/get_info_daly_bonus/${tg_id}/`)
+    .then((response) => {
+      const data = response.data;
+      return data;
+    })
+    .catch((err) => console.log(err));
+}
+
+export function addDailyBonus(tg_id: string) {
+  return axios
+    .post(`${api_url}/api/get_daly_bonus/`, {
+      tg_id,
+    })
+    .then((response) => {
+      const data = response.data;
+      return data;
+    })
+    .catch((err) => {throw new Error(err.info)});
+};

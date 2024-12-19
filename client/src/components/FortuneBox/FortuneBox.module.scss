@@ -15,9 +15,12 @@
 
     .title {
       position: absolute;
-      top: 50%;
+      top: 54%;
       transform: translateY(-50%);
       left: 30px;
+      font-weight: 700;
+      font-size: 31px;
+      line-height: 120%;
     }
   }
 }
