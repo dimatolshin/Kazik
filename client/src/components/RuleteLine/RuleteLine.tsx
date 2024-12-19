@@ -25,7 +25,7 @@ interface RuleteLineProps {
 }
 
 function RuleteLine({ arrPrize, onCloseModal }: RuleteLineProps) {
-  const {tg_id} = useTelegram()
+  const {tg_id, tg} = useTelegram()
   const [start, setStart] = useState(false);
   const [winningPrize, setWinningPrize] = useState<FreeCaseType>();
   const [prizeIndex, setPrizeIndex] = useState(0);
@@ -65,6 +65,7 @@ function RuleteLine({ arrPrize, onCloseModal }: RuleteLineProps) {
   );
 
   const handleStart = () => {
+    tg.HapticFeedback.impactOccurred("medium")
     if (spinsValue !== 0) {
       const selectedPrize = getRandomPrize(arrPrize);
       const selectedIndex = arrPrize.findIndex(

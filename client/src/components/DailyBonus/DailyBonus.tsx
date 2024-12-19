@@ -114,7 +114,7 @@ function DailyBonus() {
             <img className={style.imgDay} src={img} alt="" />
             <span className={style.spanDay}>x{dayInfo.count}</span>
           </div>
-          <Button isLoading={mutateDailyBonus.isPending} onClick={handleBonus} className={style.btn} isDisabled={currentDay !== dayInfo.day || !isActive}>
+          <Button onClick={handleBonus} className={style.btn} isDisabled={currentDay !== dayInfo.day || !isActive || mutateDailyBonus.isPending}>
             Забрать награду
           </Button>
         </div>

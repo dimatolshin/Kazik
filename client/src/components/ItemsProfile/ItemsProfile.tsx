@@ -14,7 +14,7 @@ const ITEMS_COUNT = 12;
 const MIN_EMPTY_SLOTS = 3;
 
 function ItemsProfile() {
-  const { tg_id } = useTelegram();
+  const { tg_id, tg } = useTelegram();
   const [data, setData] = useState();
   const [isOpen, setIsOpen] = useState(false);
   const [infoItems, setInfoItems] = useState<InventoryType>();
@@ -37,12 +37,14 @@ function ItemsProfile() {
     : [];
 
   const handleOpen = (id: string | number) => {
+    tg.HapticFeedback.impactOccurred("medium")
     setIsOpen(true);
     const items = inventoryItems.find((item) => item.id === id);
     setInfoItems(items);
   };
 
   const handleClose = () => {
+    tg.HapticFeedback.impactOccurred("medium")
     setIsOpen(false);
     setInfoItems(undefined);
   };

@@ -6,6 +6,7 @@ import { useTelegram } from "../../providers/telegram/telegram";
 function Banner() {
   const { tg } = useTelegram();
   const swapLink = (link: string) => {
+    tg.HapticFeedback.impactOccurred("medium")
     tg.openLink(link, { try_instant_view: true });
   };
   return (

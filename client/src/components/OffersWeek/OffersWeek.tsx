@@ -13,6 +13,7 @@ function OffersWeek() {
   const casino = useSelector(getCasino);
   const { tg } = useTelegram();
   const swapLink = (link: string) => {
+    tg.HapticFeedback.impactOccurred("medium")
     tg.openLink(link, { try_instant_view: true });
   };
   return (
@@ -29,13 +30,12 @@ function OffersWeek() {
         >
           {casino.offers_of_week.map((item, index) => (
             <SwiperSlide className={style.slide} key={index}>
-              <div className={style.boxSlide}>
+              <div onClick={() => swapLink(item.url)} className={style.boxSlide}>
                 <img
                   className={style.img}
                   src={`https://api.zerkalogm.online${item.banner_url}`}
                   alt=""
                 />
-                {/* <img className={style.img} src={imgBg} alt="" /> */}
                 <div className={style.boxInfoCard}>
                   <div className={style.boxBonus}>
                     <img
@@ -60,11 +60,10 @@ function OffersWeek() {
                     </div>
                   </div>
                   <Button
-                    onClick={() => swapLink(item.url)}
                     className={style.btn}
                     kind="secondary"
                   >
-                    <ArrowSvg />
+                    <ArrowSvg className={style.svg} />
                   </Button>
                 </div>
               </div>

@@ -23,7 +23,7 @@ interface WheelFortuneProps {
 }
 
 function WheelFortune({ arrWheel, onClose }: WheelFortuneProps) {
-  const {tg_id} = useTelegram()
+  const {tg_id, tg} = useTelegram()
   const spinsWheel = useSelector(getSpinsWheel);
   const wheelRef = useRef<HTMLDivElement>(null);
   const spinnerRef = useRef<HTMLUListElement>(null);
@@ -84,6 +84,7 @@ function WheelFortune({ arrWheel, onClose }: WheelFortuneProps) {
         addWheelBonus(data.tg_id, data.id),
       onSuccess: () => {
         setIsOpen(true);
+        toast.success('Ваш приз в сумке')
       },
       onError: () => {
         toast.error('Ошибка, ваши вращения восстановлены')
@@ -100,6 +101,7 @@ function WheelFortune({ arrWheel, onClose }: WheelFortuneProps) {
   }, [prizeWin]);
 
   const handleClick = () => {
+    tg.HapticFeedback.impactOccurred("medium")
     if (!isSpinning) {
       setIsSpinning(true);
       const { selectedPrize, stopAngle } = selectPrize();

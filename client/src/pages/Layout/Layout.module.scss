@@ -1,6 +1,6 @@
 .app {
     height: 100svh;
-    padding-top: 15px;
+    padding-top: 95px;
     overflow: hidden;
 
     .header {
@@ -16,8 +16,6 @@
     }
 
     .main {
-        padding: 70px 0px 0px 0px;
-        // height: ;
         height: calc(100% - 1em);
         overflow: hidden auto;
     }

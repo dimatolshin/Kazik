@@ -8,6 +8,7 @@ import style from "./HeaderSearch.module.scss";
 
 function HeaderSearch() {
   const { photo } = useTelegram();
+  const {tg} = useTelegram()
   return (
     <div className={style.box}>
       <div className={style.boxSearch}>
@@ -20,7 +21,7 @@ function HeaderSearch() {
           type="text"
         />
       </div>
-      <div className={style.boxSetting}>
+      <div onClick={() => tg.HapticFeedback.impactOccurred("medium")} className={style.boxSetting}>
         <Link to={"/provile"} className={style.boxAvatar}>
           {photo ? (
             <img className={style.imgAvatar} src={photo} alt="" />

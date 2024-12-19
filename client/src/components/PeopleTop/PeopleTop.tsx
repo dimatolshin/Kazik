@@ -20,6 +20,7 @@ function PeopleTop() {
   };
 
   const swapLink = (link: string) => {
+    tg.HapticFeedback.impactOccurred("medium")
     tg.openLink(link, { try_instant_view: true });
   };
 

@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { WheelFortyneType } from "../../types/WheelFortune";
 import { Button } from "../../ui/Button";
 import style from "./WheelWinPrize.module.scss";
+import { useTelegram } from "../../providers/telegram/telegram";
 
 interface WheelWinPrizeProps {
   prize: WheelFortyneType;
@@ -10,10 +11,11 @@ interface WheelWinPrizeProps {
 }
 
 function WheelWinPrize({ prize, onClose, onCloseModal }: WheelWinPrizeProps) {
-  
+  const {tg} = useTelegram()
   const handleClose = () => {
     onClose()
     onCloseModal()
+    tg.HapticFeedback.impactOccurred("medium")
   }
   
   return (

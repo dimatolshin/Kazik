@@ -92,9 +92,9 @@ function Layout() {
         if (footerRef.current) {
           if (scrollTop === 0) {
             footerRef.current.classList.remove(style.visible);
-          } else if (scrollTop < scrollHeight - clientHeight) {
+          } else if (scrollTop < scrollHeight - clientHeight - 10) {
             footerRef.current.classList.add(style.visible);
-          } else if (scrollTop >= scrollHeight - clientHeight) {
+          } else if (scrollTop < scrollHeight - clientHeight) {
             footerRef.current.classList.remove(style.visible);
           }
         }

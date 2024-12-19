@@ -10,14 +10,17 @@ import { useSelector } from "react-redux";
 import { getCase } from "../../providers/StoreProvider/selectors/getCase";
 import FortuneBox from "../FortuneBox/FortuneBox";
 import DailyBonus from "../DailyBonus/DailyBonus";
+import { useTelegram } from "../../providers/telegram/telegram";
 
 function BonusComponent() {
   const arrCase = useSelector(getCase);
+  const {tg} = useTelegram()
   const [freeCases, setFreeCase] = useState(false);
   const [wheelFortune, setWheelFortune] = useState(false);
   const [dailyBonus, setDailyBonus] = useState(false);
 
   const hanldeFreeCaseOpen = () => {
+    tg.HapticFeedback.impactOccurred("medium")
     setFreeCase(true);
   };
   const hanldeFreeCaseClose = () => {
@@ -25,6 +28,7 @@ function BonusComponent() {
   };
 
   const hanldeWheelFortuneOpen = () => {
+    tg.HapticFeedback.impactOccurred("medium")
     setWheelFortune(true);
   };
   const hanldeWheelFortuneClose = () => {
@@ -32,6 +36,7 @@ function BonusComponent() {
   };
 
   const hanldeDailyBonusOpen = () => {
+    tg.HapticFeedback.impactOccurred("medium")
     setDailyBonus(true);
   };
   const hanldeDailyBonusClose = () => {

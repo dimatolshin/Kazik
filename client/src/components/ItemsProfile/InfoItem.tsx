@@ -13,9 +13,11 @@ const styles = {
 function InfoItem({ item }: { item: InventoryType }) {
   const { tg } = useTelegram();
   const swapLink = (link: string | undefined) => {
+    tg.HapticFeedback.impactOccurred("medium")
     tg.openLink(link, { try_instant_view: true });
   };
   const copyToRefLink = async () => {
+    tg.HapticFeedback.impactOccurred("medium")
     try {
       if (item.promo_code) {
         await navigator.clipboard.writeText(item.promo_code);
