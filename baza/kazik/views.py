@@ -7,6 +7,7 @@ from .models import *
 from django.db import IntegrityError
 from drf_yasg.utils import swagger_auto_schema
 from asgiref.sync import sync_to_async
+from django.db.models import Subquery, OuterRef
 
 from .services import find_next_available_prize
 from .my_example import get_response_examples
@@ -190,7 +191,21 @@ async def get_info_wheel_of_fortune(request: HttpRequest, tg_id: str):
 
     user = await User.objects.filter(tg_id=tg_id).afirst()
 
-    prizes = [prize async for prize in Prize.objects.filter(wheel_of_fortune=True).order_by('text').distinct('text')]
+
+    subquery = Prize.objects.filter(
+        text=OuterRef('text'),
+        wheel_of_fortune=True
+    ).order_by('number_of_choice').values('pk')[:1]
+
+
+    unique_prizes = Prize.objects.filter(
+        pk__in=Subquery(subquery)
+    ).order_by('number_of_choice')
+
+    # Асинхронный запрос
+    prizes = [prize async for prize in unique_prizes]
+
+
 
     if user is None:
         return JsonResponse({'error': True, 'detail': 'Данного пользователя не существует.'})
@@ -280,7 +295,17 @@ async def get_info_free_case(request: HttpRequest, tg_id: str):
 
     user = await User.objects.filter(tg_id=tg_id).afirst()
 
-    prizes = [prize async for prize in Prize.objects.filter(free_case=True).order_by('text').distinct('text')]
+    subquery = Prize.objects.filter(
+        text=OuterRef('text'),
+        free_case=True
+    ).order_by('number_of_choice').values('pk')[:1]
+
+    unique_prizes = Prize.objects.filter(
+        pk__in=Subquery(subquery)
+    ).order_by('number_of_choice')
+
+    prizes = [prize async for prize in unique_prizes]
+
 
     if user is None:
         return JsonResponse({'error': True, 'detail': 'Данного пользователя не существует.'})

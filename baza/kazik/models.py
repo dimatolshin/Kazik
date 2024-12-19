@@ -25,7 +25,7 @@ class Category(models.Model):
 
 class Casino(models.Model):
     name = models.CharField(max_length=50)
-    descriptions = models.CharField(max_length=200, null=True, blank=True)
+    descriptions = models.CharField(max_length=200, null=True, blank=True,verbose_name='Описание')
     rating = models.FloatField()
     logo = models.ForeignKey('Image', related_name='casino_logo', on_delete=models.CASCADE)
     banner = models.ForeignKey('Image', related_name='casino_banner', on_delete=models.CASCADE, null=True,
@@ -73,7 +73,7 @@ class Prize(models.Model):
     url_product = models.URLField(null=True, blank=True, verbose_name='Юрл для перехода на продукт')
     wheel_of_fortune = models.BooleanField(null=True, blank=True, verbose_name='Приз для колеса фортуны')
     free_case = models.BooleanField(null=True, blank=True, verbose_name='Приз для Бесплатного кейса')
-    number_of_choice = models.IntegerField(default=0, verbose_name='Порядок нумерации призов')
+    number_of_choice = models.IntegerField(default=100, verbose_name='Порядок нумерации призов')
 
     def __str__(self):
         return f'name:{self.text}'
