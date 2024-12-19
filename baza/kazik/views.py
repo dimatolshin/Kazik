@@ -403,21 +403,21 @@ async def filter_category_list(request: HttpRequest, tg_id: str):
     data = []
 
     casino = [item async for item in Casino.objects.filter(category__name='casino').all().order_by('number_of_casino')]
-    data.append(response_serializers.CategoryCasinos({'title': 'Казино', 'items': casino}).data)
+    data.append(response_serializers.CategoryCasinos({'title': 'Казино','id':1, 'items': casino}).data)
 
     betting = [item async for item in
                Casino.objects.filter(category__name='betting').all().order_by('number_of_casino')]
-    data.append(response_serializers.CategoryCasinos({'title': 'Ставки', 'items': betting}).data)
+    data.append(response_serializers.CategoryCasinos({'title': 'Ставки','id':2, 'items': betting}).data)
 
     poker = [item async for item in Casino.objects.filter(category__name='poker').all().order_by('number_of_casino')]
-    data.append(response_serializers.CategoryCasinos({'title': 'Покер', 'items': poker}).data)
+    data.append(response_serializers.CategoryCasinos({'title': 'Покер','id':3, 'items': poker}).data)
 
     telegram = [item async for item in
                 Casino.objects.filter(category__name='telegram').all().order_by('number_of_casino')]
-    data.append(response_serializers.CategoryCasinos({'title': 'Телеграм', 'items': telegram}).data)
+    data.append(response_serializers.CategoryCasinos({'title': 'Телеграм','id':4, 'items': telegram}).data)
 
     new = [item async for item in Casino.objects.filter(category__name='new').all().order_by('number_of_casino')]
-    data.append(response_serializers.CategoryCasinos({'title': 'Новые', 'items': new}).data)
+    data.append(response_serializers.CategoryCasinos({'title': 'Новые','id':5, 'items': new}).data)
 
     licenses = [item async for item in
                 Casino.objects.filter(category__name='license').all().order_by('number_of_casino')]

@@ -50,8 +50,8 @@ class Casino(models.Model):
 
 class Daly_Bonus(models.Model):
     user = models.ForeignKey(User, related_name='daly_bonus', on_delete=models.CASCADE)
-    day = models.IntegerField(default=0, verbose_name='Количество ежедневных входов')
-    count_prizes = models.IntegerField(default=0)
+    day = models.IntegerField(default=1, verbose_name='Количество ежедневных входов')
+    count_prizes = models.IntegerField(default=1)
 
     def __str__(self):
         return f"tg_name:{self.user.tg_name},   day:{self.day}"
