@@ -60,7 +60,7 @@ async def handle_start(message: types.Message):
         chat_id=message.chat.id,
         animation=gif_url,
         caption=(
-            "🏆 Рейтинг и рабочие ссылки 24/7\n"
+            "🏆 Рейтинг и рабочие ссылки 24/7:\n"
         ),
         reply_markup=keyboard
     )
