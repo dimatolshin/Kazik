@@ -68,9 +68,9 @@
         .boxName {
           position: absolute;
           left: 50%;
-          transform: translateX(-50%);
-          bottom: 35%;
-          width: 95px;
+          transform: translate(-50%, -50%);
+          top: 59%;
+          width: 150px;
           display: flex;
           flex-direction: column;
           align-items: center;
@@ -82,6 +82,7 @@
           }
   
           .descr {
+            width: 100%;
             text-align: center;
             font-weight: 400;
             font-size: 10px;

@@ -29,6 +29,7 @@ function FreeCase({ arrCase }: FreeCaseProps) {
                   alt=""
                 />
                 <p className={style.descr}>{item.text}</p>
+                <p className={style.descrInfo}>{item.description}</p>
               </li>
             ))}
           </ul>

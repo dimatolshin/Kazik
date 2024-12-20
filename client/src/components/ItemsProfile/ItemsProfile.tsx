@@ -65,6 +65,7 @@ function ItemsProfile() {
               )}
               {item.filled && <img src={imgEmpty} className={style.emptySlots} />}
               {!item.filled && <p className={style.descr}>{item.text}</p>}
+              {!item.filled && <p className={style.descrInfo}>{item.description}</p>}
             </li>
           ))}
         </ul>

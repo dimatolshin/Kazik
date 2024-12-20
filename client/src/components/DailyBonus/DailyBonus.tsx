@@ -51,7 +51,6 @@ function DailyBonus() {
     mutationFn: (data:{tg_id: string}) => addDailyBonus(data.tg_id),
     onSuccess: () => {
       queryClient.invalidateQueries({queryKey: ["dailyBonus"]})
-      queryClient.invalidateQueries({queryKey: ["wheelFortyne"]})
       queryClient.invalidateQueries({queryKey: ["freeCase"]})
     },
     onError: () => {

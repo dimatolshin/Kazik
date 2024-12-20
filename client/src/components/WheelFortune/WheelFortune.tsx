@@ -174,6 +174,7 @@ function WheelFortune({ arrWheel }: WheelFortuneProps) {
                       alt=""
                     />
                     <p className={style.descr}>{prize.text}</p>
+                    <p className={style.descrInfo}>{prize.description}</p>
                   </div>
                 </li>
               );

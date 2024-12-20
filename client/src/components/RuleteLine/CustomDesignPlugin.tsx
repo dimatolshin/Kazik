@@ -20,6 +20,7 @@ const CustomDesignPlugin = (): IDesignPlugin => {
       <div className={style.wrapper}>
         <img className={style.imgWrap} src={item.image} alt={item.text} />
         <p className={style.descrWrap}>{item.text}</p>
+        <p className={style.descrInfo}>{item.description}</p>
       </div>
     ),
     classes: {

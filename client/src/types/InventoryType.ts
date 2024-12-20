@@ -8,4 +8,5 @@ export interface InventoryType {
     text?: string;
     url_product?: string;
     filled?: boolean
+    description?: string;
 }
