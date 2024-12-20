@@ -3,16 +3,11 @@ import wheelImg from "../../assets/png/wheelBonus.png";
 import caseImg from "../../assets/png/freeCase.png";
 import BonusDailySvg from "../../assets/svg/BonusDailySvg/BonusDailySvg";
 import style from "./BonusComponent.module.scss";
-import Modal from "../../ui/Modal/Modal";
-import { useState } from "react";
-import DailyBonus from "../DailyBonus/DailyBonus";
 import { useTelegram } from "../../providers/telegram/telegram";
 import { useNavigate } from "react-router-dom";
 
 function BonusComponent() {
   const { tg } = useTelegram();
-
-  const [dailyBonus, setDailyBonus] = useState(false);
   const navigate = useNavigate();
 
   const hanldeFreeCaseOpen = () => {
@@ -27,10 +22,7 @@ function BonusComponent() {
 
   const hanldeDailyBonusOpen = () => {
     tg.HapticFeedback.impactOccurred("medium");
-    setDailyBonus(true);
-  };
-  const hanldeDailyBonusClose = () => {
-    setDailyBonus(false);
+    navigate("/daily");
   };
 
   return (
@@ -73,14 +65,6 @@ function BonusComponent() {
           </div>
         </div>
       </div>
-      <Modal
-        isOpen={dailyBonus}
-        onClose={hanldeDailyBonusClose}
-        lazy
-        hiddenClose
-      >
-        <DailyBonus />
-      </Modal>
     </>
   );
 }
