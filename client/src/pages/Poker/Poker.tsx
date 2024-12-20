@@ -4,11 +4,16 @@ import TopCasino from "../../components/TopCasino/TopCasino";
 import style from "./Poker.module.scss";
 import { getCasino } from "../../providers/StoreProvider/selectors/getCasino";
 import BonusComponent from "../../components/BonusComponent/BonusComponent";
+import { useEffect, useState } from "react";
 
 function Poker() {
   const casino = useSelector(getCasino);
+  const [isLoaded, setIsLoaded] = useState(false);
+  useEffect(() => {
+    setIsLoaded(true);
+  }, []);
   return (
-    <div className={style.poker}>
+    <div className={`${style.poker} ${isLoaded ? style.fade : ""}`}>
       <Banner />
       <TopCasino
         title={"ТОП-10 Покерных-комнат"}

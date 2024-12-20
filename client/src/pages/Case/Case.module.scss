@@ -1,8 +1,17 @@
 .closeCross {
-    position: absolute;
-    z-index: 10;
-    right: 5%;
-    top: 23px;
-    display: flex;
-    justify-content: flex-end;
+  position: absolute;
+  z-index: 10;
+  right: 5%;
+  top: 23px;
+  display: flex;
+  justify-content: flex-end;
+}
+.contentBg {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 1.5s ease-out, transform 1.5s ease-out;
+  &.fade {
+    opacity: 1;
+    transform: translateY(0);
   }
+}

@@ -6,6 +6,7 @@ import CloseModalSvg from "../../assets/svg/CloseModalSvg/CloseModalSvg";
 import FreeCase from "../../components/FreeCase/FreeCase";
 import { useSelector } from "react-redux";
 import { getCase } from "../../providers/StoreProvider/selectors/getCase";
+import { useEffect, useState } from "react";
 
 function Case() {
   const arrCase = useSelector(getCase);
@@ -13,9 +14,14 @@ function Case() {
   const hanldeClose = () => {
     navigate(-1);
   };
-
+  const [isLoaded, setIsLoaded] = useState(false);
+  useEffect(() => {
+    setIsLoaded(true);
+  }, []);
   return (
-    <ModalRoute>
+    <ModalRoute
+      classNameContent={`${style.contentBg} ${isLoaded ? style.fade : ""}`}
+    >
       <Button
         kind="secondary"
         onClick={hanldeClose}
@@ -23,9 +29,7 @@ function Case() {
       >
         <CloseModalSvg />
       </Button>
-      {arrCase && (
-        <FreeCase arrCase={arrCase} />
-      )}
+      {arrCase && <FreeCase arrCase={arrCase} />}
     </ModalRoute>
   );
 }

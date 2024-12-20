@@ -6,16 +6,24 @@ import style from "./Casino.module.scss";
 import PeopleTop from "../../components/PeopleTop/PeopleTop";
 import { useSelector } from "react-redux";
 import { getCasino } from "../../providers/StoreProvider/selectors/getCasino";
+import { useEffect, useState } from "react";
 
 function Casino() {
   const casino = useSelector(getCasino);
+  const [isLoaded, setIsLoaded] = useState(false);
+  useEffect(() => {
+    setIsLoaded(true);
+  }, []);
   return (
-    <div className={style.casino}>
+    <div className={`${style.casino} ${isLoaded ? style.fade : ""}`}>
       <Banner />
       <PeopleTop />
       <BonusComponent />
       <OffersWeek />
-      <TopCasino title={"ТОП-10 Онлайн казино"} arr={casino ? casino.top_10_casino : []} />
+      <TopCasino
+        title={"ТОП-10 Онлайн казино"}
+        arr={casino ? casino.top_10_casino : []}
+      />
     </div>
   );
 }

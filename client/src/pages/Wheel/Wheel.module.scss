@@ -5,6 +5,13 @@
       rgba(73, 39, 119, 0.5) 75.93%,
       rgba(9, 9, 12, 0.2) 100%
     ) !important;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 1.5s ease-out, transform 1.5s ease-out;
+    &.fade {
+        opacity: 1;
+        transform: translateY(0);
+    }
   }
 
   .closeCross {
