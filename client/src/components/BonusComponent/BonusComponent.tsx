@@ -12,17 +12,17 @@ function BonusComponent() {
 
   const hanldeFreeCaseOpen = () => {
     tg.HapticFeedback.impactOccurred("medium");
-    navigate("/case", { replace: true });
+    navigate("/case");
   };
 
   const hanldeWheelFortuneOpen = () => {
     tg.HapticFeedback.impactOccurred("medium");
-    navigate("/wheel", { replace: true });
+    navigate("/wheel");
   };
 
   const hanldeDailyBonusOpen = () => {
     tg.HapticFeedback.impactOccurred("medium");
-    navigate("/daily", { replace: true });
+    navigate("/daily");
   };
 
   return (

@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 function Wheel() {
   const navigate = useNavigate();
   const hanldeClose = () => {
-    navigate(-1);
+    navigate('/');
   };
   const [isLoaded, setIsLoaded] = useState(false);
   useEffect(() => {

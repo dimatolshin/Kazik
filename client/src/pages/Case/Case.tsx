@@ -12,7 +12,7 @@ function Case() {
   const arrCase = useSelector(getCase);
   const navigate = useNavigate();
   const hanldeClose = () => {
-    navigate(-1);
+    navigate('/');
   };
   const [isLoaded, setIsLoaded] = useState(false);
   useEffect(() => {
