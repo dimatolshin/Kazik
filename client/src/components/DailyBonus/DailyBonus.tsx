@@ -139,10 +139,10 @@ function DailyBonus() {
           <Button
             onClick={handleBonus}
             className={style.btn}
+            isLoading={mutateDailyBonus.isPending}
             isDisabled={
               currentDay !== dayInfo.day ||
-              !isActive ||
-              mutateDailyBonus.isPending
+              !isActive
             }
           >
             Забрать награду
