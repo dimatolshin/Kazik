@@ -9,6 +9,7 @@ import BgTopCasinoPurpleSvg from "../../assets/svg/BgTopCasinoPurpleSvg/BgTopCas
 import BgTopCasinoBlueSvg from "../../assets/svg/BgTopCasinoBlueSvg/BgTopCasinoBlueSvg";
 import { CasinoCardType } from "../../types/CasinoType";
 import { useTelegram } from "../../providers/telegram/telegram";
+import LoaderContent from "../../ui/Loader/LoaderContent/LoaderContent";
 
 interface TopCasinoProps {
   title: string;
@@ -25,7 +26,7 @@ function TopCasino({ title, arr }: TopCasinoProps) {
     <div className={style.box}>
       <h2 className={style.titleBox}>{title}</h2>
       {arr.length === 0 ? (
-        <div>Loading...</div>
+        <LoaderContent />
       ) : (
         <Swiper
           onSlideChange={() => tg.HapticFeedback.impactOccurred("medium")}

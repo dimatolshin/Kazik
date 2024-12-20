@@ -8,6 +8,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { useSelector } from "react-redux";
 import { getCasino } from "../../providers/StoreProvider/selectors/getCasino";
 import { useTelegram } from "../../providers/telegram/telegram";
+import LoaderContent from "../../ui/Loader/LoaderContent/LoaderContent";
 
 function OffersWeek() {
   const casino = useSelector(getCasino);
@@ -20,7 +21,7 @@ function OffersWeek() {
     <div className={style.box}>
       <h2 className={style.title}>Предложения недели</h2>
       {!casino?.offers_of_week ? (
-        <div>Loader...</div>
+        <LoaderContent />
       ) : (
         <Swiper
           onSlideChange={() => tg.HapticFeedback.impactOccurred("medium")}

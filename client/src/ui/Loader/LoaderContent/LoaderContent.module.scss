@@ -1,0 +1,20 @@
+.boxLoader {
+    border-bottom: 3px solid #008e8f;
+    border-radius: 10px;
+    width: 96%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 51px 0;
+    background: var(--bg-elements);
+    .svg {
+        margin-bottom: 12px;
+    }
+
+    .descr {
+        font-weight: 800;
+        font-size: 18px;
+        line-height: 120%;
+    }
+}

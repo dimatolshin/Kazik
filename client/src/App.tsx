@@ -2,6 +2,8 @@ import { lazy, Suspense } from "react";
 import "./styles/global/App.scss";
 import { Route, Routes } from "react-router-dom";
 import { useTelegram } from "./providers/telegram/telegram";
+import { LoaderPage } from "./ui/Loader/LoaderPage";
+
 
 const Layout = lazy(() => import("./pages/Layout/Layout"));
 const Casino = lazy(() => import("./pages/Casino/Casino"));
@@ -17,7 +19,7 @@ function App() {
   useTelegram().tg.setHeaderColor("#000", "#fff");
   return (
     <>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<LoaderPage />}>
         <Routes>
           <Route path={"/"} element={<Layout />}>
             <Route index element={<Casino />} />

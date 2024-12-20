@@ -4,12 +4,15 @@ import App from "./App.tsx";
 import "./styles/global/index.scss";
 import StoreProviders from "./providers/StoreProvider/StoreProviders.tsx";
 import { BrowserRouter } from "react-router-dom";
+import { ImageProvider } from "./providers/ContextProvider/ImageContextLoader.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <StoreProviders>
       <BrowserRouter>
-        <App />
+        <ImageProvider>
+          <App />
+        </ImageProvider>
       </BrowserRouter>
     </StoreProviders>
   </React.StrictMode>

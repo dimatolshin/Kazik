@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import { getCasino } from "../../providers/StoreProvider/selectors/getCasino";
 import { CasinoCardType } from "../../types/CasinoType";
 import { useTelegram } from "../../providers/telegram/telegram";
+import LoaderContent from "../../ui/Loader/LoaderContent/LoaderContent";
 
 function PeopleTop() {
   const casino = useSelector(getCasino);
@@ -31,7 +32,7 @@ function PeopleTop() {
     <div className={style.box}>
       <h2 className={style.title}>Популярное</h2>
       {twoDimensionalArr.length === 0 ? (
-        <div>Loading...</div>
+        <LoaderContent />
       ) : (
         <Swiper
           onSlideChange={() => tg.HapticFeedback.impactOccurred("medium")}
