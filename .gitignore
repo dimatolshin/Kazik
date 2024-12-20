@@ -4,4 +4,3 @@ baza/.env
 .venv
 baza/staticfiles
 .env
-baza/media
