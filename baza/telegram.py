@@ -56,7 +56,7 @@ async def handle_start(message: types.Message):
     #     ])
 
     gif_url = os.getenv('gif_url')
-    await bot.send_animation(
+    await bot.send_document(
         chat_id=message.chat.id,
         animation=gif_url,
         caption=(
