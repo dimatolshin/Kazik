@@ -423,3 +423,36 @@ async def filter_category_list(request: HttpRequest, tg_id: str):
     data.append(response_serializers.CategoryCasinos({'title': 'Лицензионные', 'id':6, 'items': licenses}).data)
 
     return JsonResponse(data, safe=False, status=200)
+
+
+@swagger_auto_schema(
+    methods=['POST'],
+    request_body=request_serializers.CustomTokenForAPP,
+    responses={
+        '404': get_response_examples({'error': True, 'info': 'Данные переданы некорректны.'}),
+        '404 ': get_response_examples({'error': True, 'info': 'Данного пользователя не существует.'}),
+        '404  ': get_response_examples({'error': True, 'info': 'Вы уже получали бонусы сегодня.'}),
+        '200': get_response_examples({'info': 'Бонусы успешно начислены'}),
+    },
+    tags=['Добавление иконки'],
+    operation_description='Начисления бонусов на бэк',
+)
+@api_view(["POST"])
+async def set_sign(request: HttpRequest):
+    tg_id = request.data['tg_id']
+    if tg_id is None:
+        return JsonResponse({'error': True, 'detail': 'Некорректные данные'})
+
+    user = await User.objects.filter(tg_id=tg_id).afirst()
+
+    if user is None:
+        return JsonResponse({'error': True, 'detail': 'Данного пользователя не существует.'})
+
+    if user.set_sign == True:
+        return JsonResponse({'error': True, 'detail': 'Бонусы получены'})
+
+    else:
+        user.set_sign = True
+        user.key_wheel_of_fortune += 1
+        await user.asave()
+    return JsonResponse({'title': 'Бонусы успешно начислены'},status=200)

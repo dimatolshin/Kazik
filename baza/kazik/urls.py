@@ -19,6 +19,9 @@ urlpatterns = [
     path('add_free_case_bonus/',add_free_case_bonus),
 
                         #Фильтрация казиков
-    path('filter_category_list/<str:tg_id>/',filter_category_list)
+    path('filter_category_list/<str:tg_id>/',filter_category_list),
 
+
+                        #Установки иконки
+    path('set_sign/',set_sign)
 ]
