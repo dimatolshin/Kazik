@@ -5,6 +5,7 @@ from ..models import *
 class UserMainPageSerializer(serializers.Serializer):
     tg_id = serializers.CharField()
     tg_name = serializers.CharField(max_length=100)
+    set_sign = serializers.BooleanField(default=False)
 
 
 class CasinoMainPageSerializer(serializers.ModelSerializer):
