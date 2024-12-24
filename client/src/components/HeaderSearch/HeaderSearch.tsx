@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import ProfileSvg from "../../assets/svg/ProfileSvg/ProfileSvg";
 import SearchSvg from "../../assets/svg/SearchSvg/SearchSvg";
-import SettingSvg from "../../assets/svg/SettingSvg/SettingSvg";
+// import SettingSvg from "../../assets/svg/SettingSvg/SettingSvg";
 import { useTelegram } from "../../providers/telegram/telegram";
 import { Button } from "../../ui/Button";
 import style from "./HeaderSearch.module.scss";
@@ -13,6 +13,8 @@ import { queryClient } from "../../api/queryClient";
 import { filterCasino } from "../../api/allCasino";
 import { filterCasinoType } from "../../types/filterCasino";
 import FilterList from "./FilterList";
+import toast from "react-hot-toast";
+import imgHome from '../../assets/svg/addHomeScreen.svg'
 
 function HeaderSearch() {
   const { photo } = useTelegram();
@@ -22,6 +24,27 @@ function HeaderSearch() {
   const [data, setData] = useState<filterCasinoType[]>();
   const [inputValue, setInputValue] = useState("");
   const [filteredData, setFilteredData] = useState(data);
+  const [isBtnHomeScreen, setisBtnHomeScreen] = useState(false);
+
+  //для мобильки методы только
+  const handleAddScreenHome = () => {
+    tg.checkHomeScreenStatus((status: string) => {
+      if (status === 'missed' || status === 'unknown') {
+         tg.addToHomeScreen() 
+      } else {
+        setisBtnHomeScreen(true);
+        toast.error('Устройство не поддерживает добавление на главный экран')
+      }
+    })
+  }
+//
+  useEffect(() => {
+    tg.checkHomeScreenStatus((status: string) => {
+      if (status === 'unsupported' || status === 'added') {
+        setisBtnHomeScreen(true);
+      }
+    })
+  }, [])
 
   const handleActive = () => {
     setIsActive(true);
@@ -105,8 +128,9 @@ function HeaderSearch() {
               <ProfileSvg className={style.svg} />
             )}
           </Link>
-          <Button kind="secondary" className={style.btnSetting}>
-            <SettingSvg className={style.svgSetting} />
+          <Button isDisabled={isBtnHomeScreen} onClick={handleAddScreenHome} kind="secondary" className={style.btnSetting}>
+            {/* <SettingSvg className={style.svgSetting} /> */}
+            <img src={imgHome} alt="" />
           </Button>
         </div>
       </div>
