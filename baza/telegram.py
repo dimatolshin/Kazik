@@ -20,11 +20,8 @@ bot = Bot(token=os.getenv('TOKEN'), default=DefaultBotProperties(parse_mode=Pars
 dp = Dispatcher()
 
 async def approve_request(chat_join: ChatJoinRequest):
-    msg = 'Hello World'
-    try:
-        await bot.send_message(chat_id=chat_join.from_user.id, text=msg)
-    except Exception:
-        pass
+    msg = 'Спасибо за подписку '
+    await bot.send_message(chat_id=chat_join.from_user.id, text=msg)
     await chat_join.approve()
 
 @dp.message(CommandStart())
@@ -65,7 +62,7 @@ async def handle_start(message: types.Message):
     )
 
 async def main() -> None:
-    dp.chat_join_request.register(approve_request, F.chat.id == channel_id)
+    dp.chat_join_request.register(approve_request)
     dp.message.register(handle_start, CommandStart())
 
     await dp.start_polling(bot, allowed_updates=dp.resolve_used_update_types())
