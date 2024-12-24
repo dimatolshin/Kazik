@@ -51,8 +51,10 @@ function HeaderSearch() {
   useEffect(() => {
     tg.checkHomeScreenStatus((status: string) => {
       if (status === "added" || status === "unsupported") {
+        toast.success(`${status} успех`);
         setIsBtnHomeScreen(true);
       } else if (status === "miss" || status === "unknown") {
+        toast.success(`${status} провал`);
         setIsBtnHomeScreen(false);
       }
     });
