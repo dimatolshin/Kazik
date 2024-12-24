@@ -4,7 +4,7 @@ import sys
 from aiogram import Bot, Dispatcher, types, F
 from aiogram.enums import ParseMode
 from aiogram.filters import CommandStart
-from aiogram.types import InlineKeyboardButton, WebAppInfo, InlineKeyboardMarkup, ChatJoinRequest
+from aiogram.types import InlineKeyboardButton, WebAppInfo, InlineKeyboardMarkup, ChatJoinRequest, CallbackQuery
 from aiogram.client.default import DefaultBotProperties
 import os
 from dotenv import load_dotenv
@@ -14,15 +14,26 @@ load_dotenv()
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'baza.settings')
 django.setup()
 
-
 channel_id = os.getenv('channel_id')
 bot = Bot(token=os.getenv('TOKEN'), default=DefaultBotProperties(parse_mode=ParseMode.HTML))
 dp = Dispatcher()
 
+
 async def approve_request(chat_join: ChatJoinRequest):
-    msg = 'Спасибо за подписку '
-    await bot.send_message(chat_id=chat_join.from_user.id, text=msg)
+    msg = (
+        'Привет 👋 нажми на кнопку "Старт"\n'
+        'Тебя ждут лучшие условия, честный рейтинг, множество бонусов и фри спинов в любимых играх!'
+    )
+
+    keyboard = InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text="🔄 Старт", callback_data="start_action")],
+    ])
+
+    await bot.send_message(chat_id=chat_join.from_user.id, text=msg, reply_markup=keyboard)
+
+    # Одобряем запрос на вступление
     await chat_join.approve()
+
 
 @dp.message(CommandStart())
 async def handle_start(message: types.Message):
@@ -61,11 +72,20 @@ async def handle_start(message: types.Message):
         reply_markup=keyboard
     )
 
+
+@dp.callback_query(F.data == "start_action")
+async def handle_start_button(callback: CallbackQuery):
+    await handle_start(callback.message)  # Вызываем функцию handle_start
+    await callback.answer()
+
+
 async def main() -> None:
     dp.chat_join_request.register(approve_request)
     dp.message.register(handle_start, CommandStart())
+    dp.callback_query.register(handle_start_button)
 
     await dp.start_polling(bot, allowed_updates=dp.resolve_used_update_types())
+
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO, stream=sys.stdout)
