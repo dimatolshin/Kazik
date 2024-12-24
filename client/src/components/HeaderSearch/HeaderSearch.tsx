@@ -27,6 +27,11 @@ function HeaderSearch() {
   const [filteredData, setFilteredData] = useState(data);
   const [isBtnHomeScreen, setIsBtnHomeScreen] = useState(false);
   const [isModalHomeScreen, setIsModalHomeScreen] = useState(false);
+  const [loadinPage, setLoadinPage] = useState(false);
+
+  useEffect(() => {
+    setLoadinPage(true)
+  }, [])
 
   //для мобильки методы только
   const handleAddScreenHome = () => {
@@ -34,8 +39,8 @@ function HeaderSearch() {
     tg.checkHomeScreenStatus((status: string) => {
       if (status === "miss" || status === "unknown") {
         toast.success("Успешно добавлено");
-        toast.success(status);
         tg.addToHomeScreen();
+        setIsBtnHomeScreen(true);
       } else {
         setIsBtnHomeScreen(true);
         toast.error("Устройство не поддерживает добавление на главный экран");
@@ -51,7 +56,7 @@ function HeaderSearch() {
         setIsBtnHomeScreen(false);
       }
     });
-  }, [tg]);
+  }, [loadinPage]);
 
   useEffect(() => {
     tg.checkHomeScreenStatus((status: string) => {
@@ -62,7 +67,7 @@ function HeaderSearch() {
     return () => clearTimeout(timer);
       }
     })
-  }, [tg]);
+  }, [loadinPage]);
 
   const handleCloseHome = () => {
     setIsModalHomeScreen(false);
