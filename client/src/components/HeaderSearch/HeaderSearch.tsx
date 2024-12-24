@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import ProfileSvg from "../../assets/svg/ProfileSvg/ProfileSvg";
 import SearchSvg from "../../assets/svg/SearchSvg/SearchSvg";
-// import SettingSvg from "../../assets/svg/SettingSvg/SettingSvg";
 import { useTelegram } from "../../providers/telegram/telegram";
 import { Button } from "../../ui/Button";
 import style from "./HeaderSearch.module.scss";
@@ -14,7 +13,7 @@ import { filterCasino } from "../../api/allCasino";
 import { filterCasinoType } from "../../types/filterCasino";
 import FilterList from "./FilterList";
 import toast from "react-hot-toast";
-import imgHome from '../../assets/svg/addHomeScreen.svg'
+import AddHomeSvg from "../../assets/svg/AddHomeSvg/AddHomeSvg";
 
 function HeaderSearch() {
   const { photo } = useTelegram();
@@ -28,16 +27,18 @@ function HeaderSearch() {
 
   //для мобильки методы только
   const handleAddScreenHome = () => {
+    tg.HapticFeedback.impactOccurred("medium");
     tg.checkHomeScreenStatus((status: string) => {
       if (status === 'missed' || status === 'unknown') {
-         tg.addToHomeScreen() 
+        toast.success('Успешно добавлено')
+         tg.addToHomeScreen()
       } else {
         setisBtnHomeScreen(true);
         toast.error('Устройство не поддерживает добавление на главный экран')
       }
     })
-  }
-//
+  };
+  //
   useEffect(() => {
     tg.checkHomeScreenStatus((status: string) => {
       if (status === 'unsupported' || status === 'added') {
@@ -117,20 +118,26 @@ function HeaderSearch() {
           </div>
           <p className={style.infoInput}>Казино, игры, бонусы</p>
         </div>
-        <div
-          onClick={() => tg.HapticFeedback.impactOccurred("medium")}
-          className={style.boxSetting}
-        >
-          <Link to={"/provile"} className={style.boxAvatar}>
+        <div className={style.boxSetting}>
+          <Link
+            onClick={() => tg.HapticFeedback.impactOccurred("medium")}
+            to={"/provile"}
+            className={style.boxAvatar}
+          >
             {photo ? (
               <img className={style.imgAvatar} src={photo} alt="" />
             ) : (
               <ProfileSvg className={style.svg} />
             )}
           </Link>
-          <Button isDisabled={isBtnHomeScreen} onClick={handleAddScreenHome} kind="secondary" className={style.btnSetting}>
+          <Button
+            isDisabled={isBtnHomeScreen}
+            onClick={handleAddScreenHome}
+            kind="secondary"
+            className={style.btnSetting}
+          >
             {/* <SettingSvg className={style.svgSetting} /> */}
-            <img src={imgHome} alt="" />
+            <AddHomeSvg className={style.svgSetting} />
           </Button>
         </div>
       </div>
@@ -153,9 +160,7 @@ function HeaderSearch() {
             <CloseSearchSvg />
           </Button>
         </div>
-        {filteredData && (
-          <FilterList filteredData={filteredData}  />
-        )}
+        {filteredData && <FilterList filteredData={filteredData} />}
       </InputModal>
     </>
   );
