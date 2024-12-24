@@ -7,7 +7,7 @@ import style from "./HeaderSearch.module.scss";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import InputModal from "./InputModal";
 import CloseSearchSvg from "../../assets/svg/CloseSearchSvg/CloseSearchSvg";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { queryClient } from "../../api/queryClient";
 import { filterCasino } from "../../api/allCasino";
 import { filterCasinoType } from "../../types/filterCasino";
@@ -15,7 +15,10 @@ import FilterList from "./FilterList";
 import toast from "react-hot-toast";
 import AddHomeSvg from "../../assets/svg/AddHomeSvg/AddHomeSvg";
 import Modal from "../../ui/Modal/Modal";
-import imgPrizeHome from '../../assets/png/prizeHomeScreen.png'
+import imgPrizeHome from "../../assets/png/prizeHomeScreen.png";
+import { useSelector } from "react-redux";
+import { getCasino } from "../../providers/StoreProvider/selectors/getCasino";
+import { addIcon } from "../../api/userInfo";
 
 function HeaderSearch() {
   const { photo } = useTelegram();
@@ -28,10 +31,19 @@ function HeaderSearch() {
   const [isBtnHomeScreen, setIsBtnHomeScreen] = useState(false);
   const [isModalHomeScreen, setIsModalHomeScreen] = useState(false);
   const [loadinPage, setLoadinPage] = useState(false);
+  const users = useSelector(getCasino);
 
   useEffect(() => {
-    setLoadinPage(true)
-  }, [])
+    setLoadinPage(true);
+  }, []);
+
+  const mutateIcon = useMutation({
+    mutationFn: (data:{tg_id: string}) => addIcon(data.tg_id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({queryKey: ["wheelFortyne"]})
+      queryClient.invalidateQueries({queryKey: ["casino"]})
+    }
+  }, queryClient)
 
   //для мобильки методы только
   const handleAddScreenHome = () => {
@@ -40,36 +52,38 @@ function HeaderSearch() {
       if (status === "miss" || status === "unknown") {
         toast.success("Успешно добавлено");
         tg.addToHomeScreen();
-        setIsBtnHomeScreen(true);
+        if(!users?.user.set_sign) {
+          mutateIcon.mutate({tg_id})
+        }
       } else {
         setIsBtnHomeScreen(true);
         toast.error("Устройство не поддерживает добавление на главный экран");
       }
     });
   };
-  //
+
   useEffect(() => {
     tg.checkHomeScreenStatus((status: string) => {
       if (status === "added" || status === "unsupported") {
-        toast.success(`${status} успех`);
         setIsBtnHomeScreen(true);
       } else if (status === "miss" || status === "unknown") {
-        toast.success(`${status} провал`);
         setIsBtnHomeScreen(false);
       }
     });
   }, [loadinPage]);
 
   useEffect(() => {
-    tg.checkHomeScreenStatus((status: string) => {
-      if(status === "miss" || status === "unknown") {
-    const timer = setTimeout(() => {
-      setIsModalHomeScreen(true);
-    }, 3000);
-    return () => clearTimeout(timer);
-      }
-    })
-  }, [loadinPage]);
+    if (!users?.user.set_sign) {
+      tg.checkHomeScreenStatus((status: string) => {
+        if (status === "miss" || status === "unknown") {
+          const timer = setTimeout(() => {
+            setIsModalHomeScreen(true);
+          }, 3000);
+          return () => clearTimeout(timer);
+        }
+      });
+    }
+  }, [loadinPage, users?.user.set_sign]);
 
   const handleCloseHome = () => {
     setIsModalHomeScreen(false);
@@ -195,6 +209,7 @@ function HeaderSearch() {
         isOpen={isModalHomeScreen}
         onClose={handleCloseHome}
         isSpecial
+        lazy
       >
         <div className={style.boxHome}>
           <h2 className={style.titleHome}>Привет!</h2>
@@ -202,14 +217,13 @@ function HeaderSearch() {
             Добавь приложение на «домашний экран» своего смартфона и мы подарим
             тебе фриспины в «Колесо фортуны» !
           </p>
-          <img
-            className={style.imgHome}
-            src={imgPrizeHome}
-            alt=""
-          />
-          <p className={style.descrHome}>В котором разыгрываются <br/> Apple Vision, IPhone 16 и автомобиль!</p>
+          <img className={style.imgHome} src={imgPrizeHome} alt="" />
+          <p className={style.descrHome}>
+            В котором разыгрываются <br /> Apple Vision, IPhone 16 и автомобиль!
+          </p>
           <Button onClick={handleAddScreenHome} className={style.btnHome}>
-            Добавить приложение
+            <p className={style.descrHomeBtn}>Добавить приложение</p>
+            <AddHomeSvg className={style.svgSetting} />
           </Button>
         </div>
       </Modal>

@@ -116,5 +116,11 @@
     font-size: 16px;
     line-height: 128%;
     color: var(--white);
+    display: flex;
+    align-items: center;
+
+    .descrHomeBtn {
+      margin-right: 10px;
+    }
   }
 }

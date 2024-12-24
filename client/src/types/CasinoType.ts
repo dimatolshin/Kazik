@@ -8,6 +8,7 @@ export interface CasinoType {
 interface UserType {
     tg_id: string;
     tg_name: string;
+    set_sign: boolean;
 }
 
 export interface CasinoCardType {

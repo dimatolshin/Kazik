@@ -14,3 +14,15 @@ export function inventoryUser(tg_id: string) {
     })
     .catch((err) => console.log(err));
 }
+
+export function addIcon(tg_id: string) {
+  return axios
+    .post(`${api_url}/api/set_sign/`, {
+      tg_id,
+    })
+    .then((response) => {
+      const data = response.data;
+      return data;
+    })
+    .catch((err) => {throw new Error(err.info)});
+};
