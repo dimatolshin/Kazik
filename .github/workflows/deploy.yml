@@ -26,6 +26,5 @@ jobs:
             git pull origin main || exit
             docker compose down || exit
             docker compose down -v client || exit
-            docker compose build --no-cache || exit
-            docker compose up -d || exit
+            docker compose up -d --build || exit
 
