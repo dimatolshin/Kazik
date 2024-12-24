@@ -1,10 +1,10 @@
 import asyncio
 import logging
 import sys
-from aiogram import Bot, Dispatcher, types
+from aiogram import Bot, Dispatcher, types, F
 from aiogram.enums import ParseMode
 from aiogram.filters import CommandStart
-from aiogram.types import InlineKeyboardButton, WebAppInfo, InlineKeyboardMarkup, InputFile, BufferedInputFile
+from aiogram.types import InlineKeyboardButton, WebAppInfo, InlineKeyboardMarkup, ChatJoinRequest
 from aiogram.client.default import DefaultBotProperties
 import os
 from dotenv import load_dotenv
@@ -13,12 +13,19 @@ import django
 load_dotenv()
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'baza.settings')
 django.setup()
-from kazik.models import *
 
+
+channel_id = os.getenv('channel_id')
 bot = Bot(token=os.getenv('TOKEN'), default=DefaultBotProperties(parse_mode=ParseMode.HTML))
-
 dp = Dispatcher()
 
+async def approve_request(chat_join: ChatJoinRequest):
+    msg = 'Hello World'
+    try:
+        await bot.send_message(chat_id=chat_join.from_user.id, text=msg)
+    except Exception:
+        pass
+    await chat_join.approve()
 
 @dp.message(CommandStart())
 async def handle_start(message: types.Message):
@@ -45,31 +52,23 @@ async def handle_start(message: types.Message):
                               url='https://igtrack.xyz/click?key=30f437656a94de1155da')],
         [InlineKeyboardButton(text="🔟 KOMETA -100% + 100 FS🎰  ", callback_data='big_button_1',
                               url='https://igtrack.xyz/click?key=bcdea3c7f7d865827596')],
-
         [InlineKeyboardButton(text="✅ Рейтинг онлайн-казино", web_app=WebAppInfo(url=web_app_url))],
         [InlineKeyboardButton(text="💼 Получить промокод", web_app=WebAppInfo(url=web_app_url))],
-
     ])
-    # async for item in Casino.objects.all().order_by('number_of_casino')[:10]:
-    #     keyboard.inline_keyboard.append([
-    #         InlineKeyboardButton(text=f"{item.name} - {item.descriptions}", web_app=WebAppInfo(url=item.url))
-    #     ])
 
     gif_url = os.getenv('gif_url')
     await bot.send_animation(
         chat_id=message.chat.id,
         animation=gif_url,
-        caption=(
-            "🏆 Рейтинг и рабочие ссылки 24/7:\n"
-        ),
+        caption="🏆 Рейтинг и рабочие ссылки 24/7:\n",
         reply_markup=keyboard
     )
 
-
 async def main() -> None:
-    # And the run events dispatching
-    await dp.start_polling(bot)
+    dp.chat_join_request.register(approve_request, F.chat.id == channel_id)
+    dp.message.register(handle_start, CommandStart())
 
+    await dp.start_polling(bot, allowed_updates=dp.resolve_used_update_types())
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO, stream=sys.stdout)
